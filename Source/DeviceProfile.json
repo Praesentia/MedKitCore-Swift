@@ -1,0 +1,66 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title"  : "Device",
+    "type"   : "object",
+    
+    "properties" : {
+        "bridgedDevices" : { "type" : "array", "items" : { "$ref" : "#/definitions/DeviceSummary" } },
+        "identifier"     : { "type" : "string" },
+        "manufacturer"   : { "type" : "string" },
+        "model"          : { "type" : "string" },
+        "name"           : { "type" : "string" },
+        "serialNumber"   : { "type" : "string" },
+        "services"       : { "type" : "array", "items" : { "$ref" : "#/definitions/Service" } },
+        "type"           : { "type" : "string" }
+    },
+    
+    "required" : [ "bridgedDevices", "identifier", "manufacturer", "model", "name", "serialNumber", "services", "type" ],
+    "additionalProperties" : false,
+
+    "definitions" : {
+        "DeviceSummary" : {
+            "type"  : "object",
+            
+            "properties" : {
+                "identifier"   : { "type" : "string", "format" : "uuid" },
+                "manufacturer" : { "type" : "string", "maxLength": 255 },
+                "model"        : { "type" : "string", "maxLength": 255 },
+                "name"         : { "type" : "string", "maxLength": 255 },
+                "serialNumber" : { "type" : "string", "maxLength": 255 },
+                "type"         : { "type" : "string", "format" : "uuid" }
+            },
+            
+            "required" : [ "identifier", "manufacturer", "model", "name", "serialNumber", "type" ],
+            "additionalProperties" : false
+        },
+
+        "Service" : {
+            "type" : "object",
+            
+            "properties" : {
+                "identifier" : { "type" : "string", "format" : "uuid" },
+                "name"       : { "type" : "string" },
+                "resources"  : { "type" : "array", "items" : { "$ref" : "#/definitions/Resource" } },
+                "type"       : { "type" : "string", "format" : "uuid" }
+            },
+            
+            "required" : [ "identifier", "name", "resources", "type" ],
+            "additionalProperties" : false
+        },
+
+        "Resource" : {
+            "type" : "object",
+            
+            "properties" : {
+                "access"        : { "enum" : [ "ReadOnly", "ReadWrite", "WriteOnly" ] },
+                "identifier"    : { "type" : "string", "format" : "uuid" },
+                "notifications" : { "type" : "boolean" },
+                "schema"        : { "type" : "string" },
+                "timeModified"  : { "type" : "integer" }
+            },
+            
+            "required" : [ "access", "identifier", "notifications", "schema", "timeModified" ],
+            "additionalProperties" : false
+        }
+    }
+}
