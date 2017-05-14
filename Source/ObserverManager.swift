@@ -29,9 +29,17 @@ import Foundation;
  */
 public class ObserverManager<T> {
     
+    // MARK: - Properties
+    
+    /**
+     The number of observers registered with the manager.
+     */
     public var count: Int { return observers.count; }
     
+    // MARK: - Private
     private var observers = [Weak]();
+    
+    // MARK: - Initializers
     
     /**
      Initialize instance.
@@ -39,6 +47,8 @@ public class ObserverManager<T> {
     public init()
     {
     }
+    
+    // MARK: - Mutators
     
     /**
      Add delegate.
@@ -57,13 +67,6 @@ public class ObserverManager<T> {
     }
     
     /**
-     */
-    public func contains(_ observer: AnyObject) -> Bool
-    {
-        return observers.contains(where: { $0.value === observer; });
-    }
-    
-    /**
      Remove observer.
      
      Remove a observer from the collection.
@@ -78,9 +81,20 @@ public class ObserverManager<T> {
     }
     
     /**
+     Is the observer registered with the manager?
+     */
+    public func contains(_ observer: AnyObject) -> Bool
+    {
+        return observers.contains(where: { $0.value === observer; });
+    }
+    
+    /**
      Iterate over observers.
      
-     Iterate over the collection, calling the handler for each delegate.
+     Iterate over the collection, calling the handler for each observer.
+     
+     - Parameters:
+        - handler:
      */
     public func withEach(handler: ((T) -> Void))
     {

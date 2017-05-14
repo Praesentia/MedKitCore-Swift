@@ -27,7 +27,7 @@ import Foundation;
  */
 public class ResourceBase: Resource, ResourceBackend {
     
-    // Resource
+    // MARK: - Properties
     public var      access               : Access         { return _access; }
     public var      cache                : ResourceCache? { return _cache; }
     public var      identifier           : UUID           { return _identifier; }
@@ -38,9 +38,10 @@ public class ResourceBase: Resource, ResourceBackend {
     public weak var service              : Service?       { return _service; }
     public var      type                 : UUID           { return _type; }
     
-    // ResourceBackend
-    public var serviceBackend  : ServiceBackend?        { return _service; }
-    public var backend : ResourceBackendDelegate!;
+    // MARK: - Properties - ResourceBackend
+    public var defaultBackend : Backend                   { return serviceBackend.defaultBackend; }
+    public var serviceBackend : ServiceBackend!           { return _service; }
+    public var backend        : ResourceBackendDelegate!;
     
     // MARK: - Shadowed
     private let _access              : Access;
@@ -53,12 +54,13 @@ public class ResourceBase: Resource, ResourceBackend {
     private var _type                : UUID;
     
     // MARK: - Private
-    private var observers                  = ObserverManager<ResourceObserver>();
-    private var notificationEnabledPending = false;
+    private var observers = ObserverManager<ResourceObserver>();
+    
+    // MARK: - Initializers
     
     public init(_ service: ServiceBase, from profile: JSON)
     {
-        backend = service.getDefaultBackend();
+        backend = service.defaultBackend;
         
         _service       = service;
         _access        = Access(string: profile[KeyAccess].string!)!;
@@ -68,6 +70,8 @@ public class ResourceBase: Resource, ResourceBackend {
         _type          = profile[KeyType].uuid!;
     }
     
+    // MARK: - Observer Interface
+    
     public func addObserver(_ observer: ResourceObserver, completionHandler completion: @escaping (Error?) -> Void)
     {
         let sync = Sync();
@@ -75,7 +79,7 @@ public class ResourceBase: Resource, ResourceBackend {
         if !observers.contains(observer) {
             observers.add(observer);
             
-            if observers.count == 1 {
+            if observers.count == 1 && backend.isOpen {
                 sync.incr();
                 backend.resourceEnableNotification(self) { cache, error in
                     if error == nil, let cache = cache {
@@ -86,7 +90,7 @@ public class ResourceBase: Resource, ResourceBackend {
             }
         }
         else {
-            debugPrint("Unbalanced add observer.");
+            sync.fail(MedKitError.Failed); // TODO: already enabled
         }
         
         sync.close(completionHandler: completion);
@@ -109,9 +113,34 @@ public class ResourceBase: Resource, ResourceBackend {
                 }
             }
         }
+        else {
+            sync.fail(MedKitError.Failed); // TODO: already disabled
+        }
         
         sync.close(completionHandler: completion);
     }
+    
+    // MARK: -
+    
+    func connected()
+    {
+        if observers.count > 0 {
+            backend.resourceEnableNotification(self) { cache, error in
+                if error == nil, let cache = cache {
+                    self.notificationEnabled(cache: ResourceCacheBase(from: cache));
+                }
+            }
+        }
+    }
+    
+    func disconnected()
+    {
+        if observers.count > 0 && notificationEnabled {
+            notificationDisabled();
+        }
+    }
+    
+    // MARK: - Value Interface
     
     /**
      Read value.
@@ -134,6 +163,8 @@ public class ResourceBase: Resource, ResourceBackend {
         backend.resourceWriteValue(self, value, completionHandler: completion);
     }
     
+    // MARK: - Profile
+    
     /**
      Get profile.
      */
@@ -150,42 +181,45 @@ public class ResourceBase: Resource, ResourceBackend {
         return profile;
     }
     
+    // MARK: - Notification
+    
+    /**
+     Notification enabled.
+     */
     private func notificationEnabled(cache: ResourceCacheBase)
     {
         _notificationEnabled = true;
         _cache               = cache;
+        
+        observers.withEach { $0.resourceDidUpdateNotificationEnabled(self) }
+        observers.withEach { $0.resourceDidUpdate(self, value: _cache.value, at: _cache.timeModified); }
     }
     
+    /**
+     Notification disabled.
+     */
     private func notificationDisabled()
     {
         _notificationEnabled = false;
         _cache               = nil;
+    
+        observers.withEach { $0.resourceDidUpdateNotificationEnabled(self) }
     }
     
     // MARK: - ResourceBackend
     
     /**
-     Get default backend.
-     */
-    public func getDefaultBackend() -> Backend
-    {
-        return _service!.getDefaultBackend();
-    }
-    
-    /**
      Update resource.
      
      - Parameters:
-     - changes:
-     - time:
+        - changes:
+        - time:
      */
     public func update(changes: JSON, at time: TimeInterval)
     {
         if notificationEnabled {
             _cache.update(changes: changes, at: time);
-            observers.withEach { observer in
-                observer.resourceDidUpdate(self, value: _cache.value, at: _cache.timeModified);
-            }
+            observers.withEach { $0.resourceDidUpdate(self, value: _cache.value, at: _cache.timeModified); }
         }
     }
     
@@ -193,16 +227,14 @@ public class ResourceBase: Resource, ResourceBackend {
      Update resource.
      
      - Parameters:
-     - value:
-     - time:
+        - value:
+        - time:
      */
     public func update(value: JSON?, at time: TimeInterval)
     {
         if notificationEnabled {
             _cache = ResourceCacheBase(value: value, at: time);
-            observers.withEach { observer in
-                observer.resourceDidUpdate(self, value: _cache.value, at: _cache.timeModified);
-            }
+            observers.withEach { $0.resourceDidUpdate(self, value: _cache.value, at: _cache.timeModified); }
         }
     }
     
@@ -210,15 +242,13 @@ public class ResourceBase: Resource, ResourceBackend {
      Update resource.
      
      - Parameters:
-     - cache:
+        - cache:
      */
     public func update(from cache: ResourceCache)
     {
         if notificationEnabled {
             _cache = ResourceCacheBase(from: cache);
-            observers.withEach { observer in
-                observer.resourceDidUpdate(self, value: _cache.value, at: _cache.timeModified);
-            }
+            observers.withEach { $0.resourceDidUpdate(self, value: _cache.value, at: _cache.timeModified); }
         }
     }
     

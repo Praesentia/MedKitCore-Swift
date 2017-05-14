@@ -22,6 +22,9 @@
 import Foundation;
 
 
+/**
+ Backend
+ */
 public typealias Backend = DeviceBackendDelegate & ServiceBackendDelegate & ResourceBackendDelegate;
 
 
@@ -32,6 +35,8 @@ class BackendDefault: Backend {
     
     static let main = BackendDefault();
     
+    let isOpen = true;
+
     // MARK: - DeviceObserver
     
     func deviceClose(_ device: DeviceBackend, reason: Error?, completionHandler completion: @escaping (Error?) -> Void)

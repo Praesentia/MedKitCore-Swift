@@ -27,12 +27,14 @@ import Foundation;
  */
 public class NetPortFactory: PortFactory {
     
-    // public
+    // MARK: - Properties
     public let domain    : String
     public let address   : SockAddr;
     public var priority  : Int    { return type.priority; }
     public var reachable : Bool   { return true; }
     public let type      : DeviceProtocol;
+    
+    // MARK: - Initializers
     
     /**
      Initialize instance.
@@ -49,15 +51,49 @@ public class NetPortFactory: PortFactory {
         self.address = address;
     }
     
+    // MARK: - Instantiation
+    
     /**
-     Create connection to port.
+     Instantiate client connection.
+     
+     Instantiates a new client connection representing the principal.
      
      - Parameters:
-        - principal: The pricipal for which the connection will be established.
+        - principal: The principal represented by the connection.
+     
+     - Returns:
+        Returns a reference to the new connection if successful.  A return
+        value of nil indicates failure.
      */
     public func instantiateConnection(as principal: Principal?) -> ClientConnection?
     {
-        return type.clientFactory.instantiate(port: PortNetTCP(address: address), as: principal);
+        var connection: ClientConnection?;
+        
+        if let port = instantiatePort() {
+            connection = type.clientFactory.instantiate(port: port, as: principal);
+        }
+        
+        return connection;
+    }
+    
+    /**
+     Instantiate client port.
+     
+     Instantiates a new client port.
+     
+     - Returns:
+        Returns a reference to the new port if successful.  A return value of
+        nil indicates that the transport protocol is unsupported.
+     */
+    private func instantiatePort() -> PortNet?
+    {
+        switch address.proto {
+        case .tcp :
+            return PortNetTCP(address: address);
+            
+        case .udp :
+            return nil;
+        }
     }
     
 }

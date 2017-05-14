@@ -28,15 +28,15 @@ import Foundation;
  A protocol to be implemented by various the forms of credentials.  The
  protocol presumes some type of signing and verification algorithm.
  
- The protocol provides access to a JSON profile reactivating the public
+ The protocol provides access to a JSON profile representing the public
  component of the credentials.  This is the profile that is exchanged
  between entities during authentication.
  */
 public protocol Credentials: class  {
     
-    var profilePublic: JSON            { get } //: A JSON profile reactivating the public credentials.
-    var type         : CredentialsType { get } //: Identifies the type of credentials.
-    var expires      : TimeInterval?   { get }
+    var profile : JSON            { get } //: A JSON profile representing the public credentials.
+    var type    : CredentialsType { get } //: Identifies the type of credentials.
+    var expires : TimeInterval?   { get }
     
     /**
      Sign bytes.
@@ -59,6 +59,19 @@ public protocol Credentials: class  {
 
 public extension Credentials {
     
+    /**
+     Will credentials be expired at time?
+     
+     A convenience method used to check whether or not the credentials will be
+     expired at a specific time.
+     
+     - Parameters:
+        - time: The time to be checked.
+     
+     - Returns:
+        Returns true if the credentials are expired at the specified time,
+        otherwise false.
+     */
     func expired(at time: TimeInterval) -> Bool
     {
         if let expires = self.expires {

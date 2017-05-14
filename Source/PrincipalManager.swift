@@ -27,6 +27,7 @@ import Foundation;
  */
 public class PrincipalManager {
     
+    // MARK: - Class Properties
     public static let main = PrincipalManager();
     
     // MARK: - Properties
@@ -47,7 +48,7 @@ public class PrincipalManager {
     {
     }
     
-    // MARK: - Observers
+    // MARK: - Observer Interface
     
     /**
      Add observer.

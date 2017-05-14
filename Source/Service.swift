@@ -57,7 +57,7 @@ public protocol Service: class {
      */
     var type: UUID { get }
     
-    // MARK: - Observers
+    // MARK: - Observer Interface
     
     /**
      Add observer.
@@ -79,6 +79,12 @@ public protocol Service: class {
         - completion: Completion handler.
      */
     func updateName(_ name: String, completionHandler completion: @escaping (Error?) -> Void)
+    
+}
+
+public extension Service {
+    
+    var localizedDescription: String { return serviceTypeName[type] ?? type.uuidstring; }
     
 }
 

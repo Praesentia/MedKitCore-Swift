@@ -25,31 +25,37 @@ import Foundation;
 /**
  Device backend protocol.
  
- Device interface for backed device delegates.
+ Device interface for backend device delegates.
  
  - SeeAlso: DeviceBackendDelegate
  */
 public protocol DeviceBackend: class {
     
+    // MARK: - Properties
     var backend               : DeviceBackendDelegate! { get set }
     var identifier            : UUID                   { get }
     var defaultBackend        : Backend                { get }
     var bridgedDeviceBackends : [DeviceBackend]        { get }
     var serviceBackends       : [ServiceBackend]       { get }
     
-    // bridged devices
-    func getBridgedDevice(withIdentifier identifier: UUID) -> DeviceBase?;
-    func addBridgedDevice(from profile: JSON, notify: Bool) -> DeviceBackend;
-    func removeBridgedDevice(_ bridgedDevice: DeviceBackend, notify: Bool);
+    // MARK: - Connectivity
+    func connected()
+    func disconnected(reason: Error?)
     
-    // services
-    func getService(withIdentifier identifier: UUID) -> ServiceBackend?;
-    func addService(from profile: JSON, notify: Bool) -> ServiceBackend;
-    func removeService(withIdentifier identifier: UUID, notify: Bool);
+    // MARK: - Mutators
+    func update(from profile: JSON)
+    func updateName(_ name: String, notify: Bool)
     
-    // updates
-    func update(from profile: JSON);
-    func updateName(_ name: String, notify: Bool);
+    // MARK: - Bridged Device Interface
+    func getBridgedDevice(withIdentifier identifier: UUID) -> DeviceBase?
+    func addBridgedDevice(from profile: JSON, notify: Bool) -> DeviceBackend
+    func removeBridgedDevice(_ bridgedDevice: DeviceBackend, notify: Bool)
+    
+    // MARK: - Service Interface
+    func getService(withIdentifier identifier: UUID) -> ServiceBackend?
+    func addService(_ service: ServiceBase, notify: Bool)
+    func addService(from profile: JSON, notify: Bool) -> ServiceBackend
+    func removeService(withIdentifier identifier: UUID, notify: Bool)
     
 }
 

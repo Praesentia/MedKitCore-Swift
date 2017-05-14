@@ -33,7 +33,7 @@ public protocol DeviceBrowser: class {
     
     var devices: [DeviceProxy] { get }
     
-    // MARK: - Observers
+    // MARK: - Observer Interface
     
     func addObserver(_ observer: DeviceBrowserObserver)
     func removeObserver(_ observer: DeviceBrowserObserver)

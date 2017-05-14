@@ -23,16 +23,19 @@ import Foundation;
 
 
 /**
- Device Cache
+ Device Proxy Cache
  */
-public class DeviceCache {
+public class DeviceProxyNetCache {
     
-    public static let main = DeviceCache();
+    // MARK: - Class Properties
+    public static let main = DeviceProxyNetCache();
+    
+    // MARK: - Private
     
     private struct Entry {
-        unowned let device: DeviceProxyBase;
+        unowned let device: DeviceProxyNet;
         
-        init(_ device: DeviceProxyBase)
+        init(_ device: DeviceProxyNet)
         {
             self.device = device;
         }
@@ -40,34 +43,75 @@ public class DeviceCache {
     
     private var cache = [UUID : Entry]();
     
+    // MARK: - Cache Management
+    
+    /**
+     Intern device with info.
+     
+     - Parameters:
+        - deviceInfo: Device information.
+     */
+    private func internDevice(with deviceInfo: DeviceInfo) -> DeviceProxyNet
+    {
+        let device = DeviceProxyNet(from: deviceInfo);
+        
+        cache[device.identifier] = Entry(device);
+        return device;
+    }
+    
+    /**
+     Remove device with identifier.
+     
+     - Parameters:
+     - identifier: Device identifier.
+     */
+    func removeDevice(with identifier: UUID)
+    {
+        cache[identifier] = nil;
+    }
+    
+    // MARK: - Search
+    
+    /**
+     Find device with identifier.
+     
+     - Parameters:
+        - identifier: Device identifier.
+     */
     public func findDevice(with identifier: UUID) -> DeviceProxy?
     {
         return cache[identifier]?.device;
     }
     
-    func findDevice(with deviceInfo: DeviceInfo) -> DeviceProxyBase
+    /**
+     Find device with info.
+     
+     - Parameters:
+        - deviceInfo: Device information.
+     */
+    func findDevice(with deviceInfo: DeviceInfo) -> DeviceProxyNet
     {
-        let device: DeviceProxyBase;
+        let device: DeviceProxyNet;
         
         if let entry = cache[deviceInfo.identifier] {
             device = entry.device;
         }
         else {
-            device = DeviceProxyBase(from: deviceInfo);
-            cache[deviceInfo.identifier] = Entry(device);
+            device = internDevice(with: deviceInfo);
         }
         
         return device;
     }
     
+    /**
+     Find device from profile.
+     
+     - Parameters:
+        - profile: Device profile.
+     */
     public func findDevice(from profile: JSON) -> DeviceProxy
     {
         return findDevice(with: DeviceInfo(from: profile));
-    }
-    
-    func removeDevice(with identifier: UUID)
-    {
-        cache[identifier] = nil;
     }
     
 }

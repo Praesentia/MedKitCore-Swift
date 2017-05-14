@@ -2,8 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- 
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2017 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -24,38 +23,41 @@ import Foundation;
 
 
 /**
- Wait
+ Credentials factory.
  */
-class Wait {
+public class CredentialsFactoryDB {
     
-    public var first: Bool { return completionHandlers.count == 1; }
+    // MARK: - Class Properties
+    public static let main = CredentialsFactoryDB();
     
-    private var completionHandlers = [(Error?) -> Void]();
+    // MARK: - Private
+    private var factories = [ CredentialsType : CredentialsFactory ]();
+    
+    // MARK: - Initializers
     
     /**
      Initialize instance.
      */
-    init()
+    private init()
     {
+        factories[.SharedSecret] = SharedSecret.factory;
+        factories[.PublicKey]    = PublicKeyCredentials.factory;
     }
     
-    /**
-     Append completion handler.
-     */
-    func wait(completionHandler completion: @escaping (Error?) -> Void)
-    {
-        completionHandlers.append(completion);
-    }
+    // MARK: - Instantiation
     
     /**
-     Operation completed.
+     Create credentials from profile, for identity.
      */
-    func complete(_ error: Error?)
+    public func instantiate(from profile: JSON, for identity: Identity) -> Credentials
     {
-        for completion in completionHandlers {
-            completion(error);
+        if let string = profile[KeyType].string, let type = CredentialsType(string: string) {
+            if let factory = factories[type] {
+                return factory.instantiate(from: profile, for: identity);
+            }
         }
-        completionHandlers.removeAll();
+        
+        return NullCredentials.shared;
     }
     
 }

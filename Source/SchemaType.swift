@@ -2,7 +2,6 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- 
  Copyright 2016-2017 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,42 +22,13 @@
 import Foundation;
 
 
-/**
- Wait
- */
-class Wait {
-    
-    public var first: Bool { return completionHandlers.count == 1; }
-    
-    private var completionHandlers = [(Error?) -> Void]();
-    
-    /**
-     Initialize instance.
-     */
-    init()
-    {
-    }
-    
-    /**
-     Append completion handler.
-     */
-    func wait(completionHandler completion: @escaping (Error?) -> Void)
-    {
-        completionHandlers.append(completion);
-    }
-    
-    /**
-     Operation completed.
-     */
-    func complete(_ error: Error?)
-    {
-        for completion in completionHandlers {
-            completion(error);
-        }
-        completionHandlers.removeAll();
-    }
-    
-}
+public let SchemaTypeAlert         = UUID(uuidString: "77d23127-65e0-4946-9a84-f70467c13783")!; // final
+public let SchemaTypeBloodPressure = UUID(uuidString: "3948450e-ed95-4433-a02b-4b650cb5cf94")!; // final
+public let SchemaTypeCamera        = UUID(uuidString: "b1b3bf84-dc7b-4866-9b86-65274b60f29f")!; // final
+public let SchemaTypeLocation      = UUID(uuidString: "523a4cc1-aa68-4d30-8829-7b815e42e487")!; // final
+public let SchemaTypeMeasurement   = UUID(uuidString: "0f71de24-e436-4a75-b7a0-2929d2e9b5e2")!; // final
+public let SchemaTypePatient       = UUID(uuidString: "292ad6e5-324d-4339-b494-926b03048ee1")!; // final
+public let SchemaTypeWaveform      = UUID(uuidString: "55a3c23d-bf52-4158-a645-06ba85fec14e")!; // final
 
 
 // End of File

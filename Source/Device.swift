@@ -34,6 +34,8 @@ public protocol Device: class {
      */
     var identifier: UUID { get }
     
+    var isOpen: Bool { get }
+    
     /**
      The device name.  Device names are not necessarily unique.
      */
@@ -85,7 +87,7 @@ public protocol Device: class {
      */
     var services: [Service] { get }
     
-    // MARK: - Observers
+    // MARK: - Observer Interface
     
     /**
      Add observer.
@@ -119,6 +121,12 @@ public protocol Device: class {
         - completion: Completion handler.
      */
     func updateName(_ name: String, completionHandler completion: @escaping (Error?) -> Void)
+    
+}
+
+public extension Device {
+    
+    var localizedDescription: String { return deviceTypeNames[type] ?? type.uuidstring; }
     
 }
 

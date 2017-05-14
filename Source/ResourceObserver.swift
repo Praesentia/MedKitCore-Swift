@@ -28,12 +28,14 @@ import Foundation;
 public protocol ResourceObserver: class {
     
     func resourceDidUpdate(_ resource: Resource, value: JSON?, at time: TimeInterval);
+    func resourceDidUpdateNotificationEnabled(_ resource: Resource);
     
 }
 
 public extension ResourceObserver {
     
     func resourceDidUpdate(_ resource: Resource, value: JSON?, at time: TimeInterval) {}
+    func resourceDidUpdateNotificationEnabled(_ resource: Resource) {}
     
 }
 

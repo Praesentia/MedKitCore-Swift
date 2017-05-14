@@ -21,17 +21,22 @@
 
 import Foundation;
 
+
 /**
- Device protocol.
+ DeviceProtocol protocol.
+ 
+ Describes a backend device protocol with associated connection factories.
  */
 public protocol DeviceProtocol: class {
     
+    // MARK: - Properties
     var description   : String                  { get }
     var identifier    : String                  { get }
     var name          : String                  { get }
     var priority      : Int                     { get }
     var version       : String                  { get }
 
+    // MARK: - Factories
     var clientFactory : ClientConnectionFactory { get }
     var serverFactory : ServerConnectionFactory { get }
     

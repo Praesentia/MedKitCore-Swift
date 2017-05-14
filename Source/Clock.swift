@@ -22,8 +22,6 @@
 import Foundation;
 
 
-public typealias Time = Int64;
-
 /**
  Clock
  
@@ -31,23 +29,36 @@ public typealias Time = Int64;
  */
 public class Clock {
     
-    public  static let Resolution : TimeInterval = 1000000;   //: microseconds
-    private static let Offset     : TimeInterval = 978307200;
+    // MARK: - Constants
+    public static let Resolution: TimeInterval = 1000000;   //: microseconds
     
-    public init()
+    // MARK: - Initializers
+    
+    public init() // TODO: not needed?
     {
     }
     
+    // MARK: - Conversions
+    
+    /**
+     Converts time interval to a MedKit time value.
+     */
     public class func convert(time: TimeInterval) -> Time
     {
-        return Time((time + Clock.Offset) * Clock.Resolution);
+        return Time((time + Date.timeIntervalBetween1970AndReferenceDate) * Clock.Resolution);
     }
     
+    /**
+     Converts MedKit time value to time interval.
+     */
     public class func convert(time: Time) -> TimeInterval
     {
-        return TimeInterval(time) / Clock.Resolution - Clock.Offset;
+        return TimeInterval(time) / Clock.Resolution - Date.timeIntervalBetween1970AndReferenceDate;
     }
     
+    /**
+     Get current time interval.
+     */
     public class func getTime() -> TimeInterval
     {
         return Date.timeIntervalSinceReferenceDate;

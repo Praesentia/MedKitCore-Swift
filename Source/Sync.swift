@@ -41,14 +41,32 @@ public class Sync {
     }
     
     /**
+     Initialize instance with error.
+     */
+    public init(_ error: Error?)
+    {
+        self.error = error;
+    }
+    
+    /**
+     Fail
+     
+     Used to set or clear the current error.
+     */
+    public func fail(_ error: Error?)
+    {
+        self.error = error;
+    }
+    
+    /**
      Decrement the synchronization count.
      */
-    public func decr(_ e: Error?)
+    public func decr(_ error: Error?)
     {
         assert(count > 0);
         
-        if error == nil {
-            error = e;
+        if self.error == nil {
+            self.error = error;
         }
         
         decrAndExecute();

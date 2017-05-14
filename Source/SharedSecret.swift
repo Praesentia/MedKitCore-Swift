@@ -27,15 +27,19 @@ import Foundation;
  */
 public class SharedSecret: Credentials {
     
+    // MARK: - Class Properties
     public static let factory = SharedSecretFactory();
     
-    public var profilePublic: JSON            { return getProfile(); }
-    public var type         : CredentialsType { return .SharedSecret; }
-    public var expires      : TimeInterval?   { return nil; }
+    // MARK: - Properties
+    public var profile : JSON            { return getProfile(); }
+    public var type    : CredentialsType { return .SharedSecret; }
+    public var expires : TimeInterval?   { return nil; } // TODO
     
     // MARK: - Private
     private let identity : Identity; //: The identity associated with the credentials.
     private let security = SecurityManagerShared.main;
+    
+    // MARK: - Initializers
     
     /**
      Initialize instance.
@@ -45,6 +49,8 @@ public class SharedSecret: Credentials {
         self.identity = identity;
     }
     
+    // MARK: - Mutators
+    
     /**
      Update secret.
      */
@@ -52,6 +58,8 @@ public class SharedSecret: Credentials {
     {
         security.internSecret(secret, for: identity, completionHandler: completion);
     }
+    
+    // MARK: - Signing
     
     /**
      Sign bytes.
@@ -80,7 +88,7 @@ public class SharedSecret: Credentials {
     /**
      Get profile.
      
-     Generates a JSON profile reactivating the credentials.  In this case, the
+     Generates a JSON profile representing the credentials.  In this case, the
      profile only includes the credentials type, as both sides are expected to
      know the secret.
      

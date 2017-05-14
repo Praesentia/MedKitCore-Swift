@@ -23,20 +23,25 @@ import Foundation;
 
 
 /**
- Service Backend protocol.
+ ServiceBackend protocol.
  */
 public protocol ServiceBackend: class {
     
+    // MARK: - Properties
+    var backend          : ServiceBackendDelegate! { get set }
+    var defaultBackend   : Backend                 { get }
+    var deviceBackend    : DeviceBackend!          { get }
     var identifier       : UUID                    { get }
-    var deviceBackend    : DeviceBackend?          { get }
-    var backend  : ServiceBackendDelegate! { get set }
     var resourceBackends : [ResourceBackend]       { get }
     
-    func getDefaultBackend() -> Backend
+    // MARK: - Mutator
+    func updateName(_ name: String, notify: Bool);
+    
+    // MARK: - Resource Interface
     func getResource(withIdentifier identifier: UUID) -> ResourceBackend?
     func addResource(_ resource: ResourceBase, notify : Bool);
     func removeResource(withIdentifier identifier: UUID, notify : Bool);
-    func updateName(_ name: String, notify: Bool);
+
     
 }
 

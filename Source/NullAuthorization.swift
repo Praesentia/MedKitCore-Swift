@@ -27,7 +27,7 @@ import Foundation;
  */
 public class NullAuthorization: Authorization {
     
-    public static let instance = NullAuthorization();
+    public static let shared = NullAuthorization();
     
     public var expires : TimeInterval?     { return nil; }
     public var profile : JSON              { return getProfile(); }
@@ -41,6 +41,11 @@ public class NullAuthorization: Authorization {
     {
     }
     
+    /**
+     Is operation authorized.
+     
+     Always fails.
+     */
     public func authorized(operation: UUID) -> Bool
     {
         return false;

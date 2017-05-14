@@ -27,8 +27,10 @@ import Foundation;
  */
 public class PublicKeyCredentialsFactory: CredentialsFactory {
     
+    // MARK: - Instantiation
+    
     /**
-     Create credentials from profile.
+     Create credentials for identity.
      */
     public func instantiate(for identity: Identity) -> Credentials
     {
@@ -36,7 +38,7 @@ public class PublicKeyCredentialsFactory: CredentialsFactory {
     }
     
     /**
-     Create credentials for identity.
+     Create credentials from profile.
      */
     public func instantiate(from profile: JSON, for identity: Identity) -> Credentials
     {

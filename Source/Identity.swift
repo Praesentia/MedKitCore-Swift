@@ -34,7 +34,7 @@ public class Identity: Equatable {
     /**
      Identity type.
      
-     Different types of principals may have different naming conventions.  The
+     Different types of identities may use different naming conventions.  The
      identity type separates namespaces to prevent conflicts.
      */
     public enum IdentityType {
@@ -66,7 +66,7 @@ public class Identity: Equatable {
     }
     
     /**
-     Initialize instance.
+     Initialize instance from profile.
      */
     public init(from profile: JSON)
     {
