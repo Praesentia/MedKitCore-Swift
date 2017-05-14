@@ -23,16 +23,18 @@ import Foundation;
 
 
 /**
- Network port factories.
+ Network port collection.
  */
 class NetPorts {
     
-    // public
+    // MARK: - Properties
     var ports    : [NetPortFactory] { return _ports; }
     var reachable: Bool             { return reachablePorts(); }
     
     // MARK: - Shadowed
     private var _ports = [NetPortFactory]();
+    
+    // MARK: - Initializers
     
     /**
      Initialize instance.
@@ -41,26 +43,14 @@ class NetPorts {
     {
     }
     
+    // MARK: - Port Management
+    
     /**
      Add port factory.
      */
     func addPort(_ port: NetPortFactory)
     {
         _ports.append(port);
-    }
-    
-    /**
-     Are there any reachable ports?
-     */
-    private func reachablePorts() -> Bool
-    {
-        for port in ports {
-            if port.reachable {
-                return true;
-            }
-        }
-        
-        return false;
     }
     
     /**
@@ -79,6 +69,22 @@ class NetPorts {
     func removeAllPorts()
     {
         _ports.removeAll();
+    }
+    
+    // MARK: - Port Selection
+    
+    /**
+     Are there any reachable ports?
+     */
+    private func reachablePorts() -> Bool
+    {
+        for port in ports {
+            if port.reachable {
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     /**

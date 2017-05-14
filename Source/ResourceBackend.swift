@@ -22,15 +22,20 @@
 import Foundation;
 
 
+/**
+ ResourceBackend protocol.
+ */
 public protocol ResourceBackend: class {
     
-    var identifier      : UUID                     { get }
-    var serviceBackend  : ServiceBackend?          { get }
-    var backend : ResourceBackendDelegate! { get set }
-    var access          : Access                   { get }
-    var notifications   : Bool                     { get }
+    // MARK: - Properties
+    var access         : Access                   { get }
+    var backend        : ResourceBackendDelegate! { get set }
+    var defaultBackend : Backend                  { get }
+    var identifier     : UUID                     { get }
+    var notifications  : Bool                     { get }
+    var serviceBackend : ServiceBackend!          { get }
     
-    func getDefaultBackend() -> Backend;
+    // MARK: - Mutators
     func update(changes: JSON, at time: TimeInterval);
     func update(value: JSON?, at time: TimeInterval);
     func update(from cache: ResourceCache);

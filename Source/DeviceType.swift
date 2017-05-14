@@ -40,7 +40,7 @@ public func deviceType(named name: String) -> UUID
 
 public func deviceTypeName(with identifier: UUID) -> String?
 {
-    return DeviceTypeNames[identifier];
+    return deviceTypeNames[identifier];
 }
 
 /**
@@ -60,7 +60,7 @@ public let DeviceTypeThermometer        = deviceType(named: "Thermometer");
 /**
  String representation for the device types.
  */
-private let DeviceTypeNames = [
+let deviceTypeNames = [
     DeviceTypeOther              : "Other",
     DeviceTypeBridge             : "Bridge",
     DeviceTypeElectrocardiograph : "Electrocardiograph",

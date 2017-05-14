@@ -29,24 +29,25 @@ import Foundation;
  */
 public class DeviceBase: DeviceFrontend, DeviceBackend {
     
-    // Device
+    // MARK: - Properties
     public var       acl            : ACL        { return _acl; }
-    public var       identifier     : UUID       { return _identifier; };
+    public var       identifier     : UUID       { return _identifier; }
+    public var       isOpen         : Bool       { return backend?.isOpen ?? false; }
     public var       name           : String     { return _name; };
-    public var       manufacturer   : String     { return _manufacturer; };
-    public var       model          : String     { return _model; };
-    public weak var  parent         : Device?    { return _parent };
+    public var       manufacturer   : String     { return _manufacturer; }
+    public var       model          : String     { return _model; }
+    public weak var  parent         : Device?    { return _parent }
     public var       profile        : JSON       { return getProfile(); }
-    public var       reachable      : Bool       { return true; };
-    public var       serialNumber   : String     { return _serialNumber; };
-    public var       type           : UUID       { return _type; };
-    public var       bridgedDevices : [Device]   { return _bridgedDevices; };
-    public var       services       : [Service]  { return _services; };
+    public var       reachable      : Bool       { return true; }
+    public var       serialNumber   : String     { return _serialNumber; }
+    public var       type           : UUID       { return _type; }
+    public var       bridgedDevices : [Device]   { return _bridgedDevices; }
+    public var       services       : [Service]  { return _services; }
     
     // DeviceBackend
-    public var       backend       : DeviceBackendDelegate!;
+    public var       backend               : DeviceBackendDelegate!;
     public var       defaultBackend        : Backend                 { return BackendDefault.main; }
-    public var       bridgedDeviceBackends : [DeviceBackend]         { return _bridgedDevices; };
+    public var       bridgedDeviceBackends : [DeviceBackend]         { return _bridgedDevices; }
     public var       serviceBackends       : [ServiceBackend]        { return _services; }
     
     // MARK: - Shadowed
@@ -61,8 +62,10 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
     private var      _bridgedDevices = [DeviceBase]();
     private var      _services       = [ServiceBase]();
     
-    // protected
+    // MARK: - Protected
     var              observers = ObserverManager<DeviceObserver>();
+    
+    // MARK: - Initializers
     
     /**
      Initialize instance from device information.
@@ -107,6 +110,8 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
         }
     }
     
+    // MARK: - Observer Interface
+    
     /**
      Add device observer.
      */
@@ -123,6 +128,8 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
         observers.remove(observer);
     }
     
+    // MARK: - Connectivity
+    
     /**
      Close connection to device.
      */
@@ -135,7 +142,10 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
      */
     public func close(completionHandler completion: @escaping (Error?) -> Void)
     {
-        DispatchQueue.main.async { completion(nil); }
+        DispatchQueue.main.async {
+            self.disconnected(reason: nil); // TODO
+            completion(nil);
+        }
     }
     
     /**
@@ -143,8 +153,39 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
      */
     public func open(completionHandler completion: @escaping (Error?) -> Void)
     {
-        DispatchQueue.main.async { completion(nil); }
+        DispatchQueue.main.async {
+            self.connected(); // TODO
+            completion(nil);
+        }
     }
+    
+    public func connected()
+    {
+        observers.withEach { $0.deviceOpened(self); }
+        
+        for service in _services {
+            service.connected();
+        }
+    
+        for bridgedDevice in _bridgedDevices {
+            bridgedDevice.connected();
+        }
+    }
+    
+    public func disconnected(reason: Error?)
+    {
+        for bridgedDevice in _bridgedDevices {
+            bridgedDevice.disconnected(reason: reason);
+        }
+        
+        for service in _services {
+            service.disconnected();
+        }
+        
+        observers.withEach { $0.deviceDidClose(self, reason: reason); }
+    }
+    
+    // MARK: - Mutators
     
     /**
      Update name.
@@ -154,19 +195,8 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
         backend.device(self, updateName: name, completionHandler: completion);
     }
     
-    /**
-     Add service (TODO: not in any protocol).
-     */
-    public func addService(_ service: ServiceBase, notify: Bool)
-    {
-        _services.append(service);
-        
-        if notify {
-            observers.withEach { delegate in
-                delegate.device(self, didAdd: service);
-            }
-        }
-    }
+    
+    // MARK: - Profile
     
     /**
      Get device profile.
@@ -186,7 +216,7 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
         return profile;
     }
     
-    // MARK: - DeviceBackend protocol.
+    // MARK: - DeviceBackend protocol
     
     /**
      Get bridged device with identifier.
@@ -226,9 +256,7 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
         _bridgedDevices.append(bridgedDevice);
         
         if notify {
-            observers.withEach { delegate in
-                delegate.device(self, didAdd: bridgedDevice);
-            }
+            observers.withEach { $0.device(self, didAdd: bridgedDevice); }
         }
         
         return bridgedDevice;
@@ -245,10 +273,20 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
             _bridgedDevices.remove(at: index);
             
             if notify {
-                observers.withEach { delegate in
-                    delegate.device(self, didRemove: device);
-                }
+                observers.withEach { $0.device(self, didRemove: device); }
             }
+        }
+    }
+    
+    /**
+     Add service.
+     */
+    public func addService(_ service: ServiceBase, notify: Bool)
+    {
+        _services.append(service);
+        
+        if notify {
+            observers.withEach { $0.device(self, didAdd: service); }
         }
     }
     
@@ -262,9 +300,7 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
         _services.append(service);
         
         if notify {
-            observers.withEach { delegate in
-                delegate.device(self, didAdd: service);
-            }
+            observers.withEach { $0.device(self, didAdd: service); }
         }
         
         return service;
@@ -281,8 +317,47 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
             _services.remove(at: index);
             
             if notify {
-                observers.withEach { delegate in
-                    delegate.device(self, didRemove: service);
+                observers.withEach { $0.device(self, didRemove: service); }
+            }
+        }
+    }
+    
+    // MARK: - Mutators
+    
+    /**
+     Update from profile.
+     */
+    public func update(from profile: JSON)
+    {
+        // TODO: these shouldn't change
+        _identifier   = profile[KeyIdentifier].uuid!;
+        _manufacturer = profile[KeyManufacturer].string!;
+        _model        = profile[KeyModel].string!;
+        _serialNumber = profile[KeySerialNumber].string!;
+        _type         = profile[KeyType].uuid!;
+        
+        // update name
+        if let name = profile[KeyName].string {
+            if name != _name {
+                _name = name;
+                observers.withEach { $0.deviceDidUpdateName(self); }
+            }
+        }
+        
+        // update bridged devices
+        if let bridgedDevices = profile[KeyBridgedDevices].array {
+            for profile in bridgedDevices {
+                if getBridgedDevice(withIdentifier: profile[KeyIdentifier].uuid!) == nil {
+                    _ = addBridgedDevice(from: profile, notify: true);
+                }
+            }
+        }
+        
+        // update services
+        if let services = profile[KeyServices].array {
+            for profile in services {
+                if getService(withIdentifier: profile[KeyIdentifier].uuid!) == nil {
+                    _ = addService(from: profile, notify: true);
                 }
             }
         }
@@ -296,38 +371,7 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
         _name = name;
         
         if notify {
-            observers.withEach { delegate in
-                delegate.deviceDidUpdateName(self);
-            }
-        }
-    }
-    
-    /**
-     Update from profile.
-     */
-    public func update(from profile: JSON)
-    {
-        _identifier   = profile[KeyIdentifier].uuid!;
-        _name         = profile[KeyName].string!;
-        _manufacturer = profile[KeyManufacturer].string!;
-        _model        = profile[KeyModel].string!;
-        _serialNumber = profile[KeySerialNumber].string!;
-        _type         = profile[KeyType].uuid!;
-        
-        if let bridgedDevices = profile[KeyBridgedDevices].array {
-            for profile in bridgedDevices {
-                if getBridgedDevice(withIdentifier: profile[KeyIdentifier].uuid!) == nil {
-                    _ = addBridgedDevice(from: profile, notify: false);
-                }
-            }
-        }
-        
-        if let services = profile[KeyServices].array {
-            for profile in services {
-                if getService(withIdentifier: profile[KeyIdentifier].uuid!) == nil {
-                    _ = addService(from: profile, notify: false);
-                }
-            }
+            observers.withEach { $0.deviceDidUpdateName(self); }
         }
     }
     

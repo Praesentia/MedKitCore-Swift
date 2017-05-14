@@ -27,6 +27,8 @@ import Foundation;
  */
 public protocol ServiceBackendDelegate : class {
     
+    var isOpen : Bool { get }
+    
     func service(_ service: ServiceBackend, updateName name: String, completionHandler completion: @escaping (Error?) -> Void);
     
 }

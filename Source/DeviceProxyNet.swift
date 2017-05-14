@@ -25,14 +25,19 @@ import Foundation;
 /**
  Proxy device.
  */
-public class DeviceProxyBase: DeviceBase, DeviceProxy {
+public class DeviceProxyNet: DeviceBase, DeviceProxy {
     
-    override public var defaultBackend: Backend       { return netBackend; }
-    public var          ports         : [PortFactory] { return netBackend.ports.ports; }
-    override public var reachable     : Bool          { return netBackend.reachable; }
+    // MARK: - Properties
+    override public var isOpen         : Bool         { return netBackend.isOpen; }
+    
+    override public var defaultBackend : Backend       { return netBackend; }
+    public var          ports          : [PortFactory] { return netBackend.ports.ports; }
+    override public var reachable      : Bool          { return netBackend.reachable; }
 
     // MARK: - Private
     private var netBackend: NetBackend!;
+    
+    // MARK: - Initializers
     
     /**
      Initialize instance from device information.
@@ -59,8 +64,56 @@ public class DeviceProxyBase: DeviceBase, DeviceProxy {
      */
     deinit
     {
-        DeviceCache.main.removeDevice(with: identifier);
+        DeviceProxyNetCache.main.removeDevice(with: identifier);
     }
+    
+    // MARK: - Connectivity
+    
+    /**
+     Close connection to device.
+     */
+    override func close(reason: Error?)
+    {
+        if netBackend.isOpen {
+            netBackend.deviceClose(self, reason: reason) { error in }
+        }
+    }
+    
+    /**
+     Close connection to device, with completion handler.
+     */
+    override public func close(completionHandler completion: @escaping (Error?) -> Void)
+    {
+        let sync = Sync();
+        
+        if netBackend.isOpen {
+            sync.incr();
+            netBackend.deviceClose(self, reason: nil) { error in
+                sync.decr(error);
+            }
+        }
+        
+        sync.close(completionHandler: completion);
+    }
+    
+    /**
+     Open device.
+     */
+    override public func open(completionHandler completion: @escaping (Error?) -> Void)
+    {
+        let sync = Sync();
+        
+        if !netBackend.isOpen {
+            sync.incr();
+            netBackend.deviceOpen(self) { error in
+                sync.decr(error);
+            }
+        }
+            
+        sync.close(completionHandler: completion);
+    }
+    
+    // MARK: - Port Interface
     
     /**
      Add port.
@@ -103,30 +156,6 @@ public class DeviceProxyBase: DeviceBase, DeviceProxy {
         if reachable {
             observers.withEach { $0.deviceDidUpdateReachability(self); }
         }
-    }
-    
-    /**
-     Close connection to device.
-     */
-    override func close(reason: Error?)
-    {
-        netBackend.deviceClose(self, reason: reason) { error in }
-    }
-    
-    /**
-     Close connection to device, with completion handler.
-     */
-    override public func close(completionHandler completion: @escaping (Error?) -> Void)
-    {
-        netBackend.deviceClose(self, reason: nil, completionHandler: completion);
-    }
-    
-    /**
-     Open device.
-     */
-    override public func open(completionHandler completion: @escaping (Error?) -> Void)
-    {
-        netBackend.deviceOpen(self, completionHandler: completion);
     }
     
 }

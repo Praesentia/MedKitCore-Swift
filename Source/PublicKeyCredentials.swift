@@ -30,16 +30,20 @@ import Foundation;
  */
 public class PublicKeyCredentials: Credentials {
     
+    // MARK: - Class Properties
     public static let factory = PublicKeyCredentialsFactory();
     
-    public var profilePublic: JSON            { return getProfile(); }
-    public var type         : CredentialsType { return .PublicKey; }
-    public var expires      : TimeInterval?   { return nil; }
+    // MARK: - Properties
+    public var profile : JSON            { return getProfile(); }
+    public var type    : CredentialsType { return .PublicKey; }
+    public var expires : TimeInterval?   { return nil; } // TODO
     
-    private let security    = SecurityManagerShared.main;
-
+    // MARK: - Private
     private let identity    : Identity; //: The identity associated with the credentials.
     private var certificate : Certificate?;
+    private let security    = SecurityManagerShared.main;
+    
+    // MARK: - Initializers
     
     /**
      Initialize instance.
@@ -68,7 +72,9 @@ public class PublicKeyCredentials: Credentials {
         }
     }
     
-    /**b
+    // MARK: - Signing
+    
+    /**
      Sign bytes.
      
      - Parameters:
@@ -98,7 +104,7 @@ public class PublicKeyCredentials: Credentials {
     /**
      Get profile.
      
-     Generates a JSON profile reactivating the credentials.
+     Generates a JSON profile representing the credentials.
      
      - Returns:
         Returns the generated JSON profile.

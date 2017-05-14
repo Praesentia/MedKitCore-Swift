@@ -23,7 +23,7 @@ import Foundation;
 
 
 /**
- Device proxy protocol.
+ DeviceProxy protocol.
  */
 public protocol DeviceProxy: Device {
     

@@ -62,10 +62,14 @@ public class Principal {
         authorization = AuthorizationFactoryDB.main.instantiate(from: profile[KeyAuthorization]);
     }
     
+    // MARK: - Experimental
+    
     public func isaSubject(_ identity: UUID) -> Bool
     {
         return true; // TODO
     }
+    
+    // MARK: - Profile
     
     /**
      Get profile.
@@ -75,7 +79,7 @@ public class Principal {
         let profile = JSON();
         
         profile[KeyIdentity]      = identity.profile;
-        profile[KeyCredentials]   = credentials.profilePublic;
+        profile[KeyCredentials]   = credentials.profile;
         profile[KeyAuthorization] = authorization.profile;
         
         return profile;

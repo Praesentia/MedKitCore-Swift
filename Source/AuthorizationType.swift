@@ -35,7 +35,7 @@ public enum AuthorizationType {
      Initialize instance from string.
      
      - Parameters:
-     - string: String representation for the credentials type.
+        - string: String representation for the authorization type.
      */
     init?(string: String)
     {
@@ -52,7 +52,7 @@ public enum AuthorizationType {
      Get string representation.
      
      - Returns:
-     Returns a string representation for the credentials type.
+        Returns a string representation for the authorization type.
      */
     public var string: String {
         switch self {

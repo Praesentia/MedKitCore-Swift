@@ -23,37 +23,62 @@ import Foundation;
 
 
 /**
- Public Key certificate.
+ Public key certificate.
  */
 public class Certificate {
     
+    // MARK: - Properties
     public var chain  : [Data] { return _chain; }
     public var profile: JSON   { return getProfile(); }
     
     // MARK: - Shadowed
     private let _chain: [Data];
     
+    // MARK: - Initializers
+    
     /**
      Initialize instance.
      
      - Parameters:
-        - chain: The certificate chains for the
+        - chain: The certificate chain.
      */
     public init(chain: [Data])
     {
         _chain = chain;
     }
     
+    // MARK: - Identity Verification
+    
+    /**
+     Verify certificate is for identity.
+     
+     - Parameters:
+        - identity: An identity.
+     */
     public func verify(for identity: Identity) -> Bool
     {
         return SecurityManagerShared.main.verify(certificate: self, for: identity);
     }
     
+    // MARK: - Signature Verification
+    
+    /**
+     Verify signature.
+     
+     - Parameters:
+        - signature: Binary representation of the signature.
+        - bytes:     Byte sequence for which the signature was generated.
+     */
     public func verifySignature(_ signature: [UInt8], bytes: [UInt8]) -> Bool
     {
         return SecurityManagerShared.main.verifySignature(signature, for: self, bytes: bytes);
     }
     
+    // MARK: - Profile
+    
+    /**
+     Get profile.
+     */
     private func getProfile() -> JSON
     {
         return JSON(chain.map() { data in JSON(data.base64EncodedString()); });

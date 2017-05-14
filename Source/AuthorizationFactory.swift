@@ -22,38 +22,12 @@
 import Foundation;
 
 
+/**
+ AuthorizationFactory Protocol
+ */
 public protocol AuthorizationFactory: class {
     
     func instantiate(from profile: JSON) -> Authorization;
-    
-}
-
-/**
- Authoirzation factory.
- */
-public class AuthorizationFactoryDB {
-    
-    public static let main = AuthorizationFactoryDB();
-    
-    private var factories = [ AuthorizationType : AuthorizationFactory ]();
-    
-    private init()
-    {
-    }
-    
-    /**
-     Create credentials from profile.
-     */
-    public func instantiate(from profile: JSON) -> Authorization
-    {
-        if let string = profile[KeyType].string, let type = AuthorizationType(string: string) {
-            if let factory = factories[type] {
-                return factory.instantiate(from: profile);
-            }
-        }
-        
-        return NullAuthorization.instance;
-    }
     
 }
 

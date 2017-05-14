@@ -37,11 +37,11 @@ public protocol Digest {
     /**
      Finializes the digest.
      
-     Finalizes the algorithm state, generating a byte array reactivating the
+     Finalizes the algorithm state, generating a byte array representing the
      digest.  The size of byte array is algorithm dependent.
      
      - Returns:
-        Retuns a byte array reactivating the digest.
+        Retuns a byte array representing the digest.
      */
     func final() -> [UInt8];
     

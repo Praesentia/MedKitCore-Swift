@@ -2,7 +2,6 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- 
  Copyright 2016-2017 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,41 +23,14 @@ import Foundation;
 
 
 /**
- Wait
+ MedKit time value.
+ 
+ MedKit time values are signed 64bit values representing the number of
+ microseconds that have elapsed since UTC 1972-01-01T00:00:00 plus an offset of
+ 63,072,000 seconds.  The offset permits time values to be seconds compatible
+ with Unix time.
  */
-class Wait {
-    
-    public var first: Bool { return completionHandlers.count == 1; }
-    
-    private var completionHandlers = [(Error?) -> Void]();
-    
-    /**
-     Initialize instance.
-     */
-    init()
-    {
-    }
-    
-    /**
-     Append completion handler.
-     */
-    func wait(completionHandler completion: @escaping (Error?) -> Void)
-    {
-        completionHandlers.append(completion);
-    }
-    
-    /**
-     Operation completed.
-     */
-    func complete(_ error: Error?)
-    {
-        for completion in completionHandlers {
-            completion(error);
-        }
-        completionHandlers.removeAll();
-    }
-    
-}
+public typealias Time = Int64;
 
 
 // End of File

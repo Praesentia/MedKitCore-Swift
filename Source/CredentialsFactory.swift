@@ -24,40 +24,11 @@ import Foundation;
 
 public protocol CredentialsFactory: class {
     
+    // MARK: - Instantiation
+    
     func instantiate(for identity: Identity) -> Credentials;
     func instantiate(from profile: JSON, for identity: Identity) -> Credentials;
     
-}
-
-/**
- Credentials factory.
- */
-public class CredentialsFactoryDB {
-    
-    public static let main = CredentialsFactoryDB();
-    
-    private var factories = [ CredentialsType : CredentialsFactory ]();
-    
-    private init()
-    {
-        factories[.SharedSecret] = SharedSecret.factory;
-        factories[.PublicKey]    = PublicKeyCredentials.factory;
-    }
-    
-    /**
-     Create credentials from profile.
-     */
-    public func instantiate(from profile: JSON, for identity: Identity) -> Credentials
-    {
-        if let string = profile[KeyType].string, let type = CredentialsType(string: string) {
-            if let factory = factories[type] {
-                return factory.instantiate(from: profile, for: identity);
-            }
-        }
-        
-        return NullCredentials.instance;
-    }
-
 }
 
 

@@ -27,9 +27,7 @@ import Foundation;
  */
 public func +=(check: Check, value: Bool)
 {
-    if !value {
-        check.value = false;
-    }
+    check.update(value);
 }
 
 /**
@@ -37,10 +35,25 @@ public func +=(check: Check, value: Bool)
  */
 public class Check {
     
-    public var value: Bool = true;
+    // MARK: - Properties
+    public var value: Bool { return _value; }
+    
+    // MARK: - Shadowed
+    private var _value: Bool = true;
+    
+    // MARK: - Initializers
     
     public init()
     {
+    }
+    
+    // MARK: - Update
+    
+    public func update(_ value: Bool)
+    {
+        if !value {
+            _value = false;
+        }
     }
 
 }

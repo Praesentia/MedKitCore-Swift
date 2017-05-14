@@ -27,6 +27,8 @@ import Foundation;
  */
 public protocol DeviceBackendDelegate: class {
     
+    var isOpen: Bool { get }
+    
     func deviceOpen(_ device: DeviceBackend, completionHandler completion: @escaping (Error?) -> Void);
     func deviceClose(_ device: DeviceBackend, reason: Error?, completionHandler completion: @escaping (Error?) -> Void);
     func device(_ device: DeviceBackend, updateName name: String, completionHandler completion : @escaping (Error?) -> Void);

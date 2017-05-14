@@ -27,10 +27,25 @@ import Foundation;
  */
 public protocol PortFactory: class {
     
+    // MARK: - Properties
     var  domain   : String { get }
     var  priority : Int    { get }
     var  reachable: Bool   { get }
     
+    // MARK: - Instantiation
+    
+    /**
+     Instantiate client connection.
+     
+     Instantiates a new client connection representing the principal.
+     
+     - Parameters:
+        - principal: The principal represented by the connection.
+     
+     - Returns:
+        Returns a reference to the new connection if successful.  A return
+        value of nil indicates failure.
+     */
     func instantiateConnection(as principal: Principal?) -> ClientConnection?;
     
 }

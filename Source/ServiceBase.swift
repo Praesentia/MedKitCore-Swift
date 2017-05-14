@@ -29,7 +29,7 @@ import Foundation;
  */
 public class ServiceBase: Service, ServiceBackend {
     
-    // Service
+    // MARK: - Properties
     public weak var device     : Device?     { return _device }
     public var      identifier : UUID        { return _identifier; }
     public var      name       : String      { return _name; }
@@ -37,9 +37,10 @@ public class ServiceBase: Service, ServiceBackend {
     public var      resources  : [Resource]  { return _resources; }
     public var      type       : UUID        { return _type; }
     
-    // ServiceBackend
-    public var deviceBackend    : DeviceBackend?           { return _device; }
-    public var backend  : ServiceBackendDelegate!;
+    // MARK: - Properties - ServiceBackend
+    public var deviceBackend    : DeviceBackend!           { return _device; }
+    public var defaultBackend   : Backend                  { return deviceBackend.defaultBackend; }
+    public var backend          : ServiceBackendDelegate!;
     public var resourceBackends : [ResourceBackend]        { return _resources; }
     
     // MARK: - Shadowed
@@ -51,6 +52,8 @@ public class ServiceBase: Service, ServiceBackend {
     
     // MARK: - Private
     private var  observers  = ObserverManager<ServiceObserver>();
+    
+    // MARK: - Initializers
     
     /**
      Initialize instance from profile.
@@ -71,6 +74,8 @@ public class ServiceBase: Service, ServiceBackend {
         }
     }
     
+    // MARK: - Observer Interface
+    
     public func addObserver(_ observer: ServiceObserver)
     {
         observers.add(observer);
@@ -80,6 +85,8 @@ public class ServiceBase: Service, ServiceBackend {
     {
         observers.remove(observer);
     }
+    
+    // MARK: - Mutators
     
     /**
      Update service name.
@@ -92,6 +99,8 @@ public class ServiceBase: Service, ServiceBackend {
     {
         backend.service(self, updateName: name, completionHandler: completion);
     }
+    
+    // MARK: - Profile
     
     /**
      Get profile.
@@ -108,14 +117,32 @@ public class ServiceBase: Service, ServiceBackend {
         return profile;
     }
     
+    func connected()
+    {
+        for resource in _resources {
+            resource.connected();
+        }
+    }
+    
+    func disconnected()
+    {
+        for resource in _resources {
+            resource.disconnected();
+        }
+    }
+    
     // MARK: - ServiceBackend
     
     /**
-     Get default backend.
+     Update name.
      */
-    public func getDefaultBackend() -> Backend
+    public func updateName(_ name: String, notify: Bool)
     {
-        return _device!.defaultBackend;
+        _name = name;
+        
+        if notify {
+            observers.withEach { $0.serviceDidUpdateName(self); }
+        }
     }
     
     public func getResource(withIdentifier identifier: UUID) -> ResourceBackend?
@@ -134,9 +161,7 @@ public class ServiceBase: Service, ServiceBackend {
         _resources.append(resource);
         
         if notify {
-            observers.withEach { delegate in
-                delegate.service(self, didAdd: resource);
-            }
+            observers.withEach { $0.service(self, didAdd: resource); }
         }
     }
     
@@ -148,23 +173,7 @@ public class ServiceBase: Service, ServiceBackend {
             _resources.remove(at: index);
             
             if notify {
-                observers.withEach { delegate in
-                    delegate.service(self, didRemove: resource);
-                }
-            }
-        }
-    }
-    
-    /**
-     Update name.
-     */
-    public func updateName(_ name: String, notify: Bool)
-    {
-        _name = name;
-        
-        if notify {
-            observers.withEach { delegate in
-                delegate.serviceDidUpdateName(self);
+                observers.withEach { $0.service(self, didRemove: resource); }
             }
         }
     }

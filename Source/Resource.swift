@@ -84,7 +84,7 @@ public protocol Resource: class {
      */
     var type: UUID { get }
     
-    // MARK: - Observers
+    // MARK: - Observer Interface
     
     /**
      Add observer.
@@ -136,6 +136,12 @@ public protocol Resource: class {
             - error:
      */
     func writeValue(_ value: JSON?, completionHandler completion: @escaping (ResourceCache?, Error?) -> Void)
+    
+}
+
+public extension Resource {
+    
+    var localizedDescription: String { return ResourceTypeLocalization[type] ?? type.uuidstring; }
     
 }
 

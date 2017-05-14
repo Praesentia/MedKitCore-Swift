@@ -25,32 +25,40 @@ import Foundation;
 /**
  Network backend.
  
- A device backend that has responsibility for managing network connections.
+ A device backend that has responsibility for managing a network connection.
  */
 class NetBackend: Backend, ConnectionDelegate {
     
-    // public
+    // MARK: - Properties
+    var isOpen    : Bool { return _isOpen }
     var ports     = NetPorts();
-    var reachable : Bool { return ports.reachable; }
-   
-    //private
-    private weak var device     : DeviceProxyBase!;
+    var reachable : Bool { return ports.reachable }
+    
+    // MARK: - Shadowed
+    private var   _isOpen = false;
+    
+    // MARK: - Private
+    private weak var device     : DeviceProxyNet!;
     private var      connection : ClientConnection!;
-    private var      sync       = Wait();
+    private var      syncClose  = Wait();
+    private var      syncOpen   = Wait();
+    
+    // MARK: - Initializers
     
     /**
      Initialize instance.
      */
-    init(device: DeviceProxyBase)
+    init(device: DeviceProxyNet)
     {
         self.device = device;
     }
     
+    // MARK: - Connectivity
+    
     /**
      Connect with completion hander.
      
-     This method is used to open a connection to the device.  If successful,
-     the completion handler will be called with a new Backend instance.
+     This method is used to open a connection to a device.
      
      - Parameters:
         - principal:
@@ -84,17 +92,19 @@ class NetBackend: Backend, ConnectionDelegate {
      */
     func open(_ device: DeviceBackend, completionHandler completion: @escaping (Error?) -> Void)
     {
-        sync.wait(completionHandler: completion);
+        syncOpen.wait(completionHandler: completion);
         
-        if sync.first {
+        if syncOpen.first {
             connect(as: PrincipalManager.main.primary) { error in
                 if error == nil {
                     self.connection.backend.deviceOpen(device) { error in
-                        self.sync.complete(error);
+                        self._isOpen = true;
+                        self.device.connected();
+                        self.syncOpen.complete(error);
                     }
                 }
                 else {
-                    self.sync.complete(error);
+                    self.syncOpen.complete(error);
                 }
             }
         }
@@ -117,23 +127,33 @@ class NetBackend: Backend, ConnectionDelegate {
             // TODO
             if error == nil {
                 self.device.backend = self;
-                self.device.observers.withEach { $0.deviceDidClose(self.device, reason: reason); }
+                self._isOpen        = false;
+                self.device.disconnected(reason: reason);
             }
             
             self.connection = nil;
+            self.syncClose.complete(nil);
         }
     }
     
-    // MARK: - DeviceObserver
+    // MARK: - DeviceBackendDelegate
     
     
     /**
-     Close connection.
+     Close connection to device.
      */
     func deviceClose(_ device: DeviceBackend, reason: Error?, completionHandler completion: @escaping (Error?) -> Void)
     {
-        connection?.shutdown(reason: reason);
-        completion(nil);
+        syncClose.wait(completionHandler: completion);
+        
+        if syncClose.first {
+            if let connection = self.connection {
+                connection.shutdown(reason: reason);
+            }
+            else {
+                syncClose.complete(nil);
+            }
+        }
     }
     
     /**
@@ -149,6 +169,9 @@ class NetBackend: Backend, ConnectionDelegate {
         }
     }
     
+    /**
+     Update device name.
+     */
     func device(_ device: DeviceBackend, updateName name: String, completionHandler completion: @escaping (Error?) -> Void)
     {
         open(device) { error in
@@ -161,11 +184,14 @@ class NetBackend: Backend, ConnectionDelegate {
         }
     }
     
-    // MARK: - ServiceObserver
+    // MARK: - ServiceBackendDelegate
     
+    /**
+     Update service name.
+     */
     func service(_ service: ServiceBackend, updateName name: String, completionHandler completion: @escaping (Error?) -> Void)
     {
-        open(service.deviceBackend!) { error in
+        open(service.deviceBackend) { error in
             if error == nil {
                 self.connection.backend.service(service, updateName: name, completionHandler: completion);
             }
@@ -175,11 +201,14 @@ class NetBackend: Backend, ConnectionDelegate {
         }
     }
     
-    // MARK: - ResourceObserver
+    // MARK: - ResourceBackendDelegate
     
+    /**
+     Enable notification.
+     */
     func resourceEnableNotification(_ resource: ResourceBackend, completionHandler completion: @escaping (ResourceCache?, Error?) -> Void)
     {
-        let device = resource.serviceBackend!.deviceBackend!;
+        let device = resource.serviceBackend.deviceBackend!;
         
         open(device) { error in
             if error == nil {
@@ -191,9 +220,12 @@ class NetBackend: Backend, ConnectionDelegate {
         }
     }
     
+    /**
+     Disable notification.
+     */
     func resourceDisableNotification(_ resource: ResourceBackend, completionHandler completion: @escaping (Error?) -> Void)
     {
-        let device = resource.serviceBackend!.deviceBackend!;
+        let device = resource.serviceBackend.deviceBackend!;
         
         open(device) { error in
             if error == nil {
@@ -205,9 +237,12 @@ class NetBackend: Backend, ConnectionDelegate {
         }
     }
     
+    /**
+     Read value.
+     */
     func resourceReadValue(_ resource: ResourceBackend, completionHandler completion: @escaping (ResourceCache?, Error?) -> Void)
     {
-        let device = resource.serviceBackend!.deviceBackend!;
+        let device = resource.serviceBackend.deviceBackend!;
         
         open(device) { error in
             if error == nil {
@@ -219,9 +254,12 @@ class NetBackend: Backend, ConnectionDelegate {
         }
     }
     
+    /**
+     Write value.
+     */
     func resourceWriteValue(_ resource: ResourceBackend, _ value: JSON?, completionHandler completion: @escaping (ResourceCache?, Error?) -> Void)
     {
-        let device = resource.serviceBackend!.deviceBackend!;
+        let device = resource.serviceBackend.deviceBackend!;
         
         open(device) { error in
             if error == nil {

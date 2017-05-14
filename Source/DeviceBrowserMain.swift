@@ -33,7 +33,7 @@ public class DeviceBrowserMain: DeviceBrowser, ServiceBrowserDelegate, NetDevice
     public var devices : [DeviceProxy] { return _devices; };         //: Device list.
     
     // MARK: - Shadowed
-    private var _devices  = [DeviceProxyBase]();
+    private var _devices  = [DeviceProxyNet]();
     
     // MARK: - Private
     private let browser   = ServiceBrowser();
@@ -49,7 +49,7 @@ public class DeviceBrowserMain: DeviceBrowser, ServiceBrowserDelegate, NetDevice
         browser.delegate = self;
     }
     
-    // MARK: - Observers
+    // MARK: - Observer Interface
     
     public func addObserver(_ observer: DeviceBrowserObserver)
     {
@@ -104,9 +104,9 @@ public class DeviceBrowserMain: DeviceBrowser, ServiceBrowserDelegate, NetDevice
     
     /**
      */
-    private func internDevice(from deviceInfo: DeviceInfo) -> DeviceProxyBase
+    private func internDevice(from deviceInfo: DeviceInfo) -> DeviceProxyNet
     {
-        let device = DeviceCache.main.findDevice(with: deviceInfo);
+        let device = DeviceProxyNetCache.main.findDevice(with: deviceInfo);
         
         _devices.append(device);
         return device;
@@ -115,9 +115,9 @@ public class DeviceBrowserMain: DeviceBrowser, ServiceBrowserDelegate, NetDevice
     /**
      Remove device.
      */
-    private func removeDevice(withIdentifier identifier: UUID) -> DeviceProxyBase?
+    private func removeDevice(withIdentifier identifier: UUID) -> DeviceProxyNet?
     {
-        var device: DeviceProxyBase?;
+        var device: DeviceProxyNet?;
         
         if let index = _devices.index(where: { $0.identifier == identifier }) {
             device = _devices[index];

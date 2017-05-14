@@ -27,11 +27,15 @@ import Foundation;
  */
 public class NullCredentials: Credentials {
     
-    public static let instance = NullCredentials();
+    // MARK: - Class Properties
+    public static let shared = NullCredentials();
 
-    public var profilePublic: JSON            { return getProfile(); }
-    public var type         : CredentialsType { return .Null; }
-    public var expires      : TimeInterval?   { return nil; }
+    // MARK: - Properties
+    public var profile : JSON            { return getProfile(); }
+    public var type    : CredentialsType { return .Null; }
+    public var expires : TimeInterval?   { return nil; }
+    
+    // MARK: - Initializers
     
     /**
      Initialize instance.
@@ -40,12 +44,16 @@ public class NullCredentials: Credentials {
     {
     }
     
+    // MARK: - Signing
+    
     /**
      Sign bytes.
      
+     Always fails.
+     
      - Parameters:
-     - bytes: The bytes being signed.  This will typically be a hash value
-     of the actual data.
+        - bytes: The bytes being signed.  This will typically be a hash value
+                 of the actual data.
      */
     public func sign(bytes: [UInt8]) -> [UInt8]?
     {
@@ -53,11 +61,13 @@ public class NullCredentials: Credentials {
     }
     
     /**
-     Verify signature
+     Verify signature.
+     
+     Always fails.
      
      - Parameters:
         - bytes: The bytes that were originally signed.  This will typically be
-            a hash value of the actual data.
+                a hash value of the actual data.
      */
     public func verify(signature: [UInt8], bytes: [UInt8]) -> Bool
     {

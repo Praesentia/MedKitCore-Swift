@@ -17,8 +17,8 @@
 		22092E621EAD16BA00F0B503 /* DeviceFrontend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22092E611EAD16BA00F0B503 /* DeviceFrontend.swift */; };
 		22092E631EAD16DA00F0B503 /* DeviceFrontend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22092E611EAD16BA00F0B503 /* DeviceFrontend.swift */; };
 		22092E641EAD16E100F0B503 /* DeviceBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22092E5F1EAD163A00F0B503 /* DeviceBase.swift */; };
-		22092E7B1EAD200600F0B503 /* DeviceProxyBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22092E7A1EAD200600F0B503 /* DeviceProxyBase.swift */; };
-		22092E7C1EAD201700F0B503 /* DeviceProxyBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22092E7A1EAD200600F0B503 /* DeviceProxyBase.swift */; };
+		22092E7B1EAD200600F0B503 /* DeviceProxyNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22092E7A1EAD200600F0B503 /* DeviceProxyNet.swift */; };
+		22092E7C1EAD201700F0B503 /* DeviceProxyNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22092E7A1EAD200600F0B503 /* DeviceProxyNet.swift */; };
 		22092F751EAF761200F0B503 /* DeviceBrowserMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22092F741EAF761200F0B503 /* DeviceBrowserMain.swift */; };
 		22092F771EAF762300F0B503 /* DeviceBrowserObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22092F761EAF762300F0B503 /* DeviceBrowserObserver.swift */; };
 		22092F891EAF7A4E00F0B503 /* DeviceBrowserObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22092F761EAF762300F0B503 /* DeviceBrowserObserver.swift */; };
@@ -27,15 +27,29 @@
 		220BEDD61E956E9B00AFF2CA /* InetAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220BEDD51E956E9B00AFF2CA /* InetAddress.swift */; };
 		220BEDD71E956F5800AFF2CA /* InetAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220BEDD51E956E9B00AFF2CA /* InetAddress.swift */; };
 		220BEDD81E956FD000AFF2CA /* InetProto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220BEDD31E956E8D00AFF2CA /* InetProto.swift */; };
+		221902BA1EC1DB980043BE70 /* AuthorizationFactoryDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221902B91EC1DB980043BE70 /* AuthorizationFactoryDB.swift */; };
+		221902BB1EC1DBA60043BE70 /* AuthorizationFactoryDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221902B91EC1DB980043BE70 /* AuthorizationFactoryDB.swift */; };
+		221902BD1EC1DD800043BE70 /* CredentialsFactoryDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221902BC1EC1DD800043BE70 /* CredentialsFactoryDB.swift */; };
+		221902BE1EC1DD910043BE70 /* CredentialsFactoryDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221902BC1EC1DD800043BE70 /* CredentialsFactoryDB.swift */; };
+		221903761EC739B00043BE70 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221903751EC739B00043BE70 /* Time.swift */; };
+		221903771EC739BB0043BE70 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221903751EC739B00043BE70 /* Time.swift */; };
+		2219037D1EC741AD0043BE70 /* ClockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2219037C1EC741AD0043BE70 /* ClockTests.swift */; };
+		2219037E1EC741B10043BE70 /* ClockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2219037C1EC741AD0043BE70 /* ClockTests.swift */; };
+		221904641EC87F630043BE70 /* ResourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221904601EC87F630043BE70 /* ResourceType.swift */; };
+		221904651EC87F630043BE70 /* SchemaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221904611EC87F630043BE70 /* SchemaType.swift */; };
+		221904661EC87F630043BE70 /* ServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221904621EC87F630043BE70 /* ServiceType.swift */; };
+		221904671EC87F630043BE70 /* UnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221904631EC87F630043BE70 /* UnitType.swift */; };
+		221904681EC880160043BE70 /* ServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221904621EC87F630043BE70 /* ServiceType.swift */; };
+		221904691EC880190043BE70 /* UnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221904631EC87F630043BE70 /* UnitType.swift */; };
+		2219046A1EC8801C0043BE70 /* SchemaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221904611EC87F630043BE70 /* SchemaType.swift */; };
+		2219046B1EC880200043BE70 /* ResourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221904601EC87F630043BE70 /* ResourceType.swift */; };
 		22202DDF1EB9FEF500A79644 /* ResourceCacheBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22202DDE1EB9FEF500A79644 /* ResourceCacheBase.swift */; };
 		22202DE01EB9FEFA00A79644 /* ResourceCacheBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22202DDE1EB9FEF500A79644 /* ResourceCacheBase.swift */; };
 		22202DEA1EBC9F5800A79644 /* DeviceBrowserShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22202DE91EBC9F5800A79644 /* DeviceBrowserShared.swift */; };
 		22202DEB1EBC9F5A00A79644 /* DeviceBrowserShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22202DE91EBC9F5800A79644 /* DeviceBrowserShared.swift */; };
 		2243DC821E872BDB00A188FD /* MedKitCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2243DC791E872BDB00A188FD /* MedKitCore.framework */; };
-		2243DC871E872BDB00A188FD /* MedKitCore_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DC861E872BDB00A188FD /* MedKitCore_iOSTests.swift */; };
 		2243DC891E872BDB00A188FD /* MedKitCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 2243DC7B1E872BDB00A188FD /* MedKitCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2243DC9E1E872BF100A188FD /* MedKitCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2243DC951E872BF100A188FD /* MedKitCore.framework */; };
-		2243DCA31E872BF100A188FD /* MedKitCore_macOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DCA21E872BF100A188FD /* MedKitCore_macOSTests.swift */; };
 		2243DCA51E872BF100A188FD /* MedKitCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 2243DC971E872BF100A188FD /* MedKitCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2243DD101E87F18A00A188FD /* MISTV1Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DCCB1E87F18A00A188FD /* MISTV1Schema.swift */; };
 		2243DD111E87F18A00A188FD /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DCCC1E87F18A00A188FD /* Mode.swift */; };
@@ -135,7 +149,7 @@
 		2243DE091E87F52800A188FD /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DDC61E87F52800A188FD /* Decoder.swift */; };
 		2243DE0A1E87F52800A188FD /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DDC71E87F52800A188FD /* Device.swift */; };
 		2243DE0B1E87F52800A188FD /* DeviceBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DDC81E87F52800A188FD /* DeviceBrowser.swift */; };
-		2243DE0C1E87F52800A188FD /* DeviceCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DDC91E87F52800A188FD /* DeviceCache.swift */; };
+		2243DE0C1E87F52800A188FD /* DeviceProxyNetCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DDC91E87F52800A188FD /* DeviceProxyNetCache.swift */; };
 		2243DE0D1E87F52800A188FD /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DDCA1E87F52800A188FD /* DeviceInfo.swift */; };
 		2243DE0F1E87F52800A188FD /* DeviceProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DDCC1E87F52800A188FD /* DeviceProxy.swift */; };
 		2243DE111E87F52800A188FD /* Digest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DDCE1E87F52800A188FD /* Digest.swift */; };
@@ -174,7 +188,7 @@
 		2243DE5B1E87F73000A188FD /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DDC51E87F52800A188FD /* Date.swift */; };
 		2243DE5C1E87F73000A188FD /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DDC61E87F52800A188FD /* Decoder.swift */; };
 		2243DE5D1E87F73000A188FD /* DeviceBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DDC81E87F52800A188FD /* DeviceBrowser.swift */; };
-		2243DE5E1E87F73000A188FD /* DeviceCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DDC91E87F52800A188FD /* DeviceCache.swift */; };
+		2243DE5E1E87F73000A188FD /* DeviceProxyNetCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DDC91E87F52800A188FD /* DeviceProxyNetCache.swift */; };
 		2243DE5F1E87F73000A188FD /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DDCA1E87F52800A188FD /* DeviceInfo.swift */; };
 		2243DE601E87F73000A188FD /* DeviceProfile.json in Resources */ = {isa = PBXBuildFile; fileRef = 2243DDCB1E87F52800A188FD /* DeviceProfile.json */; };
 		2243DE611E87F73000A188FD /* DeviceProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DDCC1E87F52800A188FD /* DeviceProxy.swift */; };
@@ -263,26 +277,32 @@
 		22092E5C1EAD15F300F0B503 /* DeviceBackendDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceBackendDelegate.swift; path = Source/DeviceBackendDelegate.swift; sourceTree = "<group>"; };
 		22092E5F1EAD163A00F0B503 /* DeviceBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceBase.swift; path = Source/DeviceBase.swift; sourceTree = "<group>"; };
 		22092E611EAD16BA00F0B503 /* DeviceFrontend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceFrontend.swift; path = Source/DeviceFrontend.swift; sourceTree = "<group>"; };
-		22092E7A1EAD200600F0B503 /* DeviceProxyBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceProxyBase.swift; path = Source/DeviceProxyBase.swift; sourceTree = "<group>"; };
+		22092E7A1EAD200600F0B503 /* DeviceProxyNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceProxyNet.swift; path = Source/DeviceProxyNet.swift; sourceTree = "<group>"; };
 		22092F741EAF761200F0B503 /* DeviceBrowserMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceBrowserMain.swift; path = Source/DeviceBrowserMain.swift; sourceTree = "<group>"; };
 		22092F761EAF762300F0B503 /* DeviceBrowserObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceBrowserObserver.swift; path = Source/DeviceBrowserObserver.swift; sourceTree = "<group>"; };
 		220A341E1EBE172F0024DF9E /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		220A343C1EBE19D60024DF9E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		220BEDD31E956E8D00AFF2CA /* InetProto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InetProto.swift; path = Source/InetProto.swift; sourceTree = "<group>"; };
 		220BEDD51E956E9B00AFF2CA /* InetAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InetAddress.swift; path = Source/InetAddress.swift; sourceTree = "<group>"; };
+		221902B91EC1DB980043BE70 /* AuthorizationFactoryDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthorizationFactoryDB.swift; path = Source/AuthorizationFactoryDB.swift; sourceTree = "<group>"; };
+		221902BC1EC1DD800043BE70 /* CredentialsFactoryDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CredentialsFactoryDB.swift; path = Source/CredentialsFactoryDB.swift; sourceTree = "<group>"; };
+		221903751EC739B00043BE70 /* Time.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Time.swift; path = Source/Time.swift; sourceTree = "<group>"; };
+		2219037C1EC741AD0043BE70 /* ClockTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClockTests.swift; path = Tests/ClockTests.swift; sourceTree = "<group>"; };
+		221904601EC87F630043BE70 /* ResourceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResourceType.swift; path = Source/ResourceType.swift; sourceTree = "<group>"; };
+		221904611EC87F630043BE70 /* SchemaType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SchemaType.swift; path = Source/SchemaType.swift; sourceTree = "<group>"; };
+		221904621EC87F630043BE70 /* ServiceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceType.swift; path = Source/ServiceType.swift; sourceTree = "<group>"; };
+		221904631EC87F630043BE70 /* UnitType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UnitType.swift; path = Source/UnitType.swift; sourceTree = "<group>"; };
 		22202DDE1EB9FEF500A79644 /* ResourceCacheBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResourceCacheBase.swift; path = Source/ResourceCacheBase.swift; sourceTree = "<group>"; };
 		22202DE91EBC9F5800A79644 /* DeviceBrowserShared.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceBrowserShared.swift; path = Source/DeviceBrowserShared.swift; sourceTree = "<group>"; };
 		2243DC791E872BDB00A188FD /* MedKitCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MedKitCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2243DC7B1E872BDB00A188FD /* MedKitCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MedKitCore.h; sourceTree = "<group>"; };
 		2243DC7C1E872BDB00A188FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2243DC811E872BDB00A188FD /* MedKitCore iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MedKitCore iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2243DC861E872BDB00A188FD /* MedKitCore_iOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedKitCore_iOSTests.swift; sourceTree = "<group>"; };
 		2243DC881E872BDB00A188FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2243DC951E872BF100A188FD /* MedKitCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MedKitCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2243DC971E872BF100A188FD /* MedKitCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MedKitCore.h; sourceTree = "<group>"; };
 		2243DC981E872BF100A188FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2243DC9D1E872BF100A188FD /* MedKitCore macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MedKitCore macOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2243DCA21E872BF100A188FD /* MedKitCore_macOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedKitCore_macOSTests.swift; sourceTree = "<group>"; };
 		2243DCA41E872BF100A188FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2243DCCB1E87F18A00A188FD /* MISTV1Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MISTV1Schema.swift; path = Source/MISTV1Schema.swift; sourceTree = "<group>"; };
 		2243DCCC1E87F18A00A188FD /* Mode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mode.swift; path = Source/Mode.swift; sourceTree = "<group>"; };
@@ -347,7 +367,7 @@
 		2243DDC61E87F52800A188FD /* Decoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Decoder.swift; path = Source/Decoder.swift; sourceTree = "<group>"; };
 		2243DDC71E87F52800A188FD /* Device.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Device.swift; path = Source/Device.swift; sourceTree = "<group>"; };
 		2243DDC81E87F52800A188FD /* DeviceBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceBrowser.swift; path = Source/DeviceBrowser.swift; sourceTree = "<group>"; };
-		2243DDC91E87F52800A188FD /* DeviceCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceCache.swift; path = Source/DeviceCache.swift; sourceTree = "<group>"; };
+		2243DDC91E87F52800A188FD /* DeviceProxyNetCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceProxyNetCache.swift; path = Source/DeviceProxyNetCache.swift; sourceTree = "<group>"; };
 		2243DDCA1E87F52800A188FD /* DeviceInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceInfo.swift; path = Source/DeviceInfo.swift; sourceTree = "<group>"; };
 		2243DDCB1E87F52800A188FD /* DeviceProfile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = DeviceProfile.json; path = Source/DeviceProfile.json; sourceTree = "<group>"; };
 		2243DDCC1E87F52800A188FD /* DeviceProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceProxy.swift; path = Source/DeviceProxy.swift; sourceTree = "<group>"; };
@@ -432,6 +452,54 @@
 			name = Inet;
 			sourceTree = "<group>";
 		};
+		221902BF1EC341060043BE70 /* Network Proxy */ = {
+			isa = PBXGroup;
+			children = (
+				22DD6CB41E8996D900F1B6D2 /* DeviceProtocol.swift */,
+				2243DDB91E87F52800A188FD /* DeviceProtocols.swift */,
+				22092E7A1EAD200600F0B503 /* DeviceProxyNet.swift */,
+				2243DDC91E87F52800A188FD /* DeviceProxyNetCache.swift */,
+				2243DCCE1E87F18A00A188FD /* NetBackend.swift */,
+				2243DCD11E87F18A00A188FD /* NetPorts.swift */,
+				2243DCD01E87F18A00A188FD /* NetPortFactory.swift */,
+				2243DCFE1E87F18A00A188FD /* Wait.swift */,
+			);
+			name = "Network Proxy";
+			sourceTree = "<group>";
+		};
+		221903711EC72B480043BE70 /* Observers */ = {
+			isa = PBXGroup;
+			children = (
+				2243DCD51E87F18A00A188FD /* ObserverManager.swift */,
+			);
+			name = Observers;
+			sourceTree = "<group>";
+		};
+		2219037A1EC73FDF0043BE70 /* Time */ = {
+			isa = PBXGroup;
+			children = (
+				2243DDBA1E87F52800A188FD /* Clock.swift */,
+				221903751EC739B00043BE70 /* Time.swift */,
+			);
+			name = Time;
+			sourceTree = "<group>";
+		};
+		2219037B1EC741970043BE70 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				2219037F1EC741CE0043BE70 /* Time */,
+			);
+			name = Tests;
+			sourceTree = "<group>";
+		};
+		2219037F1EC741CE0043BE70 /* Time */ = {
+			isa = PBXGroup;
+			children = (
+				2219037C1EC741AD0043BE70 /* ClockTests.swift */,
+			);
+			name = Time;
+			sourceTree = "<group>";
+		};
 		2228D3631E8933CC00F8ED44 /* SecurityManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -446,6 +514,7 @@
 			children = (
 				225A46721EB377E1004EE389 /* Documentation */,
 				2243DCAC1E872C0700A188FD /* Source */,
+				2219037B1EC741970043BE70 /* Tests */,
 				2243DC7A1E872BDB00A188FD /* MedKitCore iOS */,
 				2243DC851E872BDB00A188FD /* MedKitCore iOSTests */,
 				2243DC961E872BF100A188FD /* MedKitCore macOS */,
@@ -477,7 +546,6 @@
 		2243DC851E872BDB00A188FD /* MedKitCore iOSTests */ = {
 			isa = PBXGroup;
 			children = (
-				2243DC861E872BDB00A188FD /* MedKitCore_iOSTests.swift */,
 				2243DC881E872BDB00A188FD /* Info.plist */,
 			);
 			path = "MedKitCore iOSTests";
@@ -495,7 +563,6 @@
 		2243DCA11E872BF100A188FD /* MedKitCore macOSTests */ = {
 			isa = PBXGroup;
 			children = (
-				2243DCA21E872BF100A188FD /* MedKitCore_macOSTests.swift */,
 				2243DCA41E872BF100A188FD /* Info.plist */,
 			);
 			path = "MedKitCore macOSTests";
@@ -512,6 +579,7 @@
 				2243DEB71E87FDBD00A188FD /* Endpoint */,
 				220BEDCF1E95691C00AFF2CA /* Inet */,
 				2243DED71E8806E300A188FD /* JSON */,
+				221903711EC72B480043BE70 /* Observers */,
 				2243DDA11E87F36700A188FD /* Port */,
 				2243DEB41E87FD0900A188FD /* Port Monitor */,
 				2243DEB51E87FD2A00A188FD /* ProtocolStack */,
@@ -520,6 +588,7 @@
 				2243DD991E87F2B500A188FD /* Service */,
 				2243DD9B1E87F2CA00A188FD /* Service Browser */,
 				22DD6CE11E8A79F500F1B6D2 /* Service Responder */,
+				2219037A1EC73FDF0043BE70 /* Time */,
 				2243DDA21E87F37C00A188FD /* Tools */,
 				2243DDA01E87F32800A188FD /* Extensions */,
 			);
@@ -530,42 +599,31 @@
 			isa = PBXGroup;
 			children = (
 				2243DDC71E87F52800A188FD /* Device.swift */,
+				2243DDCC1E87F52800A188FD /* DeviceProxy.swift */,
 				22092E591EAD15B700F0B503 /* DeviceBackend.swift */,
 				22092E5C1EAD15F300F0B503 /* DeviceBackendDelegate.swift */,
 				22092E5F1EAD163A00F0B503 /* DeviceBase.swift */,
 				22092E611EAD16BA00F0B503 /* DeviceFrontend.swift */,
 				22092E561EAD155700F0B503 /* DeviceObserver.swift */,
 				2243DDB31E87F52800A188FD /* Backend.swift */,
-				2243DD941E87F26800A188FD /* Proxy */,
+				2243DCDD1E87F18A00A188FD /* PortFactory.swift */,
+				221902BF1EC341060043BE70 /* Network Proxy */,
 				22DD6CE01E8A79B500F1B6D2 /* Schemas */,
 			);
 			name = Device;
 			sourceTree = "<group>";
 		};
-		2243DD941E87F26800A188FD /* Proxy */ = {
-			isa = PBXGroup;
-			children = (
-				2243DDC91E87F52800A188FD /* DeviceCache.swift */,
-				22DD6CB41E8996D900F1B6D2 /* DeviceProtocol.swift */,
-				2243DDB91E87F52800A188FD /* DeviceProtocols.swift */,
-				2243DDCC1E87F52800A188FD /* DeviceProxy.swift */,
-				22092E7A1EAD200600F0B503 /* DeviceProxyBase.swift */,
-				2243DCCE1E87F18A00A188FD /* NetBackend.swift */,
-				2243DCD11E87F18A00A188FD /* NetPorts.swift */,
-				2243DCD01E87F18A00A188FD /* NetPortFactory.swift */,
-				2243DCDD1E87F18A00A188FD /* PortFactory.swift */,
-				2243DCFE1E87F18A00A188FD /* Wait.swift */,
-			);
-			name = Proxy;
-			sourceTree = "<group>";
-		};
 		2243DD951E87F27900A188FD /* Constants */ = {
 			isa = PBXGroup;
 			children = (
-				2243DDD11E87F52800A188FD /* Error.swift */,
 				2243DEC51E8803C600A188FD /* DeviceType.swift */,
+				2243DDD11E87F52800A188FD /* Error.swift */,
 				2243DDBD1E87F52800A188FD /* Keys.swift */,
 				2243DCD61E87F18A00A188FD /* OperationType.swift */,
+				221904601EC87F630043BE70 /* ResourceType.swift */,
+				221904611EC87F630043BE70 /* SchemaType.swift */,
+				221904621EC87F630043BE70 /* ServiceType.swift */,
+				221904631EC87F630043BE70 /* UnitType.swift */,
 				2243DCFD1E87F18A00A188FD /* UUIDNS.swift */,
 			);
 			name = Constants;
@@ -668,8 +726,6 @@
 			children = (
 				2243DDB41E87F52800A188FD /* Base64.swift */,
 				2243DDB71E87F52800A188FD /* Check.swift */,
-				2243DDBA1E87F52800A188FD /* Clock.swift */,
-				2243DCD51E87F18A00A188FD /* ObserverManager.swift */,
 				2243DCFA1E87F18A00A188FD /* Sync.swift */,
 				2243DCFF1E87F18A00A188FD /* Weak.swift */,
 			);
@@ -761,6 +817,7 @@
 				2243DDB01E87F52800A188FD /* Authorization.swift */,
 				2243DDB21E87F52800A188FD /* AuthorizationType.swift */,
 				2243DDB11E87F52800A188FD /* AuthorizationFactory.swift */,
+				221902B91EC1DB980043BE70 /* AuthorizationFactoryDB.swift */,
 				224DD80B1E88440400727706 /* NullAuthorization.swift */,
 			);
 			name = Authorization;
@@ -771,6 +828,7 @@
 			children = (
 				2243DDBE1E87F52800A188FD /* Credentials.swift */,
 				2243DDBF1E87F52800A188FD /* CredentialsFactory.swift */,
+				221902BC1EC1DD800043BE70 /* CredentialsFactoryDB.swift */,
 				2243DDC01E87F52800A188FD /* CredentialsType.swift */,
 				224DD80C1E88440400727706 /* NullCredentials.swift */,
 				2243DCF71E87F18A00A188FD /* SharedSecret.swift */,
@@ -1025,6 +1083,7 @@
 				225A469E1EB3B1CF004EE389 /* SecurityManagerShared.swift in Sources */,
 				2243DE011E87F52800A188FD /* Credentials.swift in Sources */,
 				2243DDF71E87F52800A188FD /* Base64.swift in Sources */,
+				221904671EC87F630043BE70 /* UnitType.swift in Sources */,
 				2243DDF41E87F52800A188FD /* AuthorizationFactory.swift in Sources */,
 				2243DDF81E87F52800A188FD /* NetServiceExt.swift in Sources */,
 				228B1BAF1EB2206A002F78F1 /* ServiceBackend.swift in Sources */,
@@ -1047,6 +1106,7 @@
 				2243DE231E87F52800A188FD /* JSONParser.swift in Sources */,
 				228B1B9E1EB21E89002F78F1 /* ProtocolStackDelegate.swift in Sources */,
 				2243DD241E87F18A00A188FD /* PortMonitor.swift in Sources */,
+				221902BD1EC1DD800043BE70 /* CredentialsFactoryDB.swift in Sources */,
 				2243DDFC1E87F52800A188FD /* DeviceProtocols.swift in Sources */,
 				220BEDD61E956E9B00AFF2CA /* InetAddress.swift in Sources */,
 				2243DD151E87F18A00A188FD /* NetPortFactory.swift in Sources */,
@@ -1054,6 +1114,7 @@
 				2243DDF51E87F52800A188FD /* AuthorizationType.swift in Sources */,
 				2243DD131E87F18A00A188FD /* NetBackend.swift in Sources */,
 				2243DDFB1E87F52800A188FD /* ClientConnection.swift in Sources */,
+				221904641EC87F630043BE70 /* ResourceType.swift in Sources */,
 				22D561531EAA33450010415F /* PrincipalManager.swift in Sources */,
 				2243DD1A1E87F18A00A188FD /* ObserverManager.swift in Sources */,
 				2243DE031E87F52800A188FD /* CredentialsType.swift in Sources */,
@@ -1063,11 +1124,13 @@
 				220BEDD41E956E8D00AFF2CA /* InetProto.swift in Sources */,
 				2243DE251E87F52800A188FD /* Logger.swift in Sources */,
 				2243DD381E87F18A00A188FD /* Service.swift in Sources */,
+				221904661EC87F630043BE70 /* ServiceType.swift in Sources */,
 				2243DD411E87F18A00A188FD /* UUID.swift in Sources */,
 				2243DD271E87F18A00A188FD /* PortNet.swift in Sources */,
+				221904651EC87F630043BE70 /* SchemaType.swift in Sources */,
 				228B1BBF1EB222D9002F78F1 /* ConnectionDelegate.swift in Sources */,
-				22092E7B1EAD200600F0B503 /* DeviceProxyBase.swift in Sources */,
-				2243DE0C1E87F52800A188FD /* DeviceCache.swift in Sources */,
+				22092E7B1EAD200600F0B503 /* DeviceProxyNet.swift in Sources */,
+				2243DE0C1E87F52800A188FD /* DeviceProxyNetCache.swift in Sources */,
 				22092E5A1EAD15B700F0B503 /* DeviceBackend.swift in Sources */,
 				2243DE121E87F52800A188FD /* Endpoint.swift in Sources */,
 				2243DD3D1E87F18A00A188FD /* SharedSecretFactory.swift in Sources */,
@@ -1082,6 +1145,7 @@
 				22092E5D1EAD15F300F0B503 /* DeviceBackendDelegate.swift in Sources */,
 				2243DD391E87F18A00A188FD /* ServiceBrowser.swift in Sources */,
 				22DD6D0E1E8C03E200F1B6D2 /* ResourceCache.swift in Sources */,
+				221903761EC739B00043BE70 /* Time.swift in Sources */,
 				2243DE111E87F52800A188FD /* Digest.swift in Sources */,
 				2243DDF61E87F52800A188FD /* Backend.swift in Sources */,
 				2243DDF31E87F52800A188FD /* Authorization.swift in Sources */,
@@ -1122,6 +1186,7 @@
 				2243DD111E87F18A00A188FD /* Mode.swift in Sources */,
 				2243DD171E87F18A00A188FD /* NSError.swift in Sources */,
 				2243DE221E87F52800A188FD /* JSONConverter.swift in Sources */,
+				221902BA1EC1DB980043BE70 /* AuthorizationFactoryDB.swift in Sources */,
 				2243DD281E87F18A00A188FD /* PortNetTCP.swift in Sources */,
 				2243DD361E87F18A00A188FD /* ServerConnection.swift in Sources */,
 				2243DE0B1E87F52800A188FD /* DeviceBrowser.swift in Sources */,
@@ -1135,7 +1200,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2243DC871E872BDB00A188FD /* MedKitCore_iOSTests.swift in Sources */,
+				2219037E1EC741B10043BE70 /* ClockTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1151,10 +1216,12 @@
 				2243DD6B1E87F19100A188FD /* PortMonitorNetServer.swift in Sources */,
 				225A469F1EB3B280004EE389 /* SecurityManagerShared.swift in Sources */,
 				2243DE611E87F73000A188FD /* DeviceProxy.swift in Sources */,
+				2219046B1EC880200043BE70 /* ResourceType.swift in Sources */,
 				2243DE571E87F73000A188FD /* DataLog.swift in Sources */,
 				2243DE5F1E87F73000A188FD /* DeviceInfo.swift in Sources */,
 				2243DE381E87F6F100A188FD /* Keys.swift in Sources */,
 				228B1BB11EB22074002F78F1 /* ServiceBackend.swift in Sources */,
+				2219046A1EC8801C0043BE70 /* SchemaType.swift in Sources */,
 				2243DD881E87F19100A188FD /* Wait.swift in Sources */,
 				2243DD7F1E87F19100A188FD /* ServiceResponder.swift in Sources */,
 				2243DD6F1E87F19100A188FD /* Principal.swift in Sources */,
@@ -1174,6 +1241,7 @@
 				228B1B9F1EB21EA0002F78F1 /* ProtocolStackDelegate.swift in Sources */,
 				2243DD5F1E87F19100A188FD /* ObserverManager.swift in Sources */,
 				2243DE4E1E87F73000A188FD /* AuthorizationFactory.swift in Sources */,
+				221902BE1EC1DD910043BE70 /* CredentialsFactoryDB.swift in Sources */,
 				2243DD661E87F19100A188FD /* Port.swift in Sources */,
 				2243DE641E87F73000A188FD /* Endpoint.swift in Sources */,
 				2243DD7D1E87F19100A188FD /* Service.swift in Sources */,
@@ -1189,10 +1257,11 @@
 				2243DE371E87F6ED00A188FD /* ClientConnection.swift in Sources */,
 				2243DD821E87F19100A188FD /* SharedSecretFactory.swift in Sources */,
 				2243DD681E87F19100A188FD /* PortLogger.swift in Sources */,
-				22092E7C1EAD201700F0B503 /* DeviceProxyBase.swift in Sources */,
+				22092E7C1EAD201700F0B503 /* DeviceProxyNet.swift in Sources */,
 				2243DE5A1E87F73000A188FD /* DataSink.swift in Sources */,
 				2243DE4F1E87F73000A188FD /* AuthorizationType.swift in Sources */,
 				228B1BC01EB222EA002F78F1 /* ConnectionDelegate.swift in Sources */,
+				221904681EC880160043BE70 /* ServiceType.swift in Sources */,
 				22092E5B1EAD15BD00F0B503 /* DeviceBackend.swift in Sources */,
 				2243DE4A1E87F72600A188FD /* Access.swift in Sources */,
 				224DD83A1E88470D00727706 /* NullAuthorization.swift in Sources */,
@@ -1208,7 +1277,9 @@
 				2243DE591E87F73000A188FD /* DataQueue.swift in Sources */,
 				228B1BAB1EB21FCC002F78F1 /* ResourceBackend.swift in Sources */,
 				2243DE551E87F73000A188FD /* CredentialsFactory.swift in Sources */,
+				221904691EC880190043BE70 /* UnitType.swift in Sources */,
 				2243DD811E87F19100A188FD /* SharedSecret.swift in Sources */,
+				221903771EC739BB0043BE70 /* Time.swift in Sources */,
 				2243DD721E87F19100A188FD /* PublicKeyCredentialsFactory.swift in Sources */,
 				2243DE541E87F73000A188FD /* Credentials.swift in Sources */,
 				2243DE701E87F73B00A188FD /* Check.swift in Sources */,
@@ -1249,9 +1320,10 @@
 				2243DD561E87F19100A188FD /* Mode.swift in Sources */,
 				2243DD5C1E87F19100A188FD /* NSError.swift in Sources */,
 				2243DD6D1E87F19100A188FD /* PortNetTCP.swift in Sources */,
+				221902BB1EC1DBA60043BE70 /* AuthorizationFactoryDB.swift in Sources */,
 				2243DD7B1E87F19100A188FD /* ServerConnection.swift in Sources */,
 				2243DE6C1E87F73000A188FD /* JSONWriter.swift in Sources */,
-				2243DE5E1E87F73000A188FD /* DeviceCache.swift in Sources */,
+				2243DE5E1E87F73000A188FD /* DeviceProxyNetCache.swift in Sources */,
 				228B1BBD1EB221B8002F78F1 /* ServiceBrowserDelegate.swift in Sources */,
 				2243DE581E87F73000A188FD /* DataLogItem.swift in Sources */,
 				22202DEB1EBC9F5A00A79644 /* DeviceBrowserShared.swift in Sources */,
@@ -1262,7 +1334,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2243DCA31E872BF100A188FD /* MedKitCore_macOSTests.swift in Sources */,
+				2219037D1EC741AD0043BE70 /* ClockTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1305,7 +1377,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 28;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -1358,7 +1430,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 28;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1386,11 +1458,11 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 28;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 24;
+				DYLIB_CURRENT_VERSION = 28;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "MedKitCore iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1409,11 +1481,11 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 28;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 24;
+				DYLIB_CURRENT_VERSION = 28;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "MedKitCore iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1455,13 +1527,13 @@
 		2243DCA71E872BF100A188FD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 28;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 24;
+				DYLIB_CURRENT_VERSION = 28;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "MedKitCore macOS/Info.plist";
@@ -1481,11 +1553,11 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 28;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 24;
+				DYLIB_CURRENT_VERSION = 28;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "MedKitCore macOS/Info.plist";
