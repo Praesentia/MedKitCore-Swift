@@ -27,7 +27,7 @@ import Foundation;
  
  A base class for server connections.
  */
-open class ServerConnection: Connection {
+open class ServerConnectionBase: ConnectionBase {
     
     /**
      Initialize instance.

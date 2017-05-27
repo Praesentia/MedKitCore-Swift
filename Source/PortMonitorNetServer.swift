@@ -27,9 +27,12 @@ import Foundation;
  */
 public class PortMonitorNetServer: PortMonitorNetListener {
     
+    // MARK: - Private Properties
     private let connectionFactory : ServerConnectionFactory;
     private let device            : DeviceFrontend;
     private let myself            : Principal;
+    
+    // MARK: - Initializers
     
     /**
      Initialize instance.
@@ -43,24 +46,7 @@ public class PortMonitorNetServer: PortMonitorNetListener {
         super.init(address: address);
     }
     
-    /**
-     Create connection for endpoint.
-     
-     - Parameters:
-        - address:
-     */
-    override func instantiateConnection(to endpoint: EndpointNet) -> Connection?
-    {
-        let port       = PortNetTCP(endpoint: endpoint);
-        let connection = connectionFactory.instantiate(from: port, to: device, as: myself);
-        
-        connection.start() { error in
-            if error == nil {
-            }
-        }
-        
-        return connection;
-    }
+    // MARK: - Lifecycle
     
     /**
      Publish service.
@@ -70,12 +56,33 @@ public class PortMonitorNetServer: PortMonitorNetListener {
      */
     override func publishService(using address: SockAddr) -> ServiceResponder?
     {
-        var serviceResponder : ServiceResponder;
-
+        var serviceResponder: ServiceResponder;
+        
         serviceResponder = ServiceResponder(device: device, protocolType: connectionFactory.protocolType, port: address.port);
         serviceResponder.publish();
         
         return serviceResponder;
+    }
+    
+    // MARK: - Connection Management
+    
+    /**
+     Create connection for endpoint.
+     
+     - Parameters:
+        - endpoint:
+     */
+    override func instantiateConnection(from endpoint: EndpointNet) -> Connection?
+    {
+        let port       = PortNetStream(endpoint: endpoint);
+        let connection = connectionFactory.instantiate(from: port, to: device, as: myself);
+        
+        connection.start() { error in
+            if error == nil {
+            }
+        }
+        
+        return connection;
     }
     
 }

@@ -28,11 +28,8 @@ import Foundation;
 public class Certificate {
     
     // MARK: - Properties
-    public var chain  : [Data] { return _chain; }
+    public let chain  : [Data];
     public var profile: JSON   { return getProfile(); }
-    
-    // MARK: - Shadowed
-    private let _chain: [Data];
     
     // MARK: - Initializers
     
@@ -44,7 +41,7 @@ public class Certificate {
      */
     public init(chain: [Data])
     {
-        _chain = chain;
+        self.chain = chain;
     }
     
     // MARK: - Identity Verification

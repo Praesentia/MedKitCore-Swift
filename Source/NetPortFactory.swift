@@ -41,8 +41,8 @@ public class NetPortFactory: PortFactory {
      
      - Parameters:
         - domain:  The port domain.
-        - address: The server port address.
         - type:    The device protocol descriptor.
+        - address: The server port address.
      */
     init(domain: String, type: DeviceProtocol, address: SockAddr)
     {
@@ -70,7 +70,7 @@ public class NetPortFactory: PortFactory {
         var connection: ClientConnection?;
         
         if let port = instantiatePort() {
-            connection = type.clientFactory.instantiate(port: port, as: principal);
+            connection = type.clientFactory.instantiate(to: port, as: principal);
         }
         
         return connection;
@@ -89,7 +89,7 @@ public class NetPortFactory: PortFactory {
     {
         switch address.proto {
         case .tcp :
-            return PortNetTCP(address: address);
+            return PortNetStream(address: address);
             
         case .udp :
             return nil;

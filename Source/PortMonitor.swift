@@ -22,74 +22,49 @@
 import Foundation;
 
 
-public protocol PortMonitorDelegate: class {
-    
-    func portMonitorDidClose(_ portMonitor: PortMonitor, reason: Error?);
-    func portMonitor(_ portMonitor: PortMonitor, didAdd connection: Connection);
-    func portMonitor(_ portMonitor: PortMonitor, didRemove connection: Connection);
-    func portMonitor(_ portMonitor: PortMonitor, shouldAccept address: SockAddr) -> Bool;
-    
-}
-
-public extension PortMonitorDelegate {
-    
-    func portMonitorDidClose(_ portMonitor: PortMonitor, reason: Error?)
-    {
-    }
-    
-    func portMonitor(_ portMonitor: PortMonitor, didAdd connection: Connection)
-    {
-    }
-    
-    func portMonitor(_ portMonitor: PortMonitor, didRemove connection: Connection)
-    {
-    }
-    
-    func portMonitor(_ portMonitor: PortMonitor, shouldAccept address: SockAddr) -> Bool
-    {
-        return true;
-    }
-    
-}
-
-
 /**
  Port Monitor
  */
-public class PortMonitor {
+public protocol PortMonitor {
     
-    public enum State {
-        case Closed;
-        case Open;
-        case Shutdown;
-    }
-    
-    public var      count   : Int { return 0; }
-    public weak var delegate: PortMonitorDelegate?;
-    public var      state   : State { return _state; }
-    public var      enabled : Bool  { return _state == .Open; }
-
-    var _state: State = .Closed;
-    
-    public init()
-    {
-    }
+    // MARK: - Properties
     
     /**
-     Start monitor.
+     The number of open connections.
      */
-    public func start()
-    {
-    }
+    var count: Int { get }
+    
+    /**
+     Monitor delegate.
+     */
+    weak var delegate: PortMonitorDelegate? { get set }
+    
+    /**
+     True if the monitor is currently active, false otherwise.
+     */
+    var enabled: Bool { get }
+    
+    // MARK: - Lifecycle
     
     /**
      Shutdown monitor.
+     
+     - Parameters:
+        - reason: The reason for initiating a shutdown.  A non-nil value
+                  indicates the error that triggered the shutdown. A nil value
+                  indicates the shutdown was issued during the normal course of
+                  operation.
      */
-    public func shutdown(reason: Error?)
-    {
-        DispatchQueue.main.async() { self.delegate?.portMonitorDidClose(self, reason: reason); }
-    }
+    func shutdown(for reason: Error?)
     
+    /**
+     Start monitor.
+     
+     - Parameters:
+        - completion: The completion handler.
+     */
+    func start(completionHandler completion: @escaping (Error?)->Void)
+
 }
 
 

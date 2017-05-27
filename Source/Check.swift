@@ -36,10 +36,7 @@ public func +=(check: Check, value: Bool)
 public class Check {
     
     // MARK: - Properties
-    public var value: Bool { return _value; }
-    
-    // MARK: - Shadowed
-    private var _value: Bool = true;
+    public private(set) var value: Bool = true;
     
     // MARK: - Initializers
     
@@ -52,7 +49,7 @@ public class Check {
     public func update(_ value: Bool)
     {
         if !value {
-            _value = false;
+            self.value = false;
         }
     }
 

@@ -23,105 +23,39 @@ import Foundation;
 
 
 /**
- Protocol stack.
+ ProtocolStack protocol.
  
- A base class used to cap a protocol stack.
+ This protocol is used to implement components that cap a protocol stack, and
+ so require a slightly different interface from the one provided by the Port
+ protocol.
  */
-open class ProtocolStack: PortDelegate {
+public protocol ProtocolStack: class {
 
-    public weak var delegate : ProtocolStackDelegate?;
-
-    // protected
-    public var completion : ((Error?) -> Void)?; //: Start completion handler.
-    public let port       : Port;                //: The top of the port stack.
-
+    // MARK: - Properties
+    
     /**
-     Initialize instance with port.
+     ProtocolStack delegate.
+     */
+    weak var delegate: ProtocolStackDelegate? { get set }
+    
+    // MARK: - Lifecycle
+    
+    /**
+     Shutdown protocol stack.
      
      - Parameters:
-        - port: The top of the port stack.
+        - reason: Nil indicates a normal shutdown.  Otherwise, an error
+                  indicating the reason that led to the stack being closed.
      */
-    public init(_ port: Port)
-    {
-        self.port = port;
-        port.delegate = self;
-    }
+    func shutdown(for reason: Error?)
     
     /**
-     Complete startup.
-     
-     Used to complete the startup process by invoking the completion handler
-     that was passed into the start() method.
+     Start protocol stack.
      
      - Parameters:
-        - error: The result to be passed to the completion handler.
+        - completion: The completion handler.
      */
-    open func complete(_ error: Error?)
-    {
-        if let completion = self.completion {
-            DispatchQueue.main.async() { completion(error); }
-            self.completion = nil;
-        }
-    }
-    
-    /**
-     Start protocol.
-     
-     - Parameters:
-        - completion:
-     */
-    open func start(completionHandler completion: @escaping (Error?)->Void)
-    {
-        self.completion = completion;
-        port.start();
-    }
-    
-    /**
-     Shutdown protocol.
-     
-     - Parameters:
-     - completion:
-     */
-    open func shutdown(reason: Error?)
-    {
-        port.shutdown(reason: reason);
-    }
-    
-    // MARK: - PortDelegate
-    
-    /**
-     Port did initialize.
-     */
-    public func portDidInitialize(_ port: Port, with error: Error?)
-    {
-        complete(error);
-        
-        if let delegate = self.delegate {
-            DispatchQueue.main.async() { delegate.protocolStackDidInitialize(self, with: error); }
-        }
-    }
-    
-    /**
-     Port did close.
-     */
-    open func portDidClose(_ port: Port, reason: Error?)
-    {
-        if let delegate = self.delegate {
-            DispatchQueue.main.async() { delegate.protocolStackDidClose(self, reason: reason); }
-        }
-    }
-    
-    /**
-     Port did receive data.
-     
-     - Parameters:
-        - port: Caller
-        - data: The data being received from the port.
-     */
-    open func port(_ port: Port, didReceive data: Data)
-    {
-    }
-
+    func start(completionHandler completion: @escaping (Error?)->Void)
     
 }
 

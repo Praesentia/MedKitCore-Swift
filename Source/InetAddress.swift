@@ -27,10 +27,12 @@ import Foundation;
  */
 public class InetAddress: Equatable {
     
-    public var family : Int32   { return Int32(storage.ss_family); }
-    public var string : String? { return getHost(); }
+    // MARK: - Properties
+    public var              family  : Int32            { return Int32(storage.ss_family); }
+    public var              string  : String?          { return getHost(); }
+    public private(set) var storage : sockaddr_storage;
     
-    public var storage = sockaddr_storage();
+    // MARK: - Equatable
     
     public static func ==(lhs: InetAddress, rhs: InetAddress) -> Bool
     {
@@ -41,8 +43,7 @@ public class InetAddress: Equatable {
      Instantiate instance.
      
      - Parameters:
-     - stack:   Inet protocol type.
-     - address: Inet address.
+        - address: Inet address.
      */
     public init(address: sockaddr_storage)
     {
@@ -53,17 +54,20 @@ public class InetAddress: Equatable {
      Instantiate instance.
      
      - Parameters:
-     - stack:   Inet protocol type.
-     - address: Inet address as data.
+        - address: sockaddr_storage data.
      */
     public init(address: Data)
     {
+        storage = sockaddr_storage();
+        
         withUnsafeMutablePointer(to: &storage) {
             $0.withMemoryRebound(to: UInt8.self, capacity: 1) {
                 address.copyBytes(to: $0, count: address.count);
             }
         }
     }
+    
+    // MARK: -
     
     private func getHost() -> String?
     {

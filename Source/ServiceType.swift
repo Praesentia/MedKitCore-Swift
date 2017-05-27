@@ -25,10 +25,10 @@ import Foundation;
 /**
  Service types.
  */
-public let ServiceTypeOther              = UUID(uuidString: "60f3ef28-b920-4af6-859c-dcdfbf0249fe")!; // final
 public let ServiceTypeDeviceInformation  = UUID(uuidString: "982e9ed2-9722-44f1-b954-2e38ce2f86ed")!; // final
 public let ServiceTypeElectrocardiograph = UUID(uuidString: "323d0b9d-12b0-41b8-965a-98db654a0be7")!; // final
 public let ServiceTypeEndoscope          = UUID(uuidString: "babe2430-a0fb-40ac-aad6-d95b7ca2eac3")!; // final
+public let ServiceTypeOther              = UUID(uuidString: "60f3ef28-b920-4af6-859c-dcdfbf0249fe")!; // final
 public let ServiceTypePatientSimulator   = UUID(uuidString: "502b999c-0fb9-4f60-96ce-b1db1e1ef309")!; // final
 public let ServiceTypePulseOximeter      = UUID(uuidString: "a694d83f-dd2a-457f-bdba-ac38c3833f07")!; // final
 public let ServiceTypeRespiration        = UUID(uuidString: "e43db823-f8cd-42ae-b05f-0fee33059667")!; // final

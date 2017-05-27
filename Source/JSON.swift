@@ -46,7 +46,7 @@ public class JSON {
         case String;
     }
     
-    // public
+    // MARK: - Properties
     public var type   : JSONType         { return _type;      }
     public var array  : [JSON]?          { return _array;     }
     public var bool   : Bool?            { return _bool;      }

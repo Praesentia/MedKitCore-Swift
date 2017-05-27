@@ -23,16 +23,30 @@ import Foundation;
 
 
 /**
- Port logger.
+ Port tap.
+ 
+ The PortTap component may be placed between any two members of a protocol
+ stack to monitor the data flow between them.
  */
-public class PortLogger: Port, PortDelegate {
+public class PortTap: Port, PortDelegate {
     
-    weak public var delegate : PortDelegate?; //: Delegate
+    // MARK: - Properties
+    public weak var dataTap  : DataTap?;
+    public weak var delegate : PortDelegate?;
     
-    public weak var dataSink       : DataSink?;
-    public let      port           : Port;
-    public let      decoderFactory : DecoderFactory;
+    // MARK: - Private Properties
+    private let port           : Port;
+    private let decoderFactory : DecoderFactory;
     
+    // MARK: - Initializers
+    
+    /**
+     Initialize instance.
+     
+     - Parameters:
+        - port:
+        - decoderFactory:
+     */
     public init(_ port: Port, decoderFactory: DecoderFactory)
     {
         self.port           = port;
@@ -41,15 +55,11 @@ public class PortLogger: Port, PortDelegate {
         port.delegate = self;
     }
     
-    public func send(_ data: Data)
-    {
-        dataSink?.dataSink(self, willSend: data, decoderFactory: decoderFactory);
-        port.send(data);
-    }
+    // MARK: - Lifecycle
     
-    public func shutdown(reason: Error?)
+    public func shutdown(for reason: Error?)
     {
-        port.shutdown(reason: reason);
+        port.shutdown(for: reason);
     }
     
     public func start()
@@ -57,21 +67,29 @@ public class PortLogger: Port, PortDelegate {
         port.start();
     }
     
+    // MARK: - Output
+    
+    public func send(_ data: Data)
+    {
+        dataTap?.dataTap(self, willSend: data, decoderFactory: decoderFactory);
+        port.send(data);
+    }
+    
     // MARK: - PortDelegate
+    
+    public func portDidClose(_ port: Port, for reason: Error?)
+    {
+        delegate?.portDidClose(self, for: reason);
+    }
     
     public func portDidInitialize(_ port: Port, with error: Error?)
     {
         delegate?.portDidInitialize(self, with: error);
     }
     
-    public func portDidClose(_ port: Port, reason: Error?)
-    {
-        delegate?.portDidClose(self, reason: reason);
-    }
-    
     public func port(_ port: Port, didReceive data: Data)
     {
-        dataSink?.dataSink(self, didReceive: data, decoderFactory: decoderFactory);
+        dataTap?.dataTap(self, didReceive: data, decoderFactory: decoderFactory);
         delegate?.port(self, didReceive: data);
     }
     

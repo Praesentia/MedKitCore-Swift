@@ -29,9 +29,13 @@ public enum InetProto: Int {
 
 public extension InetProto {
     
+    // MARK: - Properties
+    public var inet: Int32 { return InetProto.codes[rawValue]; }
+    
+    // MARK: - Private Constants
     private static let codes = [ SOCK_STREAM, SOCK_DGRAM ];
     
-    public var inet: Int32 { return InetProto.codes[rawValue]; }
+    // MARK: - Initializers
     
     public init?(inet: Int32)
     {

@@ -23,25 +23,7 @@ import Foundation;
 
 
 /**
- Connection factory protocol.
- */
-public protocol ClientConnectionFactory {
-    
-    var priority: Int { get } //: Protocol priority.
-    
-    /**
-     Create connection.
-     
-     - Parameters:
-        - port: The server port.
-        - principal: The principal for the client.
-     */
-    func instantiate(port: Port, as principal: Principal?) -> ClientConnection;
-    
-}
-
-/**
- Connection factory protocol.
+ ServerConnectionFactory protocol.
  */
 public protocol ServerConnectionFactory {
 
@@ -55,33 +37,14 @@ public protocol ServerConnectionFactory {
         - device: The device for which the connection is being made.
         - principal: The principal for the device.
      */
-    func instantiate(from port: Port, to device: DeviceFrontend, as principal: Principal) -> Connection;
+    func instantiate(from port: Port, to device: DeviceFrontend, as principal: Principal) -> ServerConnectionBase;
     
 }
 
 /**
- Connection factory.
+ ServerConnectionFactory template.
  */
-public class ClientConnectionFactoryTemplate<T: ClientConnection>: ClientConnectionFactory {
-    
-    public let priority: Int;
-    
-    public init(priority: Int)
-    {
-        self.priority = priority;
-    }
-    
-    public func instantiate(port: Port, as principal: Principal?) -> ClientConnection
-    {
-        return T(to: port, as: principal);
-    }
-    
-}
-
-/**
- Connection factory.
- */
-public class ServerConnectionFactoryTemplate<T: ServerConnection>: ServerConnectionFactory {
+public class ServerConnectionFactoryTemplate<T: ServerConnectionBase>: ServerConnectionFactory {
 
     public let protocolType: String;
     
@@ -90,7 +53,7 @@ public class ServerConnectionFactoryTemplate<T: ServerConnection>: ServerConnect
         self.protocolType = protocolType;
     }
     
-    public func instantiate(from port: Port, to device: DeviceFrontend, as principal: Principal) -> Connection
+    public func instantiate(from port: Port, to device: DeviceFrontend, as principal: Principal) -> ServerConnectionBase
     {
         return T(from: port, to: device, as: principal);
     }

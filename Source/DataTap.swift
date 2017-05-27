@@ -1,8 +1,8 @@
 /*
  -----------------------------------------------------------------------------
- This source file is part of MedKitCore.
+ This source file is part of MedKit Device Simulator.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2017 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -21,26 +21,14 @@
 
 import Foundation;
 
-/**
- Backend
- */
-public typealias Backend = DeviceBackendDelegate & ServiceBackendDelegate & ResourceBackendDelegate;
 
 /**
- Client connection.
- 
- Extends Connection, providing access to a backend protocol handler required by
- client connections.
+ DataTap protocol.
  */
-public protocol ClientConnection: Connection {
+public protocol DataTap: class {
     
-    /**
-     Backend protocol.
-     
-     Used to publish the backend protocol once the connection has been
-     established.
-     */
-    var backend: Backend! { get }
+    func dataTap(_ sender: Any, willSend data: Data, decoderFactory: DecoderFactory);
+    func dataTap(_ sender: Any, didReceive data: Data, decoderFactory: DecoderFactory);
     
 }
 

@@ -30,12 +30,12 @@ import Foundation;
 public class ServiceBase: Service, ServiceBackend {
     
     // MARK: - Properties
-    public weak var device     : Device?     { return _device }
-    public var      identifier : UUID        { return _identifier; }
-    public var      name       : String      { return _name; }
-    public var      profile    : JSON        { return getProfile(); }
-    public var      resources  : [Resource]  { return _resources; }
-    public var      type       : UUID        { return _type; }
+    public weak var              device     : Device?     { return _device }
+    public private(set) var      identifier : UUID;
+    public private(set) var      name       : String;
+    public var                   profile    : JSON        { return getProfile(); }
+    public var                   resources  : [Resource]  { return _resources; }
+    public private(set) var      type       : UUID;
     
     // MARK: - Properties - ServiceBackend
     public var deviceBackend    : DeviceBackend!           { return _device; }
@@ -44,11 +44,8 @@ public class ServiceBase: Service, ServiceBackend {
     public var resourceBackends : [ResourceBackend]        { return _resources; }
     
     // MARK: - Shadowed
-    private var _device      : DeviceBase?;
-    private let _identifier  : UUID;
-    private var _name        : String;
-    private let _type        : UUID;
-    private var _resources   = [ResourceBase]();
+    private var _device    : DeviceBase?;
+    private var _resources = [ResourceBase]();
     
     // MARK: - Private
     private var  observers  = ObserverManager<ServiceObserver>();
@@ -62,10 +59,10 @@ public class ServiceBase: Service, ServiceBackend {
     {
         backend = device.defaultBackend;
         
-        _device     = device;
-        _identifier = profile[KeyIdentifier].uuid!;
-        _name       = profile[KeyName].string!;
-        _type       = profile[KeyType].uuid!;
+        _device    = device;
+        identifier = profile[KeyIdentifier].uuid!;
+        name       = profile[KeyName].string!;
+        type       = profile[KeyType].uuid!;
         
         if let resources = profile[KeyResources].array {
             for profile in resources {
@@ -138,7 +135,7 @@ public class ServiceBase: Service, ServiceBackend {
      */
     public func updateName(_ name: String, notify: Bool)
     {
-        _name = name;
+        self.name = name;
         
         if notify {
             observers.withEach { $0.serviceDidUpdateName(self); }

@@ -31,10 +31,7 @@ public class PrincipalManager {
     public static let main = PrincipalManager();
     
     // MARK: - Properties
-    public var primary : Principal? { return _primary; }
-    
-    // MARK: - Shadowed
-    private var _primary: Principal?;
+    public private(set) var primary : Principal?;
     
     // MARK: - Private
     private var observers = ObserverManager<PrincipalManagerObserver>();
@@ -73,7 +70,7 @@ public class PrincipalManager {
      */
     public func updatePrimary(_ principal: Principal?)
     {
-        _primary = principal;
+        primary = principal;
         observers.withEach { $0.principalManagerDidUpdatePrimary(self); }
     }
     

@@ -29,31 +29,38 @@ import Foundation;
  */
 public class PortNet: Port {
     
-    public weak var delegate : PortDelegate?; //: Delegate
+    // MARK: - Properties
+    public weak var delegate    : PortDelegate?;
+    public var      hostAddress : SockAddr? { return endpoint?.hostAddress; }
+    public var      peerAddress : SockAddr? { return endpoint?.peerAddress; }
     
-    public var hostAddress   : SockAddr? { return endpoint?.hostAddress; }
-    public var peerAddress   : SockAddr? { return endpoint?.peerAddress; }
-    
-    // protected
+    // MARK: - Protected Properties
     var address  : SockAddr;
     var endpoint : EndpointNet!;
+    
+    // MARK: - Initializers
     
     init(address: SockAddr)
     {
         self.address = address;
     }
     
-    public func send(_ data: Data)
-    {
-    }
+    // MARK: - Lifecycle
     
-    public func shutdown(reason: Error?)
+    public func shutdown(for reason: Error?)
     {
     }
     
     public func start()
     {
     }
+    
+    // MARK: - Output
+    
+    public func send(_ data: Data)
+    {
+    }
+
     
 }
 

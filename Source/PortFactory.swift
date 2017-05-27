@@ -24,13 +24,15 @@ import Foundation;
 
 /**
  PortFactory protocol.
+ 
+ TODO: Needs a better name.
  */
 public protocol PortFactory: class {
     
     // MARK: - Properties
-    var  domain   : String { get }
-    var  priority : Int    { get }
-    var  reachable: Bool   { get }
+    var domain   : String { get }
+    var priority : Int    { get }
+    var reachable: Bool   { get }
     
     // MARK: - Instantiation
     

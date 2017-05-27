@@ -30,6 +30,17 @@ import Foundation;
  */
 public protocol PortDelegate: class {
     
+    // MARK: - Lifecycle
+    
+    /**
+     Port did close.
+     
+     - Parameters:
+        - port: The port that has been closed.
+        - error: Error code.
+     */
+    func portDidClose(_ port: Port, for reason: Error?);
+    
     /**
      Port did initialize.
      
@@ -42,14 +53,7 @@ public protocol PortDelegate: class {
      */
     func portDidInitialize(_ port: Port, with error: Error?);
     
-    /**
-     Port did close.
-     
-     - Parameters:
-        - port: The port that has been closed.
-        - error: Error code.
-     */
-    func portDidClose(_ port: Port, reason: Error?);
+    // MARK: - Input
     
     /**
      Port did receive data.

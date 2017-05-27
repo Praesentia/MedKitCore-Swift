@@ -24,20 +24,29 @@ import Foundation;
 
 /**
  Data queue.
+ 
+ - Remarks: Fairly simplistic implementation.
  */
 public class DataQueue {
     
+    // MARK: - Properties
     public  var count : UInt64 { return UInt64(queue.count); }
     private var queue = [UInt8]();
+    
+    // MARK: - Initializers
     
     public init()
     {
     }
     
+    // MARK: - Update
+    
     public func append(_ data: Data)
     {
         queue += data;
     }
+    
+    // MARK: - Access
     
     public func peek(count: Int) -> [UInt8]
     {
@@ -62,6 +71,8 @@ public class DataQueue {
         return read(count: Int(count));
     }
 
+    // MARK: - Search
+    
     public func scan(for sequence: [UInt8]) -> UInt64?
     {
         if queue.count >= sequence.count {

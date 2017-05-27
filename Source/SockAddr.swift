@@ -29,18 +29,22 @@ import Foundation;
  */
 public class SockAddr: Equatable {
     
-    public let proto   : InetProto;
-    public var address : InetAddress { return InetAddress(address: storage); }
-    public var port    : UInt16      { return getPort(); }
+    // MARK: - Properties
+    public let               proto   : InetProto;
+    public var               address : InetAddress      { return InetAddress(address: storage); }
+    public var               port    : UInt16           { return getPort(); }
+    public var               len     : socklen_t        { return getLength(); }
+    public var               string  : String?          { return toString(); }
+    public internal(set) var storage = sockaddr_storage();
     
-    public var len     : socklen_t   { return getLength(); }
-    public var string  : String?     { return toString(); }
-    public var storage = sockaddr_storage();
+    // MARK: - Equatable
     
     public static func ==(lhs: SockAddr, rhs: SockAddr) -> Bool
     {
         return lhs.proto == rhs.proto && lhs.address == rhs.address && lhs.port == rhs.port;
     }
+    
+    // MARK: - Initializers
     
     /**
      Instantiate instance.
@@ -63,8 +67,8 @@ public class SockAddr: Equatable {
      */
     public init(proto: InetProto, address: sockaddr_storage)
     {
-        self.proto   = proto;
-        self.storage = address;
+        self.proto = proto;
+        storage    = address;
     }
     
     /**
@@ -84,6 +88,8 @@ public class SockAddr: Equatable {
             }
         }
     }
+    
+    // MARK: -
     
     private func getLength() -> socklen_t
     {

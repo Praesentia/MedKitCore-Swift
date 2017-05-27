@@ -27,10 +27,11 @@ import Foundation;
  */
 class EndpointNet: Endpoint {
 
+    // MARK: - Properties
     var hostAddress : SockAddr? { return getHostAddress(); }
     var peerAddress : SockAddr? { return getPeerAddress(); }
 
-    // constants
+    // MARK: - Private Constants
     private let InvalidSocket : Int32 = -1;
     
     // MARK: - Private
@@ -40,6 +41,8 @@ class EndpointNet: Endpoint {
     private var sender        : DispatchSourceWrite!;
     private var senderActive  : Bool = false;
     private var socket        : Int32 = -1;
+    
+    // MARK: - Initializers/Deinitializers
     
     /**
      Initialize instance.
@@ -77,6 +80,8 @@ class EndpointNet: Endpoint {
     {
         close();
     }
+    
+    // MARK: -
     
     /**
      */
@@ -148,7 +153,7 @@ class EndpointNet: Endpoint {
         var status : Int32 = -1;
         
         if instantiate(address: address) {
-                    
+            
             withUnsafePointer(to: &address.storage) { ptr in
                 ptr.withMemoryRebound(to: sockaddr.self, capacity: 1) { destination in
 
@@ -302,7 +307,7 @@ class EndpointNet: Endpoint {
      */
     private func bind(address: SockAddr) -> Bool
     {
-        var status : Int32 = -1;
+        var status: Int32 = -1;
         
         withUnsafePointer(to: &address.storage) { ptr in
             ptr.withMemoryRebound(to: sockaddr.self, capacity: 1) { local in

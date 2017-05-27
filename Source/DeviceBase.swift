@@ -30,19 +30,19 @@ import Foundation;
 public class DeviceBase: DeviceFrontend, DeviceBackend {
     
     // MARK: - Properties
-    public var       acl            : ACL        { return _acl; }
-    public var       identifier     : UUID       { return _identifier; }
-    public var       isOpen         : Bool       { return backend?.isOpen ?? false; }
-    public var       name           : String     { return _name; };
-    public var       manufacturer   : String     { return _manufacturer; }
-    public var       model          : String     { return _model; }
-    public weak var  parent         : Device?    { return _parent }
-    public var       profile        : JSON       { return getProfile(); }
-    public var       reachable      : Bool       { return true; }
-    public var       serialNumber   : String     { return _serialNumber; }
-    public var       type           : UUID       { return _type; }
-    public var       bridgedDevices : [Device]   { return _bridgedDevices; }
-    public var       services       : [Service]  { return _services; }
+    public private(set) var acl            = ACL();
+    public private(set) var identifier     : UUID;
+    public var              isOpen         : Bool      { return backend?.isOpen ?? false; }
+    public private(set) var name           : String;
+    public private(set) var manufacturer   : String;
+    public private(set) var model          : String;
+    public weak var         parent         : Device?   { return _parent; }
+    public var              profile        : JSON      { return getProfile(); }
+    public var              reachable      : Bool      { return true; }
+    public private(set) var serialNumber   : String;
+    public private(set) var type           : UUID;
+    public var              bridgedDevices : [Device]  { return _bridgedDevices; }
+    public var              services       : [Service] { return _services; }
     
     // DeviceBackend
     public var       backend               : DeviceBackendDelegate!;
@@ -51,19 +51,12 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
     public var       serviceBackends       : [ServiceBackend]        { return _services; }
     
     // MARK: - Shadowed
-    private var      _acl            = ACL();
-    private var      _identifier     : UUID;
-    private var      _name           : String;
-    private var      _manufacturer   : String;
-    private var      _model          : String;
     private weak var _parent         : DeviceBase?;
-    private var      _serialNumber   : String;
-    private var      _type           : UUID;
     private var      _bridgedDevices = [DeviceBase]();
     private var      _services       = [ServiceBase]();
     
     // MARK: - Protected
-    var              observers = ObserverManager<DeviceObserver>();
+    var observers = ObserverManager<DeviceObserver>();
     
     // MARK: - Initializers
     
@@ -72,12 +65,12 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
      */
     public init(from deviceInfo: DeviceInfo)
     {
-        _identifier   = deviceInfo.identifier;
-        _manufacturer = deviceInfo.manufacturer;
-        _model        = deviceInfo.model;
-        _name         = deviceInfo.name;
-        _serialNumber = deviceInfo.serialNumber;
-        _type         = deviceInfo.type;
+        identifier   = deviceInfo.identifier;
+        manufacturer = deviceInfo.manufacturer;
+        model        = deviceInfo.model;
+        name         = deviceInfo.name;
+        serialNumber = deviceInfo.serialNumber;
+        type         = deviceInfo.type;
         
         backend = BackendDefault.main;
     }
@@ -89,13 +82,13 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
     {
         backend = (parent != nil) ? parent!.defaultBackend : BackendDefault.main;
         
-        _parent       = parent;
-        _identifier   = profile[KeyIdentifier].uuid!;
-        _manufacturer = profile[KeyManufacturer].string!;
-        _model        = profile[KeyModel].string!;
-        _name         = profile[KeyName].string!;
-        _serialNumber = profile[KeySerialNumber].string!;
-        _type         = profile[KeyType].uuid!;
+        _parent      = parent;
+        identifier   = profile[KeyIdentifier].uuid!;
+        manufacturer = profile[KeyManufacturer].string!;
+        model        = profile[KeyModel].string!;
+        name         = profile[KeyName].string!;
+        serialNumber = profile[KeySerialNumber].string!;
+        type         = profile[KeyType].uuid!;
         
         if let bridgedDevices = profile[KeyBridgedDevices].array {
             for profile in bridgedDevices {
@@ -133,7 +126,7 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
     /**
      Close connection to device.
      */
-    func close(reason: Error?)
+    func close(for reason: Error?)
     {
     }
     
@@ -143,7 +136,7 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
     public func close(completionHandler completion: @escaping (Error?) -> Void)
     {
         DispatchQueue.main.async {
-            self.disconnected(reason: nil); // TODO
+            self.disconnected(for: nil); // TODO
             completion(nil);
         }
     }
@@ -172,17 +165,17 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
         }
     }
     
-    public func disconnected(reason: Error?)
+    public func disconnected(for reason: Error?)
     {
         for bridgedDevice in _bridgedDevices {
-            bridgedDevice.disconnected(reason: reason);
+            bridgedDevice.disconnected(for: reason);
         }
         
         for service in _services {
             service.disconnected();
         }
         
-        observers.withEach { $0.deviceDidClose(self, reason: reason); }
+        observers.withEach { $0.deviceDidClose(self, for: reason); }
     }
     
     // MARK: - Mutators
@@ -330,16 +323,16 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
     public func update(from profile: JSON)
     {
         // TODO: these shouldn't change
-        _identifier   = profile[KeyIdentifier].uuid!;
-        _manufacturer = profile[KeyManufacturer].string!;
-        _model        = profile[KeyModel].string!;
-        _serialNumber = profile[KeySerialNumber].string!;
-        _type         = profile[KeyType].uuid!;
+        identifier   = profile[KeyIdentifier].uuid!;
+        manufacturer = profile[KeyManufacturer].string!;
+        model        = profile[KeyModel].string!;
+        serialNumber = profile[KeySerialNumber].string!;
+        type         = profile[KeyType].uuid!;
         
         // update name
         if let name = profile[KeyName].string {
-            if name != _name {
-                _name = name;
+            if self.name != name {
+                self.name = name;
                 observers.withEach { $0.deviceDidUpdateName(self); }
             }
         }
@@ -368,7 +361,7 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
      */
     public func updateName(_ name: String, notify: Bool)
     {
-        _name = name;
+        self.name = name;
         
         if notify {
             observers.withEach { $0.deviceDidUpdateName(self); }

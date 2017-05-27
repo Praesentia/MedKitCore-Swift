@@ -23,9 +23,11 @@ import Foundation;
 
 
 /**
- Connection observer.
+ Connection delegate.
  */
 public protocol ConnectionDelegate: class {
+    
+    // MARK: - Lifecycle
     
     /**
      Connection did close.
@@ -39,7 +41,7 @@ public protocol ConnectionDelegate: class {
         This method is dispatched asynchronously in order to insure that it is
         delivered last.
      */
-    func connectionDidClose(_ connection: Connection, reason: Error?);
+    func connectionDidClose(_ connection: Connection, for reason: Error?);
     
 }
 

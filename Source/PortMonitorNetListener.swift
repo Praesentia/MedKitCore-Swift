@@ -25,20 +25,31 @@ import Foundation;
 /**
  Network listener.
  
- A base class for various types of network listeners.
+ A base class for network listeners.
  */
-public class PortMonitorNetListener: PortMonitor, EndpointDelegate, ConnectionDelegate {
+public class PortMonitorNetListener: PortMonitor, ConnectionDelegate, EndpointDelegate {
     
-    // public
-    override public var count       : Int { return connections.count; }
-    public var          connections = [Connection]();
+    // MARK: - Internal Types
+    enum State {
+        case Closed;
+        case Open;
+        case Shutdown;
+    }
     
-    // protected
+    // MARK: - Properties
+    public var      connections = [Connection]();
+    public var      count       : Int { return connections.count; }
+    public weak var delegate    : PortMonitorDelegate?;
+    public var      enabled     : Bool { return state == .Open; }
+
+    // MARK: - Protected Properties
     let Backlog           : Int32 = 10;         //: Backlog
     let address           : SockAddr;           //: Host address used to listen for incoming connections.
     var serviceResponder  : ServiceResponder?;  //: Use to publish the service.
-
+    var state             : State = .Closed;
     var endpoint          : EndpointNet!;       //: Listener
+    
+    // MARK: - Initializers
     
     /**
      Initialize instance.
@@ -46,37 +57,18 @@ public class PortMonitorNetListener: PortMonitor, EndpointDelegate, ConnectionDe
     public init(address: SockAddr)
     {
         self.address = address;
-        super.init();
     }
     
-    /**
-     Start monitor.
-     */
-    override public func start()
-    {
-        guard(state == .Closed) else { return; }
-        
-        endpoint          = EndpointNet();
-        endpoint.delegate = self;
-        
-        if endpoint.listen(address: address, backlog: Backlog) {
-            serviceResponder = publishService(using: endpoint.hostAddress!);
-            endpoint.resumeIn();
-            _state = .Open;
-        }
-        else {
-            // TODO
-        }
-    }
+    // MARK: - Lifecycle
     
     /**
      Shutdown monitor.
      */
-    override public func shutdown(reason: Error?)
+    public func shutdown(for reason: Error?)
     {
         guard(state == .Open) else { return; }
         
-        _state = .Shutdown;
+        state = .Shutdown;
         
         serviceResponder?.retract();
         endpoint.close();
@@ -84,7 +76,7 @@ public class PortMonitorNetListener: PortMonitor, EndpointDelegate, ConnectionDe
         
         if !connections.isEmpty {
             for connection in connections {
-                connection.shutdown(reason: reason);
+                connection.shutdown(for: reason);
             }
         }
         else {
@@ -93,20 +85,50 @@ public class PortMonitorNetListener: PortMonitor, EndpointDelegate, ConnectionDe
     }
     
     /**
-     Create connection.
+     Start monitor.
      */
-    func instantiateConnection(to endpoint: EndpointNet) -> Connection?
+    public func start(completionHandler completion: @escaping (Error?)->Void)
     {
-        return nil;
+        let sync = Sync(MedKitError.Failed);
+
+        if state == .Closed {
+            sync.incr();
+            sync.fail(nil);
+            
+            endpoint          = EndpointNet();
+            endpoint.delegate = self;
+            
+            if endpoint.listen(address: address, backlog: Backlog) {
+                serviceResponder = publishService(using: endpoint.hostAddress!);
+                endpoint.resumeIn();
+                state = .Open;
+                sync.decr(nil);
+            }
+            else {
+                sync.decr(MedKitError.Failed);
+            }
+        }
+        
+        sync.close() { error in completion(error) }
     }
     
     /**
      Publish service.
      
      - Parameters:
-     - address:
+        - address:
      */
     func publishService(using address: SockAddr) -> ServiceResponder?
+    {
+        return nil;
+    }
+    
+    // MARK: - Connection Management
+    
+    /**
+     Create connection.
+     */
+    func instantiateConnection(from endpoint: EndpointNet) -> Connection?
     {
         return nil;
     }
@@ -121,7 +143,7 @@ public class PortMonitorNetListener: PortMonitor, EndpointDelegate, ConnectionDe
     {
         if let client = endpoint.accept() {
             if delegate?.portMonitor(self, shouldAccept: client.peerAddress!) ?? true {
-                if let connection = instantiateConnection(to: client) {
+                if let connection = instantiateConnection(from: client) {
                     connection.delegate = self;
                     connections.append(connection);
                     delegate?.portMonitor(self, didAdd: connection);
@@ -137,20 +159,10 @@ public class PortMonitorNetListener: PortMonitor, EndpointDelegate, ConnectionDe
      */
     private func closed()
     {
-        _state = .Closed;
+        state = .Closed;
         if let delegate = self.delegate {
-            DispatchQueue.main.async() { delegate.portMonitorDidClose(self, reason: nil); }
+            DispatchQueue.main.async() { delegate.portMonitorDidClose(self, for: nil); }
         }
-    }
-    
-    // MARK: - EndpointDelegate
-    
-    /**
-     Endpoint input.
-     */
-    func endpointIn(_ endpoint: Endpoint)
-    {
-        accept();
     }
     
     // MARK: - ConnectionDelegate
@@ -162,7 +174,7 @@ public class PortMonitorNetListener: PortMonitor, EndpointDelegate, ConnectionDe
         - connection:
         - error:
      */
-    public func connectionDidClose(_ connection: Connection, reason: Error?)
+    public func connectionDidClose(_ connection: Connection, for reason: Error?)
     {
         if let index = (connections.index { $0 === connection; }) {
             
@@ -173,6 +185,16 @@ public class PortMonitorNetListener: PortMonitor, EndpointDelegate, ConnectionDe
                 closed();
             }
         }
+    }
+    
+    // MARK: - EndpointDelegate
+    
+    /**
+     Endpoint input.
+     */
+    func endpointIn(_ endpoint: Endpoint)
+    {
+        accept();
     }
     
 }

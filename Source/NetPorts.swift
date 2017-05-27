@@ -28,11 +28,8 @@ import Foundation;
 class NetPorts {
     
     // MARK: - Properties
-    var ports    : [NetPortFactory] { return _ports; }
-    var reachable: Bool             { return reachablePorts(); }
-    
-    // MARK: - Shadowed
-    private var _ports = [NetPortFactory]();
+    private(set) var ports     = [NetPortFactory]();
+    var              reachable : Bool { return reachablePorts(); }
     
     // MARK: - Initializers
     
@@ -50,7 +47,7 @@ class NetPorts {
      */
     func addPort(_ port: NetPortFactory)
     {
-        _ports.append(port);
+        ports.append(port);
     }
     
     /**
@@ -59,7 +56,7 @@ class NetPorts {
     func removePort(_ port: PortFactory)
     {
         if let index = (ports.index { $0 === port; }) {
-            _ports.remove(at: index);
+            ports.remove(at: index);
         }
     }
     
@@ -68,7 +65,7 @@ class NetPorts {
      */
     func removeAllPorts()
     {
-        _ports.removeAll();
+        ports.removeAll();
     }
     
     // MARK: - Port Selection

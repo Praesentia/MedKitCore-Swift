@@ -23,13 +23,12 @@ import Foundation;
 
 
 /**
- Proxy device.
+ Network device proxy.
  */
 public class DeviceProxyNet: DeviceBase, DeviceProxy {
     
     // MARK: - Properties
-    override public var isOpen         : Bool         { return netBackend.isOpen; }
-    
+    override public var isOpen         : Bool          { return netBackend.isOpen; }
     override public var defaultBackend : Backend       { return netBackend; }
     public var          ports          : [PortFactory] { return netBackend.ports.ports; }
     override public var reachable      : Bool          { return netBackend.reachable; }
@@ -72,10 +71,10 @@ public class DeviceProxyNet: DeviceBase, DeviceProxy {
     /**
      Close connection to device.
      */
-    override func close(reason: Error?)
+    override func close(for reason: Error?)
     {
         if netBackend.isOpen {
-            netBackend.deviceClose(self, reason: reason) { error in }
+            netBackend.deviceClose(self, for: reason) { error in }
         }
     }
     
@@ -88,7 +87,7 @@ public class DeviceProxyNet: DeviceBase, DeviceProxy {
         
         if netBackend.isOpen {
             sync.incr();
-            netBackend.deviceClose(self, reason: nil) { error in
+            netBackend.deviceClose(self, for: nil) { error in
                 sync.decr(error);
             }
         }

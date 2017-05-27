@@ -40,7 +40,7 @@ public protocol DeviceBackend: class {
     
     // MARK: - Connectivity
     func connected()
-    func disconnected(reason: Error?)
+    func disconnected(for reason: Error?)
     
     // MARK: - Mutators
     func update(from profile: JSON)

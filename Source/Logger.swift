@@ -29,13 +29,13 @@ public class Logger {
     
     public static let main = Logger();
     
-    public weak var dataSink: DataSink?;
+    public weak var dataTap: DataTap?;
     
     public func log(message: String)
     {
-        if let dataSink = self.dataSink {
+        if let dataTap = self.dataTap {
             let data = message.data(using: .utf8)!;
-            dataSink.dataSink(self, willSend: data, decoderFactory: DecoderDefaultFactory.main);
+            dataTap.dataTap(self, willSend: data, decoderFactory: DecoderDefaultFactory.main);
         }
     }
     

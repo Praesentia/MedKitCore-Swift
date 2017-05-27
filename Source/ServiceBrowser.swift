@@ -29,13 +29,10 @@ import Foundation;
  */
 class ServiceBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
 
-    // public
-    weak var    delegate : ServiceBrowserDelegate?;
-    var         devices  : [NetDevice] { return _devices; }
-    var         domains  : [String]    { return browsers.map { $0.0 } }
-    
-    // MARK: - Shadowed
-    private var _devices = [NetDevice]();
+    // MARK: - Properties
+    weak var         delegate : ServiceBrowserDelegate?;
+    private(set) var devices  = [NetDevice]();
+    var              domains  : [String] { return browsers.map { $0.0 } }
     
     // MARK: - Private
     private let ServiceType = "_mist._tcp";
@@ -70,8 +67,8 @@ class ServiceBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
             browser.stop();
         }
         
-        while !_devices.isEmpty {
-            let device = _devices.removeFirst();
+        while !devices.isEmpty {
+            let device = devices.removeFirst();
             delegate?.serviceBrowser(self, didRemove: device);
         }
 
@@ -102,8 +99,8 @@ class ServiceBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
             browser.stop();
         }
         
-        while !_devices.isEmpty {
-            let device = _devices.removeFirst();
+        while !devices.isEmpty {
+            let device = devices.removeFirst();
             delegate?.serviceBrowser(self, didRemove: device);
         }
         
@@ -149,7 +146,7 @@ class ServiceBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
         if device == nil {
             device = NetDevice(from: info);
             
-            _devices.append(device);
+            devices.append(device);
             delegate?.serviceBrowser(self, didAdd: device);
         }
         
@@ -162,8 +159,8 @@ class ServiceBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
     private func pruneDevice(_ device: NetDevice)
     {
         if device.ports.isEmpty {
-            if let index = (_devices.index { $0 === device; }) {
-                _devices.remove(at: index);
+            if let index = (devices.index { $0 === device; }) {
+                devices.remove(at: index);
                 delegate?.serviceBrowser(self, didRemove: device);
             }
         }
@@ -215,8 +212,8 @@ class ServiceBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
                 }
             
                 if device.ports.isEmpty {
-                    if let index = (_devices.index { $0 === device; }) {
-                        _devices.remove(at: index);
+                    if let index = (devices.index { $0 === device; }) {
+                        devices.remove(at: index);
                         delegate?.serviceBrowser(self, didRemove: device);
                     }
                 }

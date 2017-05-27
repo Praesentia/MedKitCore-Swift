@@ -23,53 +23,39 @@ import Foundation;
 
 
 /**
- Connection
+ Connection protocol.
  
- Connection is a base class used to manage a single communication session,
- as a container for the associated protocol stack.
+ Connection is used to manage a single communication session.
  */
-open class Connection: ProtocolStackDelegate {
+public protocol Connection: class {
     
-    // public
-    open var dataSink : DataSink? {
-        get        { return nil; }
-        set(value) { }
-    }
-    
-    public weak var delegate : ConnectionDelegate?;
-    public let      port     : Port;                //: The base port, at the bottom of the protocol stack.
-    
-    // MARK: - Private
-    private var completion: ((Error?) -> Void)?;    //: Completion handler for the start() method.
+    // MARK: - Properties
     
     /**
-     Initialize instance.
-     
-     - Parameters:
-        - port: The base port, to be installed at the bottom of the protocol
-                stack.
+     DataTap used for logging.
      */
-    public init(port: Port)
-    {
-        self.port = port;
-    }
+    var dataTap: DataTap? { get set }
     
     /**
-     Complete startup.
-     
-     Completes the startup sequence by invoking the completion handler
-     originally passed to the start(_:completionHandler:) method.
+     Connection delegate.
+     */
+    weak var delegate : ConnectionDelegate? { get set }
+    
+    /**
+     The port at the base of the protocol stack.
+     */
+    var port: Port { get }
+    
+    // MARK: - Lifecycle
+    
+    /**
+     Shutdown connection.
      
      - Parameters:
-        - error: Forwarded to the completion handler.
+        - reason: Nil indicates a normal shutdown.  Otherwise, an error
+                  indicating the reason that led to the connection being closed.
      */
-    open func complete(_ error: Error?)
-    {
-        if let completion = self.completion {
-            completion(error);
-            self.completion = nil;
-        }
-    }
+    func shutdown(for reason: Error?)
     
     /**
      Start protocol stack.
@@ -79,36 +65,7 @@ open class Connection: ProtocolStackDelegate {
      - Parameters:
         - completion: The completion handler.
      */
-    open func start(completionHandler completion: @escaping (Error?)->Void)
-    {
-        self.completion = completion;
-        port.start();
-    }
-    
-    /**
-     Shutdown connection.
-     
-     - Parameters:
-        - reason: Nil indicates a normal shutdown.  Otherwise, an error
-                  indicating the reason that led to the connection being closed.
-     */
-    open func shutdown(reason: Error?)
-    {
-        port.shutdown(reason: reason);
-    }
-    
-    // MARK: - ProtocolStackDelegate
-    
-    open func protocolStackDidInitialize(_ stack: ProtocolStack, with error: Error?)
-    {
-        complete(error);
-    }
-    
-    open func protocolStackDidClose(_ stack: ProtocolStack, reason: Error?)
-    {
-        complete(MedKitError.Unreachable);
-        delegate?.connectionDidClose(self, reason: reason);
-    }
+    func start(completionHandler completion: @escaping (Error?)->Void)
     
 }
 

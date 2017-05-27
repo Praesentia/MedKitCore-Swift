@@ -23,7 +23,7 @@ import Foundation;
 
 
 /**
- Security manager protocol.
+ SecurityManager protocol.
  
  Functionally, the protocol follows a security enclave model such that private
  keys are never passed out of the interface.   All cryptographic operations
@@ -55,7 +55,7 @@ public protocol SecurityManager: class {
     
     // MARK: - Digest
     
-    func digest(using: DigestType) -> Digest;
+    func digest(using algorithm: DigestType) -> Digest;
     
     // MARK: - Random
     

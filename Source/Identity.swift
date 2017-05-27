@@ -44,15 +44,10 @@ public class Identity: Equatable {
     }
     
     // MARK: - Properties
-    
     public var  profile : JSON         { return getProfile(); }
-    public var  name    : String       { return _name; }
-    public var  type    : IdentityType { return _type; }
+    public let  name    : String;
+    public let  type    : IdentityType;
     public var  string  : String       { return "\(type.string)/\(name)"; }
-    
-    // MARK: - Shadowed
-    private var _name: String;       //: Name
-    private let _type: IdentityType; //: Type of identity.
     
     // MARK: - Initializers
     
@@ -61,8 +56,8 @@ public class Identity: Equatable {
      */
     public init(named name: String, type: IdentityType)
     {
-        _name = name;
-        _type = type;
+        self.name = name;
+        self.type = type;
     }
     
     /**
@@ -70,8 +65,8 @@ public class Identity: Equatable {
      */
     public init(from profile: JSON)
     {
-        _name = profile[KeyName].string!;
-        _type = IdentityType(string: profile[KeyType].string!)!;
+        self.name = profile[KeyName].string!;
+        self.type = IdentityType(string: profile[KeyType].string!)!;
     }
     
     // MARK: - Profile Management

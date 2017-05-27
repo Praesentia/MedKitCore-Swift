@@ -23,12 +23,6 @@ import Foundation;
 
 
 /**
- Backend
- */
-public typealias Backend = DeviceBackendDelegate & ServiceBackendDelegate & ResourceBackendDelegate;
-
-
-/**
  Backend base class.
  */
 class BackendDefault: Backend {
@@ -39,7 +33,7 @@ class BackendDefault: Backend {
 
     // MARK: - DeviceObserver
     
-    func deviceClose(_ device: DeviceBackend, reason: Error?, completionHandler completion: @escaping (Error?) -> Void)
+    func deviceClose(_ device: DeviceBackend, for reason: Error?, completionHandler completion: @escaping (Error?) -> Void)
     {
         DispatchQueue.main.async() { completion(nil); }
     }
@@ -53,7 +47,6 @@ class BackendDefault: Backend {
     {
         DispatchQueue.main.async() { completion(MedKitError.NotSupported); }
     }
-    
     
     // MARK: - ServiceObserver
     

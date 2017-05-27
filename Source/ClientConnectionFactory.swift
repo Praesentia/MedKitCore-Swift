@@ -21,26 +21,41 @@
 
 import Foundation;
 
-/**
- Backend
- */
-public typealias Backend = DeviceBackendDelegate & ServiceBackendDelegate & ResourceBackendDelegate;
 
 /**
- Client connection.
- 
- Extends Connection, providing access to a backend protocol handler required by
- client connections.
+ ClientConnectionFactory protocol.
  */
-public protocol ClientConnection: Connection {
+public protocol ClientConnectionFactory {
+    
+    var priority: Int { get } //: Protocol priority.
     
     /**
-     Backend protocol.
+     Create connection.
      
-     Used to publish the backend protocol once the connection has been
-     established.
+     - Parameters:
+     - port: The server port.
+     - principal: The principal for the client.
      */
-    var backend: Backend! { get }
+    func instantiate(to port: Port, as principal: Principal?) -> ClientConnectionBase;
+    
+}
+
+/**
+ ClientConnectionFactory template.
+ */
+public class ClientConnectionFactoryTemplate<T: ClientConnectionBase>: ClientConnectionFactory {
+    
+    public let priority: Int;
+    
+    public init(priority: Int)
+    {
+        self.priority = priority;
+    }
+    
+    public func instantiate(to port: Port, as principal: Principal?) -> ClientConnectionBase
+    {
+        return T(to: port, as: principal);
+    }
     
 }
 

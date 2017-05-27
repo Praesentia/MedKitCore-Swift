@@ -24,7 +24,7 @@ import Foundation;
 
 class NetServiceExt {
     
-    // public
+    // MARK: - Properties
     weak var browser : NetServiceBrowser!;
     var      service : NetService!;
     var      device  : NetDevice?;

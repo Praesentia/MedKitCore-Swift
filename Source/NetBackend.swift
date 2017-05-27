@@ -30,12 +30,9 @@ import Foundation;
 class NetBackend: Backend, ConnectionDelegate {
     
     // MARK: - Properties
-    var isOpen    : Bool { return _isOpen }
-    var ports     = NetPorts();
-    var reachable : Bool { return ports.reachable }
-    
-    // MARK: - Shadowed
-    private var   _isOpen = false;
+    private(set) var isOpen    : Bool = false;
+    var              ports     = NetPorts();
+    var              reachable : Bool { return ports.reachable }
     
     // MARK: - Private
     private weak var device     : DeviceProxyNet!;
@@ -98,7 +95,7 @@ class NetBackend: Backend, ConnectionDelegate {
             connect(as: PrincipalManager.main.primary) { error in
                 if error == nil {
                     self.connection.backend.deviceOpen(device) { error in
-                        self._isOpen = true;
+                        self.isOpen = true;
                         self.device.connected();
                         self.syncOpen.complete(error);
                     }
@@ -120,15 +117,15 @@ class NetBackend: Backend, ConnectionDelegate {
         - error: The reason why the connection closed.  A value of nil
             indicates a normal, client initiated shutdown.
      */
-    func connectionDidClose(_ connection: Connection, reason: Error?)
+    func connectionDidClose(_ connection: Connection, for reason: Error?)
     {
-        self.connection.backend.deviceClose(device, reason: reason) { error in
+        self.connection.backend.deviceClose(device, for: reason) { error in
             
             // TODO
             if error == nil {
                 self.device.backend = self;
-                self._isOpen        = false;
-                self.device.disconnected(reason: reason);
+                self.isOpen         = false;
+                self.device.disconnected(for: reason);
             }
             
             self.connection = nil;
@@ -142,13 +139,13 @@ class NetBackend: Backend, ConnectionDelegate {
     /**
      Close connection to device.
      */
-    func deviceClose(_ device: DeviceBackend, reason: Error?, completionHandler completion: @escaping (Error?) -> Void)
+    func deviceClose(_ device: DeviceBackend, for reason: Error?, completionHandler completion: @escaping (Error?) -> Void)
     {
         syncClose.wait(completionHandler: completion);
         
         if syncClose.first {
             if let connection = self.connection {
-                connection.shutdown(reason: reason);
+                connection.shutdown(for: reason);
             }
             else {
                 syncClose.complete(nil);

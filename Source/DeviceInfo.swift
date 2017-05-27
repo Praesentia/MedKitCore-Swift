@@ -27,27 +27,22 @@ import Foundation;
  */
 public class DeviceInfo {
     
-    public var identifier   : UUID   { return _identifier; }
-    public var manufacturer : String { return _manufacturer; }
-    public var name         : String { return _name; }
-    public var model        : String { return _model; }
-    public var serialNumber : String { return _serialNumber; }
-    public var type         : UUID   { return _type; }
+    // MARK: - Properties
+    public lazy var         identifier   : UUID = { return self.generateIdentifier(); }();
+    public private(set) var manufacturer : String;
+    public private(set) var name         : String;
+    public private(set) var model        : String;
+    public private(set) var serialNumber : String;
+    public private(set) var type         : UUID;
     
-    // MARK: - Shadowed
-    private lazy var _identifier   : UUID = { return self.generateIdentifier(); }();
-    private var      _manufacturer : String;
-    private var      _name         : String;
-    private var      _model        : String;
-    private var      _serialNumber : String;
-    private var      _type         : UUID;
-    
-    // TXT key constants
+    // MARK: - Private Constants
     private static let TXTKeyManufacturer = "mf";
     private static let TXTKeyModel        = "md";
     private static let TXTKeyName         = "dn";
     private static let TXTKeySerialNumber = "sn";
     private static let TXTKeyType         = "dt";
+    
+    // MARK: - Initializers
     
     /**
      Initialize instance from profile.
@@ -57,11 +52,11 @@ public class DeviceInfo {
      */
     public init(from profile: JSON)
     {
-        _manufacturer = profile[KeyManufacturer].string!;
-        _model        = profile[KeyModel].string!;
-        _name         = profile[KeyName].string!;
-        _serialNumber = profile[KeySerialNumber].string!;
-        _type         = deviceType(named: profile[KeyType].string!);
+        manufacturer = profile[KeyManufacturer].string!;
+        model        = profile[KeyModel].string!;
+        name         = profile[KeyName].string!;
+        serialNumber = profile[KeySerialNumber].string!;
+        type         = deviceType(named: profile[KeyType].string!);
     }
     
     /**
@@ -73,26 +68,28 @@ public class DeviceInfo {
      */
     init(fromTXT txt: [String : String])
     {
-        _manufacturer = txt[DeviceInfo.TXTKeyManufacturer]!;
-        _model        = txt[DeviceInfo.TXTKeyModel]!;
-        _name         = txt[DeviceInfo.TXTKeyName]!;
-        _serialNumber = txt[DeviceInfo.TXTKeySerialNumber]!;
-        _type         = deviceType(named: txt[DeviceInfo.TXTKeyType]!);
+        manufacturer = txt[DeviceInfo.TXTKeyManufacturer]!;
+        model        = txt[DeviceInfo.TXTKeyModel]!;
+        name         = txt[DeviceInfo.TXTKeyName]!;
+        serialNumber = txt[DeviceInfo.TXTKeySerialNumber]!;
+        type         = deviceType(named: txt[DeviceInfo.TXTKeyType]!);
     }
     
+    // MARK: - Identifier
+    
     /**
-     Generates a type 5 UUID for the device.
+     Generate a type 5 UUID for the device.
      */
     private func generateIdentifier() -> UUID
     {
-        let sha1 = SecurityManagerShared.main.digest(using: .SHA1);
+        let digest = SecurityManagerShared.main.digest(using: .SHA1);
         
-        sha1.update(uuid:           UUIDNSDevice);
-        sha1.update(prefixedString: manufacturer);
-        sha1.update(prefixedString: model);
-        sha1.update(prefixedString: serialNumber);
+        digest.update(uuid:           UUIDNSDevice);
+        digest.update(prefixedString: manufacturer);
+        digest.update(prefixedString: model);
+        digest.update(prefixedString: serialNumber);
         
-        return UUID(fromSHA1: sha1.final());
+        return UUID(fromSHA1: digest.final());
     }
     
 }

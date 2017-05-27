@@ -24,7 +24,7 @@ import Foundation;
 
 /**
  */
-class PortNetTCP: PortNet, EndpointDelegate {
+class PortNetStream: PortNet, EndpointDelegate {
     
     // MARK: - Private
     private enum State {
@@ -37,18 +37,51 @@ class PortNetTCP: PortNet, EndpointDelegate {
     private var oqueue   = [UInt8]();
     private var buffer   = Data(repeating: 0, count: 4096);
     
+    // MARK: - Initializers
+    
     override init(address: SockAddr)
     {
+        assert(address.proto == .tcp);
+        
         super.init(address: address);
     }
     
     init(endpoint: EndpointNet)
     {
+        assert(endpoint.hostAddress!.proto == .tcp);
+        
         super.init(address: endpoint.hostAddress!);
         
         self.endpoint = endpoint;
         endpoint.delegate = self;
     }
+    
+    // MARK: - Lifecycle
+    
+    override public func shutdown(for reason: Error?)
+    {
+        close(for: reason);
+    }
+    
+    override public func start()
+    {
+        guard(state == .Closed) else { return; }
+        
+        if endpoint == nil {
+            endpoint = EndpointNet();
+            endpoint.delegate = self;
+            
+            state = .Connecting;
+            if !endpoint.connect(address: address) {
+                close(for: nil);
+            }
+        }
+        else {
+            initialized(with: nil);
+        }
+    }
+    
+    // MARK: - Output
  
     /**
      Send data.
@@ -61,30 +94,9 @@ class PortNetTCP: PortNet, EndpointDelegate {
         send();
     }
     
-    override public func shutdown(reason: Error?)
-    {
-        close(reason);
-    }
+    // MARK: - Internal
     
-    override public func start()
-    {
-        guard(state == .Closed) else { return; }
-
-        if endpoint == nil {
-            endpoint = EndpointNet();
-            endpoint.delegate = self;
-
-            state = .Connecting;
-            if !endpoint.connect(address: address) {
-                close(nil);
-            }
-        }
-        else {
-            initialized(with: nil);
-        }
-    }
-    
-    private func close(_ error: Error?)
+    private func close(for reason: Error?)
     {
         guard(state != .Closed) else { return; }
         
@@ -92,7 +104,7 @@ class PortNetTCP: PortNet, EndpointDelegate {
         state = .Closed;
         
         if let delegate = self.delegate {
-            DispatchQueue.main.async() { delegate.portDidClose(self, reason: error); }
+            DispatchQueue.main.async() { delegate.portDidClose(self, for: reason); }
         }
     }
     
@@ -113,7 +125,7 @@ class PortNetTCP: PortNet, EndpointDelegate {
     /**
      Receive handler.
      */
-    func receive()
+    private func receive()
     {
         var count: Int;
         
@@ -125,23 +137,23 @@ class PortNetTCP: PortNet, EndpointDelegate {
 
         switch count {
         case Endpoint.Closed :
-            close(nil);
+            close(for: nil);
             
         case Endpoint.Failed :
-            close(nil);
+            close(for: nil);
             
         case Endpoint.WouldBlock :
             endpoint.resumeIn();
 
         default :
-            close(nil);
+            close(for: nil);
         }
     }
     
     /**
      Send handler.
      */
-    func send()
+    private func send()
     {
         var count = Int();
         
@@ -161,7 +173,7 @@ class PortNetTCP: PortNet, EndpointDelegate {
                 endpoint.resumeOut();
                 
             default :
-                shutdown(reason: nil);
+                shutdown(for: nil);
             }
         }
     }

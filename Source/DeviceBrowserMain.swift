@@ -27,7 +27,7 @@ import Foundation;
  */
 public class DeviceBrowserMain: DeviceBrowser, ServiceBrowserDelegate, NetDeviceObserver {
     
-    // public
+    // MARK: - Properties
     public static let shared: DeviceBrowser = DeviceBrowserMain();
     
     public var devices : [DeviceProxy] { return _devices; };         //: Device list.
@@ -155,7 +155,7 @@ public class DeviceBrowserMain: DeviceBrowser, ServiceBrowserDelegate, NetDevice
         
         if let device = removeDevice(withIdentifier: netDevice.info.identifier) {
             device.removeAllPorts();
-            device.close(reason: MedKitError.Suspended); // TODO: fix reason
+            device.close(for: MedKitError.Suspended); // TODO: fix reason
             observers.withEach { $0.deviceBrowser(self, didRemove: device) }
         }
     }

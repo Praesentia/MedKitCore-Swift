@@ -30,13 +30,9 @@ import Foundation;
 public class ResourceCacheBase: ResourceCache {
     
     // MARK: - Properties
-    public var json         : JSON         { return getJSON(); }
-    public var timeModified : TimeInterval { return _timeModified; }
-    public var value        : JSON?        { return _value; }
-    
-    // MARK: - Shadowed
-    private var _timeModified : TimeInterval = 0;
-    private var _value        : JSON?;
+    public var              json         : JSON         { return getJSON(); }
+    public private(set) var timeModified : TimeInterval = 0;
+    public private(set) var value        : JSON?;
     
     // MARK: - Initializers
     
@@ -49,8 +45,8 @@ public class ResourceCacheBase: ResourceCache {
      */
     public init(value: JSON?, at time: TimeInterval)
     {
-        _timeModified = time;
-        _value        = value;
+        self.timeModified = time;
+        self.value        = value;
     }
     
     /**
@@ -61,8 +57,8 @@ public class ResourceCacheBase: ResourceCache {
      */
     public init(from json: JSON)
     {
-        _timeModified = Clock.convert(time: json[KeyTimeModified].time!);
-        _value        = json[KeyValue];
+        timeModified = Clock.convert(time: json[KeyTimeModified].time!);
+        value        = json[KeyValue];
     }
    
     /**
@@ -73,8 +69,8 @@ public class ResourceCacheBase: ResourceCache {
      */
     public init(from cache: ResourceCache)
     {
-        _timeModified = cache.timeModified;
-        _value        = cache.value;
+        timeModified = cache.timeModified;
+        value        = cache.value;
     }
     
     // MARK: - JSON
@@ -100,16 +96,24 @@ public class ResourceCacheBase: ResourceCache {
      */
     public func update(changes: JSON?, at time: TimeInterval)
     {
-        _timeModified = time;
-        _value        = changes;
+        timeModified = time;
+        value        = changes;
+    }
+    
+    /**
+     */
+    public func update(from cache: ResourceCache)
+    {
+        timeModified = cache.timeModified;
+        value        = cache.value;
     }
     
     /**
      */
     public func update(value: JSON?, at time: TimeInterval)
     {
-        _timeModified = time;
-        _value        = value;
+        self.timeModified = time;
+        self.value        = value;
     }
     
 }

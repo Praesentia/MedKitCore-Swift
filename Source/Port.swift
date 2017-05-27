@@ -23,36 +23,38 @@ import Foundation;
 
 
 /**
- Port
+ Port protocol.
  
- A base class for objects that serve as components in a protocol stack.  Ports
- may be linked together to instantiate a complete stack, with each component serving
- as a port to the component above it.
- 
- - Remarks: Apparently the class must inherit from NSObject in order for
-    derived classes to conform with some protocols, such as StreamDelegate.
+ Ports may be linked together to instantiate a complete stack, with each
+ component serving as a port to the component above it.
  */
 public protocol Port: class {
+    
+    // MARK: - Properties
     
     /**
      Port delegate.
      
      A delegate used to process incoming data and other types of events.
      */
-    weak var delegate : PortDelegate? { get set }
+    weak var delegate: PortDelegate? { get set }
+    
+    // MARK: - Lifecycle
     
     /**
-     Send data.
+     Shutdown port.
      
-     Used to send data to the port.
+     This method is used to initiate a graceful shutdown of the stack.  The
+     call is propagated downward to the port at the base of the stack, which
+     then initiates the shutdown process.
      
-     - Parameters:
-        - data: Data to be sent to the port.  The data may either be a fragment
-            in a data stream or a complete message depending on the
-            functionality being provided by the port.
+     - reason: The reason for initiating a shutdown.  A non-nil value
+               indicates the error that triggered the shutdown. A nil value
+               indicates the shutdown was issued during the normal course of
+               operation.
      */
-    func send(_ data: Data);
-
+    func shutdown(for reason: Error?);
+    
     /**
      Start port.
      
@@ -62,15 +64,20 @@ public protocol Port: class {
      begins the initialization process.
      */
     func start();
-
+    
+    // MARK: - Output
+    
     /**
-     Shutdown port.
+     Send data.
      
-     This method is used to initiate a graceful shutdown of the stack.  The
-     call is propagated downward to the port at the base of the stack, which
-     then initiates the shutdown process.
+     Used to send data to the port.
+     
+     - Parameters:
+        - data: Data to be sent to the port.  The data may either be a fragment
+                in a data stream or a complete message depending on the
+                functionality being provided by the port.
      */
-    func shutdown(reason: Error?);
+    func send(_ data: Data);
     
 }
 

@@ -1,8 +1,8 @@
 /*
  -----------------------------------------------------------------------------
- This source file is part of MedKit Device Simulator.
+ This source file is part of MedKitCore.
  
- Copyright 2017 Jon Griffeth
+ Copyright 2016-2017 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -22,10 +22,30 @@
 import Foundation;
 
 
-public protocol DataSink: class {
+/**
+ Base class for client connections.
+ */
+open class ClientConnectionBase: ConnectionBase, ClientConnection {
     
-    func dataSink(_ sender: Any, willSend data: Data, decoderFactory: DecoderFactory);
-    func dataSink(_ sender: Any, didReceive data: Data, decoderFactory: DecoderFactory);
+    // MARK: - Properties
+    open var backend: Backend! { return _backend }
+    
+    // MARK: - Shadowed
+    public var _backend: Backend?;
+    
+    // MARK: - Initializers
+    
+    /**
+     Initialize instance.
+     
+     - Parameters:
+        - port:      A port used to establish the connection to the server.
+        - principal: The principal used to identify the client to the server.
+     */
+    required public init(to port: Port, as principal: Principal?)
+    {
+        super.init(port: port);
+    }
     
 }
 

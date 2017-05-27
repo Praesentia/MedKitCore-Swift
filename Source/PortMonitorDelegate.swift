@@ -22,33 +22,37 @@
 import Foundation;
 
 
-public class DeviceProtocols {
+public protocol PortMonitorDelegate: class {
     
-    // MARK: - Class Properties
-    public static let main = DeviceProtocols();
+    // MARK: - Lifecycle
     
-    // MARK: - Properties
-    public var protocols : [DeviceProtocol] { return deviceProtocols.map { $0.1; } }
+    func portMonitorDidClose(_ portMonitor: PortMonitor, for reason: Error?);
+    
+    // MARK: - Connection Management
+    
+    func portMonitor(_ portMonitor: PortMonitor, didAdd connection: Connection);
+    func portMonitor(_ portMonitor: PortMonitor, didRemove connection: Connection);
+    func portMonitor(_ portMonitor: PortMonitor, shouldAccept address: SockAddr) -> Bool;
+    
+}
 
-    // MARK: - Private Properties
-    private var deviceProtocols = [String : DeviceProtocol]();
+public extension PortMonitorDelegate {
     
-    // MARK: - Initializers
-    
-    private init()
+    func portMonitorDidClose(_ portMonitor: PortMonitor, for reason: Error?)
     {
     }
     
-    // MARK: - Protocol Management
-    
-    public func findProtocol(named name: String) -> DeviceProtocol?
+    func portMonitor(_ portMonitor: PortMonitor, didAdd connection: Connection)
     {
-        return deviceProtocols[name];
     }
     
-    public func registerProtocol(_ deviceProtocol: DeviceProtocol)
+    func portMonitor(_ portMonitor: PortMonitor, didRemove connection: Connection)
     {
-        deviceProtocols[deviceProtocol.identifier] = deviceProtocol;
+    }
+    
+    func portMonitor(_ portMonitor: PortMonitor, shouldAccept address: SockAddr) -> Bool
+    {
+        return true;
     }
     
 }

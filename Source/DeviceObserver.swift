@@ -39,7 +39,7 @@ public protocol DeviceObserver: class {
     
     // MARK: - Connectivity
     func deviceOpened(_ device: Device);
-    func deviceDidClose(_ device: Device, reason: Error?);
+    func deviceDidClose(_ device: Device, for reason: Error?);
     func deviceDidUpdateReachability(_ device: DeviceProxy);
     func device(_ device: DeviceProxy, didAdd port: PortFactory);
     func device(_ device: DeviceProxy, didRemove port: PortFactory);
@@ -53,7 +53,7 @@ public extension DeviceObserver {
     
     public func deviceDidUpdateName(_ device: Device) {}
     public func deviceOpened(_ device: Device) {}
-    public func deviceDidClose(_ device: Device, reason: Error?) {}
+    public func deviceDidClose(_ device: Device, for reason: Error?) {}
     public func device(_ device: Device, didAdd bridgedDevice: Device) {}
     public func device(_ device: Device, didRemove bridgedDevice: Device) {}
     public func device(_ device: Device, didAdd service: Service) {}

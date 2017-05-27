@@ -30,12 +30,12 @@ import Foundation;
  */
 public func deviceType(named name: String) -> UUID
 {
-    let sha1 = SecurityManagerShared.main.digest(using: .SHA1);
+    let digest = SecurityManagerShared.main.digest(using: .SHA1);
     
-    sha1.update(uuid: UUIDNSDeviceType);
-    sha1.update(string: name.lowercased());
+    digest.update(uuid: UUIDNSDeviceType);
+    digest.update(string: name.lowercased());
     
-    return UUID(fromSHA1: sha1.final());
+    return UUID(fromSHA1: digest.final());
 }
 
 public func deviceTypeName(with identifier: UUID) -> String?
@@ -46,10 +46,10 @@ public func deviceTypeName(with identifier: UUID) -> String?
 /**
  Type 5 UUID representation for the device types.
  */
-public let DeviceTypeOther              = deviceType(named: "Other");
 public let DeviceTypeBridge             = deviceType(named: "Bridge");
 public let DeviceTypeElectrocardiograph = deviceType(named: "Electrocardiograph");
 public let DeviceTypeEndoscope          = deviceType(named: "Endoscope");
+public let DeviceTypeOther              = deviceType(named: "Other");
 public let DeviceTypePatientSimulator   = deviceType(named: "Patient Simulator");
 public let DeviceTypePulseOximeter      = deviceType(named: "Pulse Oximeter");
 public let DeviceTypeRespirationMonitor = deviceType(named: "Respiration Monitor");

@@ -28,30 +28,24 @@ import Foundation;
 public class ResourceBase: Resource, ResourceBackend {
     
     // MARK: - Properties
-    public var      access               : Access         { return _access; }
-    public var      cache                : ResourceCache? { return _cache; }
-    public var      identifier           : UUID           { return _identifier; }
-    public var      notifications        : Bool           { return _notifications; }
-    public var      notificationEnabled  : Bool           { return _notificationEnabled; }
-    public var      profile              : JSON           { return getProfile(); }
-    public var      schema               : UUID           { return _schema; }
-    public weak var service              : Service?       { return _service; }
-    public var      type                 : UUID           { return _type; }
+    public let              access               : Access;
+    public var              cache                : ResourceCache? { return _cache; }
+    public private(set) var identifier           : UUID;
+    public private(set) var notifications        : Bool = false;
+    public private(set) var notificationEnabled  : Bool = false;
+    public var              profile              : JSON           { return getProfile(); }
+    public private(set) var schema               : UUID;
+    public weak var         service              : Service?       { return _service; }
+    public private(set) var type                 : UUID;
     
-    // MARK: - Properties - ResourceBackend
+    // ResourceBackend
     public var defaultBackend : Backend                   { return serviceBackend.defaultBackend; }
     public var serviceBackend : ServiceBackend!           { return _service; }
     public var backend        : ResourceBackendDelegate!;
     
     // MARK: - Shadowed
-    private let _access              : Access;
-    private var _cache               : ResourceCacheBase!;
-    private var _identifier          : UUID;
-    private var _notifications       : Bool = false;
-    private var _notificationEnabled : Bool = false;
-    private var _schema              : UUID;
-    private var _service             : ServiceBase?;
-    private var _type                : UUID;
+    private var _cache   : ResourceCacheBase!;
+    private var _service : ServiceBase?;
     
     // MARK: - Private
     private var observers = ObserverManager<ResourceObserver>();
@@ -62,12 +56,12 @@ public class ResourceBase: Resource, ResourceBackend {
     {
         backend = service.defaultBackend;
         
-        _service       = service;
-        _access        = Access(string: profile[KeyAccess].string!)!;
-        _identifier    = profile[KeyIdentifier].uuid!;
-        _notifications = profile[KeyNotifications].bool!;
-        _schema        = profile[KeySchema].uuid!;
-        _type          = profile[KeyType].uuid!;
+        _service      = service;
+        access        = Access(string: profile[KeyAccess].string!)!;
+        identifier    = profile[KeyIdentifier].uuid!;
+        notifications = profile[KeyNotifications].bool!;
+        schema        = profile[KeySchema].uuid!;
+        type          = profile[KeyType].uuid!;
     }
     
     // MARK: - Observer Interface
@@ -188,8 +182,8 @@ public class ResourceBase: Resource, ResourceBackend {
      */
     private func notificationEnabled(cache: ResourceCacheBase)
     {
-        _notificationEnabled = true;
-        _cache               = cache;
+        notificationEnabled = true;
+        _cache              = cache;
         
         observers.withEach { $0.resourceDidUpdateNotificationEnabled(self) }
         observers.withEach { $0.resourceDidUpdate(self, value: _cache.value, at: _cache.timeModified); }
@@ -200,8 +194,8 @@ public class ResourceBase: Resource, ResourceBackend {
      */
     private func notificationDisabled()
     {
-        _notificationEnabled = false;
-        _cache               = nil;
+        notificationEnabled = false;
+        _cache              = nil;
     
         observers.withEach { $0.resourceDidUpdateNotificationEnabled(self) }
     }
@@ -218,6 +212,8 @@ public class ResourceBase: Resource, ResourceBackend {
     public func update(changes: JSON, at time: TimeInterval)
     {
         if notificationEnabled {
+            assert(_cache != nil);
+
             _cache.update(changes: changes, at: time);
             observers.withEach { $0.resourceDidUpdate(self, value: _cache.value, at: _cache.timeModified); }
         }
@@ -233,7 +229,9 @@ public class ResourceBase: Resource, ResourceBackend {
     public func update(value: JSON?, at time: TimeInterval)
     {
         if notificationEnabled {
-            _cache = ResourceCacheBase(value: value, at: time);
+            assert(_cache != nil);
+
+            _cache.update(value: value, at: time);
             observers.withEach { $0.resourceDidUpdate(self, value: _cache.value, at: _cache.timeModified); }
         }
     }
@@ -247,7 +245,9 @@ public class ResourceBase: Resource, ResourceBackend {
     public func update(from cache: ResourceCache)
     {
         if notificationEnabled {
-            _cache = ResourceCacheBase(from: cache);
+            assert(_cache != nil);
+
+            _cache.update(from: cache);
             observers.withEach { $0.resourceDidUpdate(self, value: _cache.value, at: _cache.timeModified); }
         }
     }

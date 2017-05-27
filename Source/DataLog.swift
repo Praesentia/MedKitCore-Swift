@@ -35,7 +35,7 @@ public protocol DataLogDelegate: class {
 /**
  Data log.
  */
-public class DataLog: DataSink {
+public class DataLog: DataTap {
     
     public weak var delegate : DataLogDelegate?;
     public var      items    = [DataLogItem]();
@@ -72,9 +72,9 @@ public class DataLog: DataSink {
         }
     }
     
-    // MARK: - PortLoggerDataSink
+    // MARK: - PortTapDataTap
     
-    public func dataSink(_ sender: Any, willSend data: Data, decoderFactory: DecoderFactory)
+    public func dataTap(_ sender: Any, willSend data: Data, decoderFactory: DecoderFactory)
     {
         let item = DataLogItem(sequence: sequence, direction: .Send, time: Date.timeIntervalSinceReferenceDate, data: data, decoderFactory: decoderFactory);
         
@@ -82,7 +82,7 @@ public class DataLog: DataSink {
         appendItem(item);
     }
     
-    public func dataSink(_ sender: Any, didReceive data: Data, decoderFactory: DecoderFactory)
+    public func dataTap(_ sender: Any, didReceive data: Data, decoderFactory: DecoderFactory)
     {
         let item = DataLogItem(sequence: sequence, direction: .Receive, time: Date.timeIntervalSinceReferenceDate, data: data, decoderFactory: decoderFactory);
         
