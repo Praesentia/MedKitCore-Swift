@@ -19,8 +19,45 @@
  */
 
 
-import Foundation;
+import Foundation
 
+
+public class ResourceType {
+    
+    public let identifier           : UUID
+    public var localizedDescription : String  { return ResourceType.localizedDescriptions[identifier] ?? identifier.uuidstring }
+    
+    public init(with identifier: UUID)
+    {
+        self.identifier = identifier
+    }
+    
+}
+
+extension ResourceType {
+    
+    /**
+     Localized description for resource types.
+     */
+    static let localizedDescriptions = [
+        ResourceTypeBloodOxygenSaturation         : "Blood Oxygen Saturation",
+        ResourceTypeBloodOxygenSaturationWaveform : "Blood Oxygen Saturation",
+        ResourceTypeBloodPressure                 : "Blood Pressure",
+        ResourceTypeBloodPressureWaveform         : "Blood Pressure",
+        ResourceTypeCamera                        : "Camera",
+        ResourceTypeECGWaveform                   : "ECG",
+        ResourceTypeLocation                      : "Location",
+        ResourceTypePatient                       : "Patient",
+        ResourceTypePerfusionIndex                : "Perfusion Index",
+        ResourceTypePulseRate                     : "Pulse Rate",
+        ResourceTypePulseRateAlert                : "Pulse Rate Alert",
+        ResourceTypeRespirationRate               : "Respiration Rate",
+        ResourceTypeRespirationWaveform           : "Respiration",
+        ResourceTypeSkinTemperature               : "Skin Temperature",
+        ResourceTypeSoftwareVersion               : "Software Version"
+    ]
+    
+}
 
 /**
  Resource types.
@@ -40,27 +77,6 @@ public let ResourceTypeRespirationRate               = UUID(uuidString: "23adef6
 public let ResourceTypeRespirationWaveform           = UUID(uuidString: "e4775c0a-ce89-4eb0-b0fc-986e583b5530")!; // final
 public let ResourceTypeSkinTemperature               = UUID(uuidString: "580e291e-5637-47c7-8931-66812d107b0a")!; // final
 public let ResourceTypeSoftwareVersion               = UUID(uuidString: "2539cb22-2c7b-4a88-96ec-a189f2d0b28d")!; // final
-
-/**
- Localized description for resource types.
- */
-let ResourceTypeLocalization = [
-    ResourceTypeBloodOxygenSaturation         : "Blood Oxygen Saturation",
-    ResourceTypeBloodOxygenSaturationWaveform : "Blood Oxygen Saturation",
-    ResourceTypeBloodPressure                 : "Blood Pressure",
-    ResourceTypeBloodPressureWaveform         : "Blood Pressure",
-    ResourceTypeCamera                        : "Camera",
-    ResourceTypeECGWaveform                   : "ECG",
-    ResourceTypeLocation                      : "Location",
-    ResourceTypePatient                       : "Patient",
-    ResourceTypePerfusionIndex                : "Perfusion Index",
-    ResourceTypePulseRate                     : "Pulse Rate",
-    ResourceTypePulseRateAlert                : "Pulse Rate Alert",
-    ResourceTypeRespirationRate               : "Respiration Rate",
-    ResourceTypeRespirationWaveform           : "Respiration",
-    ResourceTypeSkinTemperature               : "Skin Temperature",
-    ResourceTypeSoftwareVersion               : "Software Version"
-]
 
 
 

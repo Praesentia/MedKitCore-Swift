@@ -19,7 +19,41 @@
  */
 
 
-import Foundation;
+import Foundation
+
+
+public class ServiceType {
+    
+    public let identifier           : UUID
+    public var localizedDescription : String  { return ServiceType.localizedDescriptions[identifier] ?? identifier.uuidstring }
+    
+    public init(with identifier: UUID)
+    {
+        self.identifier = identifier
+    }
+    
+}
+
+extension ServiceType {
+
+    /**
+     String representation for the service types.
+     */
+    static let localizedDescriptions = [
+        ServiceTypeOther              : "Other",
+        ServiceTypeDeviceInformation  : "Device Information",
+        ServiceTypeElectrocardiograph : "Electrocardiograph",
+        ServiceTypeEndoscope          : "Endoscope",
+        ServiceTypePatientSimulator   : "Patient Simulator",
+        ServiceTypePulseOximeter      : "Pulse Oximeter",
+        ServiceTypeRespiration        : "Respiration",
+        ServiceTypeSphygmograph       : "Sphygmograph",
+        ServiceTypeSphygmomanometer   : "Sphygmomanometer",
+        ServiceTypeThermometer        : "Thermometer",
+        ServiceTypeVitals             : "Vitals"
+    ]
+    
+}
 
 
 /**
@@ -36,23 +70,6 @@ public let ServiceTypeSphygmograph       = UUID(uuidString: "7f6ead79-bf3c-4862-
 public let ServiceTypeSphygmomanometer   = UUID(uuidString: "59b00761-4f41-4cd5-a32d-cdd3561ff1df")!; // final
 public let ServiceTypeThermometer        = UUID(uuidString: "6b6f3ccc-20b6-4725-b5f1-360809e7dbe9")!; // final
 public let ServiceTypeVitals             = UUID(uuidString: "a28e7dbf-0418-4dd0-b505-df75047781d1")!; // final
-
-/**
- String representation for the service types.
- */
-public let serviceTypeName = [
-    ServiceTypeOther              : "Other",
-    ServiceTypeDeviceInformation  : "Device Information",
-    ServiceTypeElectrocardiograph : "Electrocardiograph",
-    ServiceTypeEndoscope          : "Endoscope",
-    ServiceTypePatientSimulator   : "Patient Simulator",
-    ServiceTypePulseOximeter      : "Pulse Oximeter",
-    ServiceTypeRespiration        : "Respiration",
-    ServiceTypeSphygmograph       : "Sphygmograph",
-    ServiceTypeSphygmomanometer   : "Sphygmomanometer",
-    ServiceTypeThermometer        : "Thermometer",
-    ServiceTypeVitals             : "Vitals"
-];
 
 
 // End of File

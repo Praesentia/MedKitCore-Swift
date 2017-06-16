@@ -35,10 +35,11 @@ import Foundation;
 public class Principal {
     
     // MARK: - Properties
-    public let authorization: Authorization;
-    public let credentials  : Credentials;
-    public let identity     : Identity;
-    public var profile      : JSON { return getProfile(); }
+    public let                   authorization: Authorization;
+    public let                   credentials  : Credentials;
+    public let                   identity     : Identity;
+    public var                   profile      : JSON { return getProfile(); }
+    public private(set) lazy var trusted      : Bool = self.getTrust();
     
     // MARK: - Initializers
     
@@ -58,7 +59,7 @@ public class Principal {
     public init(from profile: JSON)
     {
         identity      = Identity(from: profile[KeyIdentity]);
-        credentials   = CredentialsFactoryDB.main.instantiate(from: profile[KeyCredentials], for: identity);
+        credentials   = SecurityManagerShared.main.getCredentials(for: identity, from: profile[KeyCredentials]) ?? NullCredentials.shared;
         authorization = AuthorizationFactoryDB.main.instantiate(from: profile[KeyAuthorization]);
     }
     
@@ -67,6 +68,11 @@ public class Principal {
     public func isaSubject(_ identity: UUID) -> Bool
     {
         return true; // TODO
+    }
+    
+    private func getTrust() -> Bool
+    {
+        return credentials.trusted && identity == credentials.identity;
     }
     
     // MARK: - Profile

@@ -6,7 +6,7 @@ communication with medical devices.
 
 MedKitCore is one of a number of MedKit modules which include: MedKit,
 MedKitDomain, MedKitMIP and MedKitSecurity.  MedKitCore is a foundational
-module defining most of public protocols and much of the functionality
+module defining most of the public protocols and much of the functionality
 involving device interactions.
 
 ## Installation

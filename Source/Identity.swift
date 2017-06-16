@@ -38,16 +38,17 @@ public class Identity: Equatable {
      identity type separates namespaces to prevent conflicts.
      */
     public enum IdentityType {
-        case Device;       //: Devices.
-        case Organization; //: An organization, such as a certificate authority.
-        case User;         //: An actual person.
+        case Device       //: Devices.
+        case Organization //: An organization, such as a certificate authority.
+        case Other
+        case User         //: An actual person.
     }
     
     // MARK: - Properties
     public var  profile : JSON         { return getProfile(); }
     public let  name    : String;
     public let  type    : IdentityType;
-    public var  string  : String       { return "\(type.string)/\(name)"; }
+    public var  string  : String       { return "\(type.prefix)\(name)"; }
     
     // MARK: - Initializers
     
@@ -67,6 +68,37 @@ public class Identity: Equatable {
     {
         self.name = profile[KeyName].string!;
         self.type = IdentityType(string: profile[KeyType].string!)!;
+    }
+    
+    /**
+     Initialize instance from string.
+     */
+    public convenience init?(from string: String)
+    {
+        var t: IdentityType?;
+        var n: String?;
+        
+        if string.hasPrefix(Identity.IdentityType.PrefixDevice) {
+            n = String(string.characters.suffix(string.characters.count - 18));
+            t = .Device
+        }
+    
+        if string.hasPrefix(Identity.IdentityType.PrefixUser) {
+            n = String(string.characters.suffix(string.characters.count - 16));
+            t = .User
+        }
+    
+        if string.hasPrefix(Identity.IdentityType.PrefixOrganization) {
+            n = String(string.characters.suffix(string.characters.count - 24));
+            t = .Organization
+        }
+        
+        if t != nil {
+            self.init(named: n!, type: t!);
+        }
+        else {
+            return nil;
+        }
     }
     
     // MARK: - Profile Management
@@ -97,6 +129,11 @@ public func ==(lhs: Identity, rhs: Identity) -> Bool
 
 public extension Identity.IdentityType {
     
+    static let PrefixDevice       = "org.medkit.device.";
+    static let PrefixOrganization = "org.medkit.organization.";
+    static let PrefixOther        = "";
+    static let PrefixUser         = "org.medkit.user.";
+    
     public init?(string: String)
     {
         switch string {
@@ -106,11 +143,30 @@ public extension Identity.IdentityType {
         case "Organization" :
             self = .Organization;
             
+        case "Other" :
+            self = .Other
+            
         case "User" :
             self = .User;
 
         default :
             return nil;
+        }
+    }
+    
+    public var prefix: String {
+        switch self {
+        case .Device :
+            return Identity.IdentityType.PrefixDevice;
+            
+        case .Organization :
+            return Identity.IdentityType.PrefixOrganization;
+            
+        case .Other :
+            return Identity.IdentityType.PrefixOther;
+            
+        case .User :
+            return Identity.IdentityType.PrefixUser;
         }
     }
     
@@ -121,10 +177,12 @@ public extension Identity.IdentityType {
         
         case .Organization :
             return "Organization";
+            
+        case .Other :
+            return "Other";
         
         case .User :
             return "User";
-
         }
     }
     

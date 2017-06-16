@@ -22,12 +22,19 @@
 import Foundation;
 
 
-public protocol CredentialsFactory: class {
+/**
+ Placeholder
+ */
+public protocol CameraController: class {
     
-    // MARK: - Instantiation
+    // MARK: - Properties
+    weak var delegate : CameraControllerDelegate? { get set }
+    var      source   : CameraSource?             { get }
     
-    func instantiate(for identity: Identity) -> Credentials;
-    func instantiate(from profile: JSON, for identity: Identity) -> Credentials;
+    // MARK: - Control
+    
+    func start()
+    func stop()
     
 }
 

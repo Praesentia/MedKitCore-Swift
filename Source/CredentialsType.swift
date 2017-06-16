@@ -41,7 +41,7 @@ public enum CredentialsType {
      - Parameters:
         - string: String representation for the credentials type.
      */
-    init?(string: String)
+    public init?(string: String)
     {
         switch string {
         case NullString :

@@ -23,27 +23,8 @@ import Foundation;
 
 
 /**
- Public key certificate.
  */
-public protocol Certificate {
-    
-    // MARK: - Properties
-    var chain     : [Data]       { get }
-    var identity  : Identity?    { get }
-    var profile   : JSON         { get }
-    var publicKey : Key          { get }
-    var trusted   : Bool         { get }
-    var validity  : Range<Date>? { get }
-    
-    // MARK: - Identity Verification
-    
-    /**
-     Verify certificate is for identity.
-     
-     - Parameters:
-        - identity: An identity.
-     */
-    func verify(for identity: Identity) -> Bool;
+public protocol CameraSource: class {
     
 }
 

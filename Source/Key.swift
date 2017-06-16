@@ -23,27 +23,37 @@ import Foundation;
 
 
 /**
- PublicKeyCredentials factory.
  */
-public class PublicKeyCredentialsFactory: CredentialsFactory {
+public protocol Key: class {
     
-    // MARK: - Instantiation
-    
-    /**
-     Create credentials for identity.
-     */
-    public func instantiate(for identity: Identity) -> Credentials
-    {
-        return PublicKeyCredentials(for: identity);
-    }
+    var blockSize : Int { get }
     
     /**
-     Create credentials from profile.
+     Sign bytes for identity.
+     
+     Generate a signature for the specified bytes using the private credentials
+     associated with identity.
+     
+     - Parameters:
+        - bytes: The byte sequence to be signed.
+     
+     - Returns:
+        Returns the signature as a sequence a bytes, or nil if the required
+        credentials for identity do not exist.
+     
+     - Remarks:
+        The bytes to be signed are often a hash
      */
-    public func instantiate(from profile: JSON, for identity: Identity) -> Credentials
-    {
-        return PublicKeyCredentials(from: profile, for: identity);
-    }
+    func sign(bytes: [UInt8]) -> [UInt8]
+    
+    /**
+     Verify signature for identity.
+     
+     - Parameters:
+        - signature: The signature to be verified.
+        - bytes:     The byte sequence to be verified.
+     */
+    func verify(signature: [UInt8], for bytes: [UInt8]) -> Bool
     
 }
 

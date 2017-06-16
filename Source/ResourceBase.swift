@@ -36,7 +36,7 @@ public class ResourceBase: Resource, ResourceBackend {
     public var              profile              : JSON           { return getProfile(); }
     public private(set) var schema               : UUID;
     public weak var         service              : Service?       { return _service; }
-    public private(set) var type                 : UUID;
+    public private(set) var type                 : ResourceType;
     
     // ResourceBackend
     public var defaultBackend : Backend                   { return serviceBackend.defaultBackend; }
@@ -61,7 +61,7 @@ public class ResourceBase: Resource, ResourceBackend {
         identifier    = profile[KeyIdentifier].uuid!;
         notifications = profile[KeyNotifications].bool!;
         schema        = profile[KeySchema].uuid!;
-        type          = profile[KeyType].uuid!;
+        type          = ResourceType(with: profile[KeyType].uuid!);
     }
     
     // MARK: - Observer Interface
@@ -170,7 +170,7 @@ public class ResourceBase: Resource, ResourceBackend {
         profile[KeyIdentifier]    = identifier;
         profile[KeyNotifications] = notifications;
         profile[KeySchema]        = schema;
-        profile[KeyType]          = type;
+        profile[KeyType]          = type.identifier;
         
         return profile;
     }
@@ -186,7 +186,7 @@ public class ResourceBase: Resource, ResourceBackend {
         _cache              = cache;
         
         observers.withEach { $0.resourceDidUpdateNotificationEnabled(self) }
-        observers.withEach { $0.resourceDidUpdate(self, value: _cache.value, at: _cache.timeModified); }
+        observers.withEach { $0.resourceDidUpdate(self) }
     }
     
     /**
@@ -215,7 +215,7 @@ public class ResourceBase: Resource, ResourceBackend {
             assert(_cache != nil);
 
             _cache.update(changes: changes, at: time);
-            observers.withEach { $0.resourceDidUpdate(self, value: _cache.value, at: _cache.timeModified); }
+            observers.withEach { $0.resourceDidUpdate(self) }
         }
     }
     
@@ -232,7 +232,7 @@ public class ResourceBase: Resource, ResourceBackend {
             assert(_cache != nil);
 
             _cache.update(value: value, at: time);
-            observers.withEach { $0.resourceDidUpdate(self, value: _cache.value, at: _cache.timeModified); }
+            observers.withEach { $0.resourceDidUpdate(self) }
         }
     }
     
@@ -248,7 +248,7 @@ public class ResourceBase: Resource, ResourceBackend {
             assert(_cache != nil);
 
             _cache.update(from: cache);
-            observers.withEach { $0.resourceDidUpdate(self, value: _cache.value, at: _cache.timeModified); }
+            observers.withEach { $0.resourceDidUpdate(self) }
         }
     }
     

@@ -23,28 +23,44 @@ import Foundation;
 
 
 /**
- Public key certificate.
+ Placeholder
  */
-public protocol Certificate {
+class CameraControllerBase: CameraController {
     
     // MARK: - Properties
-    var chain     : [Data]       { get }
-    var identity  : Identity?    { get }
-    var profile   : JSON         { get }
-    var publicKey : Key          { get }
-    var trusted   : Bool         { get }
-    var validity  : Range<Date>? { get }
+    weak var         delegate : CameraControllerDelegate?
+    private(set) var source   : CameraSource?
     
-    // MARK: - Identity Verification
+    // MARK: Private Properties
+    private let resource: Resource
     
-    /**
-     Verify certificate is for identity.
-     
-     - Parameters:
-        - identity: An identity.
-     */
-    func verify(for identity: Identity) -> Bool;
+    // MARK: Initializers
     
+    init(resource: Resource)
+    {
+        self.resource = resource
+    }
+    
+    // MARK: - Control
+    
+    public func start()
+    {
+        stopped(for: MedKitError.NotSupported)
+    }
+    
+    public func stop()
+    {
+    }
+    
+    private func stopped(for reason: Error?)
+    {
+        if let delegate = self.delegate {
+            DispatchQueue.main.async {
+                delegate.cameraController(self, didStopForReason: reason)
+            }
+        }
+    }
+
 }
 
 

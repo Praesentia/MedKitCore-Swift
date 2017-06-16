@@ -31,9 +31,11 @@ public class NullCredentials: Credentials {
     public static let shared = NullCredentials();
 
     // MARK: - Properties
-    public var profile : JSON            { return getProfile(); }
-    public var type    : CredentialsType { return .Null; }
-    public var expires : TimeInterval?   { return nil; }
+    public let identity : Identity?       = nil
+    public var profile  : JSON            { return getProfile() }
+    public var trusted  : Bool            { return false }
+    public var type     : CredentialsType { return .Null }
+    public let validity : Range<Date>?    = nil
     
     // MARK: - Initializers
     
@@ -69,7 +71,7 @@ public class NullCredentials: Credentials {
         - bytes: The bytes that were originally signed.  This will typically be
                 a hash value of the actual data.
      */
-    public func verify(signature: [UInt8], bytes: [UInt8]) -> Bool
+    public func verify(signature: [UInt8], for bytes: [UInt8]) -> Bool
     {
         return false;
     }

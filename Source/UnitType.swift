@@ -19,8 +19,41 @@
  */
 
 
-import Foundation;
+import Foundation
 
+
+public class UnitType {
+    
+    public let identifier           : UUID
+    public var localizedDescription : String  { return UnitType.localizedDescriptions[identifier] ?? identifier.uuidstring }
+    
+    public init(with identifier: UUID)
+    {
+        self.identifier = identifier
+    }
+    
+}
+
+extension UnitType {
+    
+    static let localizedDescriptions = [
+        UnitTypeBeatsPerMinute       : "bpm",
+        UnitTypeBreathsPerMinute     : "bpm",
+        UnitTypeCelsius              : "°C",
+        UnitTypeFahrenheit           : "°F",
+        UnitTypeMillilitersPerMinute : "mL/min",
+        UnitTypeMillivolt            : "mV",
+        UnitTypeMMHg                 : "mmHg",
+        UnitTypePercent              : "%",
+        UnitTypeUnitless             : ""
+    ]
+    
+    public class func localizedDescription(for identifier: UUID) -> String?
+    {
+        return UnitType.localizedDescriptions[identifier];
+    }
+    
+}
 
 public let UnitTypeBeatsPerMinute       = UUID(uuidString: "c2e811aa-6550-4828-bcb7-c3c723f74cbc")!; // final
 public let UnitTypeBreathsPerMinute     = UUID(uuidString: "b8e540a0-d5b5-4b62-8359-159fd7dbee87")!; // final
@@ -31,23 +64,6 @@ public let UnitTypeMillivolt            = UUID(uuidString: "303cf4c1-fbac-4d8d-8
 public let UnitTypeMMHg                 = UUID(uuidString: "e47d1de9-6e00-4430-9358-8d506d7607b8")!; // final
 public let UnitTypePercent              = UUID(uuidString: "e9d5a99f-c8a3-405d-acda-8e7fd42a9925")!; // final
 public let UnitTypeUnitless             = UUID(uuidString: "28641491-f46b-4cf9-989f-fbfed93c48a7")!; // final
-
-public func unitLocalizedDescription(_ unitType: UUID) -> String?
-{
-    return unitTypeLocalization[unitType];
-}
-
-let unitTypeLocalization = [
-    UnitTypeBeatsPerMinute       : "bpm",
-    UnitTypeBreathsPerMinute     : "bpm",
-    UnitTypeCelsius              : "°C",
-    UnitTypeFahrenheit           : "°F",
-    UnitTypeMillilitersPerMinute : "mL/min",
-    UnitTypeMillivolt            : "mV",
-    UnitTypeMMHg                 : "mmHg",
-    UnitTypePercent              : "%",
-    UnitTypeUnitless             : ""
-]
 
 
 // End of File

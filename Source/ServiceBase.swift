@@ -35,7 +35,7 @@ public class ServiceBase: Service, ServiceBackend {
     public private(set) var      name       : String;
     public var                   profile    : JSON        { return getProfile(); }
     public var                   resources  : [Resource]  { return _resources; }
-    public private(set) var      type       : UUID;
+    public private(set) var      type       : ServiceType;
     
     // MARK: - Properties - ServiceBackend
     public var deviceBackend    : DeviceBackend!           { return _device; }
@@ -62,7 +62,7 @@ public class ServiceBase: Service, ServiceBackend {
         _device    = device;
         identifier = profile[KeyIdentifier].uuid!;
         name       = profile[KeyName].string!;
-        type       = profile[KeyType].uuid!;
+        type       = ServiceType(with: profile[KeyType].uuid!);
         
         if let resources = profile[KeyResources].array {
             for profile in resources {
@@ -108,7 +108,7 @@ public class ServiceBase: Service, ServiceBackend {
         
         profile[KeyIdentifier] = JSON(identifier);
         profile[KeyName]       = JSON(name);
-        profile[KeyType]       = JSON(type);
+        profile[KeyType]       = JSON(type.identifier);
         profile[KeyResources]  = resources.map { $0.profile }
         
         return profile;

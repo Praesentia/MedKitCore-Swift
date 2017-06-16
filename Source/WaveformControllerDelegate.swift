@@ -23,27 +23,29 @@ import Foundation;
 
 
 /**
- Public key certificate.
+ WaveformController delegate.
  */
-public protocol Certificate {
-    
-    // MARK: - Properties
-    var chain     : [Data]       { get }
-    var identity  : Identity?    { get }
-    var profile   : JSON         { get }
-    var publicKey : Key          { get }
-    var trusted   : Bool         { get }
-    var validity  : Range<Date>? { get }
-    
-    // MARK: - Identity Verification
+public protocol WaveformControllerDelegate: class {
     
     /**
-     Verify certificate is for identity.
+     Waveform controller did start.
      
-     - Parameters:
-        - identity: An identity.
+     This method is called in response to ...
      */
-    func verify(for identity: Identity) -> Bool;
+    func waveformControllerDidStart(_ waveformController: WaveformController)
+
+    /**
+     Waveform controller did stop.
+     
+     This method is called in response to waveform capture being interrupted
+     for any reason.
+     */
+    func waveformController(_ waveformController: WaveformController, didStopForReason reason: Error?)
+
+    /**
+     Waveform controller did update latency.
+     */
+    func waveformControllerDidUpdateLatency(_ waveformController: WaveformController)
     
 }
 

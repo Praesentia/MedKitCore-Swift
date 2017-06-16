@@ -33,7 +33,7 @@ public class DeviceInfo {
     public private(set) var name         : String;
     public private(set) var model        : String;
     public private(set) var serialNumber : String;
-    public private(set) var type         : UUID;
+    public private(set) var type         : DeviceType;
     
     // MARK: - Private Constants
     private static let TXTKeyManufacturer = "mf";
@@ -56,7 +56,7 @@ public class DeviceInfo {
         model        = profile[KeyModel].string!;
         name         = profile[KeyName].string!;
         serialNumber = profile[KeySerialNumber].string!;
-        type         = deviceType(named: profile[KeyType].string!);
+        type         = DeviceType(named: profile[KeyType].string!);
     }
     
     /**
@@ -72,7 +72,7 @@ public class DeviceInfo {
         model        = txt[DeviceInfo.TXTKeyModel]!;
         name         = txt[DeviceInfo.TXTKeyName]!;
         serialNumber = txt[DeviceInfo.TXTKeySerialNumber]!;
-        type         = deviceType(named: txt[DeviceInfo.TXTKeyType]!);
+        type         = DeviceType(named: txt[DeviceInfo.TXTKeyType]!);
     }
     
     // MARK: - Identifier

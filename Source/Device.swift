@@ -75,7 +75,7 @@ public protocol Device: class {
     /**
      The device type.
      */
-    var type: UUID { get }
+    var type: DeviceType { get }
     
     /**
      Collection of bridged devices.
@@ -121,12 +121,6 @@ public protocol Device: class {
         - completion: Completion handler.
      */
     func updateName(_ name: String, completionHandler completion: @escaping (Error?) -> Void)
-    
-}
-
-public extension Device {
-    
-    var localizedDescription: String { return deviceTypeNames[type] ?? type.uuidstring; }
     
 }
 

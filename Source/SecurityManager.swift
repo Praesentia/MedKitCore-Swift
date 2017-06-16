@@ -22,6 +22,11 @@
 import Foundation;
 
 
+public typealias SecKeyType = UUID;
+public let SecKeyRoot           = UUID(uuidString: "9c9dacb6-14f4-426a-8bb7-a7037ea1b204")!;
+public let SecKeyAuthentication = UUID(uuidString: "5c88ea5b-a058-4d6a-a2dc-10747f7f3953")!;
+
+
 /**
  SecurityManager protocol.
  
@@ -41,6 +46,10 @@ public protocol SecurityManager: class {
     
     // MARK: - Credentials
     
+    func createCredentials(for identity: Identity) -> Credentials?;
+    
+    func createSharedSecretCredentials(for identity: Identity, with secret: [UInt8], completionHandler completion: @escaping (Error?, Credentials?) -> Void);
+    
     /**
      Get credentials for identity.
      
@@ -52,6 +61,14 @@ public protocol SecurityManager: class {
         exist.
      */
     func getCredentials(for identity: Identity, using type: CredentialsType) -> Credentials?;
+    
+    func getCredentials(for identity: Identity, from profile: JSON) -> Credentials?
+    
+    func loadSharedSecretCredentials(for identity: Identity) -> Credentials?;
+    
+    func loadPublicCredentials(for identity: Identity, from data: Data) -> Credentials?;
+    
+    func loadCredentials(fromPKCS12 data: Data, with password: String) -> Credentials?;
     
     // MARK: - Digest
     
@@ -70,6 +87,29 @@ public protocol SecurityManager: class {
      - Returns: Returns the array of random bytes.
      */
     func randomBytes(count: Int) -> [UInt8];
+    
+    // MARK: - Public Key
+    
+    func generateKeyPair(for identity: Identity, role: SecKeyType, completionHandler completion: @escaping (Error?) -> Void);
+    
+    func generateCertificate(for identity: Identity, role: SecKeyType, completionHandler completion: @escaping (Error?) -> Void);
+    
+    func loadCertificate(from data: Data) -> Certificate?;
+    
+    /**
+     Get certificate for identity.
+     
+     Gets the public key certifcate for the specified identity.
+     
+     - Parameters:
+        - identity: Identifies the principal.
+     
+     - Returns:
+        Returns the certificate for identity, or nil if a certificate does not
+        exist.
+     */
+    func getCertificate(for identity: Identity, role: SecKeyType) -> Certificate?;
+    
     
     // MARK: - Shared Secret
     
@@ -90,7 +130,9 @@ public protocol SecurityManager: class {
         Password strings may be converted to a byte array by encoding the
         string as a UTF-8 byte sequence.
      */
-    func internSecret(_ secret: [UInt8], for identity: Identity, completionHandler completion: @escaping (Error?) -> Void);
+    func internSharedKey(for identity: Identity, with secret: [UInt8], completionHandler completion: @escaping (Error?, Key?) -> Void);
+    
+    func loadSharedKey(for identity: Identity) -> Key?;
     
     /**
      Remove shared secret.
@@ -103,66 +145,8 @@ public protocol SecurityManager: class {
         - completion A completion handler that will be invoked will the result
                      of the operation.
      */
-    func removeSecret(for identity: Identity, completionHandler completion: @escaping (Error?) -> Void);
-    
-    // MARK: - Public Key
-    
-    func generateKeyPair(for identity: Identity, completionHandler completion: @escaping (Error?) -> Void);
-    
-    /**
-     Get certificate for identity.
-     
-     Gets the public key certifcate for the specified identity.
-     
-     - Parameters:
-        - identity: Identifies the principal.
-     
-     - Returns:
-        Returns the certificate for identity, or nil if a certificate does not
-        exist.
-     */
-    func getCertificate(for identity: Identity) -> Certificate?;
-    
-    /**
-     Placeholder.
-     */
-    func verify(certificate: Certificate, for identity: Identity) -> Bool;
-    
-    /**
-     Placeholder.
-     */
-    func verifySignature(_ signature: [UInt8], for certificate: Certificate, bytes: [UInt8]) -> Bool;
-    
-    // MARK: - Signing and Verification
-    
-    /**
-     Sign bytes for identity.
-     
-     Generate a signature for the specified bytes using the private credentials
-     associated with identity.
-     
-     - Parameters:
-        - bytes:    The byte sequence to be signed.
-        - identity: Identifies the principal.
-     
-     - Returns:
-        Returns the signature as a sequence a bytes, or nil if the required
-        credentials for identity do not exist.
-     
-     - Remarks:
-        The bytes to be signed are often a hash
-     */
-    func signBytes(_ bytes: [UInt8], for identity: Identity, using type: CredentialsType) -> [UInt8]?;
-    
-    /**
-     Verify signature for identity.
-     
-     - Parameters:
-        - signature: The signature to be verified.
-        - identity:  Identifies the principal.
-        - bytes:     The byte sequence to be verified.
-     */
-    func verifySignature(_ signature: [UInt8], for identity: Identity, bytes: [UInt8], using type: CredentialsType) -> Bool;
+    func removeSharedKey(for identity: Identity, completionHandler completion: @escaping (Error?) -> Void);
+
     
 }
 

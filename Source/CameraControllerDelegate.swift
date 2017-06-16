@@ -23,27 +23,12 @@ import Foundation;
 
 
 /**
- Public key certificate.
+ CameraController delegate.
  */
-public protocol Certificate {
+public protocol CameraControllerDelegate: class {
     
-    // MARK: - Properties
-    var chain     : [Data]       { get }
-    var identity  : Identity?    { get }
-    var profile   : JSON         { get }
-    var publicKey : Key          { get }
-    var trusted   : Bool         { get }
-    var validity  : Range<Date>? { get }
-    
-    // MARK: - Identity Verification
-    
-    /**
-     Verify certificate is for identity.
-     
-     - Parameters:
-        - identity: An identity.
-     */
-    func verify(for identity: Identity) -> Bool;
+    func cameraControllerDidStart(_ cameraController: CameraController)
+    func cameraController(_ cameraController: CameraController, didStopForReason reason: Error?)
     
 }
 

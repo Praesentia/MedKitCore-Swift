@@ -34,9 +34,14 @@ import Foundation;
  */
 public protocol Credentials: class  {
     
-    var profile : JSON            { get } //: A JSON profile representing the public credentials.
-    var type    : CredentialsType { get } //: Identifies the type of credentials.
-    var expires : TimeInterval?   { get }
+    // MARK: - Properties
+    var identity : Identity?       { get }
+    var profile  : JSON            { get } //: A JSON profile representing the public credentials.
+    var trusted  : Bool            { get }
+    var type     : CredentialsType { get } //: Identifies the type of credentials.
+    var validity : Range<Date>?    { get }
+    
+    // MARK: - Signing
     
     /**
      Sign bytes.
@@ -54,30 +59,20 @@ public protocol Credentials: class  {
         - bytes: The bytes that were originally signed.  This will typically be
             a hash value of the actual data.
      */
-    func verify(signature: [UInt8], bytes: [UInt8]) -> Bool;
+    func verify(signature: [UInt8], for bytes: [UInt8]) -> Bool;
 }
 
 public extension Credentials {
     
     /**
-     Will credentials be expired at time?
-     
-     A convenience method used to check whether or not the credentials will be
-     expired at a specific time.
+     Are credentials valid for date.
      
      - Parameters:
-        - time: The time to be checked.
-     
-     - Returns:
-        Returns true if the credentials are expired at the specified time,
-        otherwise false.
+        - date: The time to be checked.
      */
-    func expired(at time: TimeInterval) -> Bool
+    func valid(at date: Date) -> Bool
     {
-        if let expires = self.expires {
-            return time >= expires;
-        }
-        return false;
+        return validity?.contains(date) ?? false
     }
     
 }

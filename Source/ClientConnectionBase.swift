@@ -42,7 +42,7 @@ open class ClientConnectionBase: ConnectionBase, ClientConnection {
         - port:      A port used to establish the connection to the server.
         - principal: The principal used to identify the client to the server.
      */
-    required public init(to port: Port, as principal: Principal?)
+    required public init(to port: Port, for device: DeviceBackend, as principal: Principal?)
     {
         super.init(port: port);
     }

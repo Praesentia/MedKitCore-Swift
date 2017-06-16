@@ -40,7 +40,7 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
     public var              profile        : JSON      { return getProfile(); }
     public var              reachable      : Bool      { return true; }
     public private(set) var serialNumber   : String;
-    public private(set) var type           : UUID;
+    public private(set) var type           : DeviceType;
     public var              bridgedDevices : [Device]  { return _bridgedDevices; }
     public var              services       : [Service] { return _services; }
     
@@ -88,7 +88,7 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
         model        = profile[KeyModel].string!;
         name         = profile[KeyName].string!;
         serialNumber = profile[KeySerialNumber].string!;
-        type         = profile[KeyType].uuid!;
+        type         = DeviceType(with: profile[KeyType].uuid!);
         
         if let bridgedDevices = profile[KeyBridgedDevices].array {
             for profile in bridgedDevices {
@@ -203,7 +203,7 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
         profile[KeyManufacturer] = JSON(manufacturer);
         profile[KeyModel]        = JSON(model);
         profile[KeySerialNumber] = JSON(serialNumber);
-        profile[KeyType]         = JSON(type);
+        profile[KeyType]         = JSON(type.identifier);
         profile[KeyServices]     = services.map { $0.profile };
         
         return profile;
@@ -327,7 +327,7 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
         manufacturer = profile[KeyManufacturer].string!;
         model        = profile[KeyModel].string!;
         serialNumber = profile[KeySerialNumber].string!;
-        type         = profile[KeyType].uuid!;
+        type         = DeviceType(with: profile[KeyType].uuid!);
         
         // update name
         if let name = profile[KeyName].string {

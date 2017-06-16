@@ -22,56 +22,74 @@
 import Foundation;
 
 
-/**
- Device type identifier.
- 
- Calculates a type 5 UUID for a device type with the specified name.  The name
- is case-insensitive.
- */
-public func deviceType(named name: String) -> UUID
-{
-    let digest = SecurityManagerShared.main.digest(using: .SHA1);
+public class DeviceType {
     
-    digest.update(uuid: UUIDNSDeviceType);
-    digest.update(string: name.lowercased());
+    public let identifier           : UUID
+    public var name                 : String? { return DeviceType.names[identifier] }
+    public var localizedDescription : String  { return name ?? identifier.uuidstring }
     
-    return UUID(fromSHA1: digest.final());
+    public init(with identifier: UUID)
+    {
+        self.identifier = identifier
+    }
+    
+    public init(named name: String)
+    {
+        identifier = DeviceType.identifier(from: name)
+    }
+    
 }
 
-public func deviceTypeName(with identifier: UUID) -> String?
-{
-    return deviceTypeNames[identifier];
+extension DeviceType {
+    
+    /**
+     Device type identifier.
+     
+     Calculates a type 5 UUID for a device type with the specified name.  The name
+     is case-insensitive.
+     */
+    class func identifier(from name: String) -> UUID
+    {
+        let digest = SecurityManagerShared.main.digest(using: .SHA1);
+        
+        digest.update(uuid: UUIDNSDeviceType);
+        digest.update(string: name.lowercased());
+        
+        return UUID(fromSHA1: digest.final());
+    }
+    
+    /**
+     String representation for the device types.
+     */
+    static let names = [
+        DeviceTypeOther              : "Other",
+        DeviceTypeBridge             : "Bridge",
+        DeviceTypeElectrocardiograph : "Electrocardiograph",
+        DeviceTypeEndoscope          : "Endoscope",
+        DeviceTypePatientSimulator   : "Patient Simulator",
+        DeviceTypePulseOximeter      : "Pulse Oximeter",
+        DeviceTypeRespirationMonitor : "Respiration Monitor",
+        DeviceTypeSphygmograph       : "Sphygmograph",
+        DeviceTypeSphygmomanometer   : "Sphygmomanometer",
+        DeviceTypeThermometer        : "Thermometer"
+    ];
+    
 }
 
 /**
  Type 5 UUID representation for the device types.
  */
-public let DeviceTypeBridge             = deviceType(named: "Bridge");
-public let DeviceTypeElectrocardiograph = deviceType(named: "Electrocardiograph");
-public let DeviceTypeEndoscope          = deviceType(named: "Endoscope");
-public let DeviceTypeOther              = deviceType(named: "Other");
-public let DeviceTypePatientSimulator   = deviceType(named: "Patient Simulator");
-public let DeviceTypePulseOximeter      = deviceType(named: "Pulse Oximeter");
-public let DeviceTypeRespirationMonitor = deviceType(named: "Respiration Monitor");
-public let DeviceTypeSphygmograph       = deviceType(named: "Sphygmograph");
-public let DeviceTypeSphygmomanometer   = deviceType(named: "Sphygmomanometer");
-public let DeviceTypeThermometer        = deviceType(named: "Thermometer");
+public let DeviceTypeBridge             = DeviceType.identifier(from: "Bridge");
+public let DeviceTypeElectrocardiograph = DeviceType.identifier(from: "Electrocardiograph");
+public let DeviceTypeEndoscope          = DeviceType.identifier(from: "Endoscope");
+public let DeviceTypeOther              = DeviceType.identifier(from: "Other");
+public let DeviceTypePatientSimulator   = DeviceType.identifier(from: "Patient Simulator");
+public let DeviceTypePulseOximeter      = DeviceType.identifier(from: "Pulse Oximeter");
+public let DeviceTypeRespirationMonitor = DeviceType.identifier(from: "Respiration Monitor");
+public let DeviceTypeSphygmograph       = DeviceType.identifier(from: "Sphygmograph");
+public let DeviceTypeSphygmomanometer   = DeviceType.identifier(from: "Sphygmomanometer");
+public let DeviceTypeThermometer        = DeviceType.identifier(from: "Thermometer");
 
-/**
- String representation for the device types.
- */
-let deviceTypeNames = [
-    DeviceTypeOther              : "Other",
-    DeviceTypeBridge             : "Bridge",
-    DeviceTypeElectrocardiograph : "Electrocardiograph",
-    DeviceTypeEndoscope          : "Endoscope",
-    DeviceTypePatientSimulator   : "Patient Simulator",
-    DeviceTypePulseOximeter      : "Pulse Oximeter",
-    DeviceTypeRespirationMonitor : "Respiration Monitor",
-    DeviceTypeSphygmograph       : "Sphygmograph",
-    DeviceTypeSphygmomanometer   : "Sphygmomanometer",
-    DeviceTypeThermometer        : "Thermometer"
-];
 
 
 // End of File

@@ -23,26 +23,26 @@ import Foundation;
 
 
 /**
- SharedSecret factory.
  */
-public class SharedSecretFactory: CredentialsFactory {
+public class WaveformControllers {
     
-    // MARK: - Instantiation
+    // MARK: - Class Properties
+    public static let main = WaveformControllers()
     
-    /**
-     Create credentials for identity.
-     */
-    public func instantiate(for identity: Identity) -> Credentials
+    // MARK: - Initializers
+    
+    private init()
     {
-        return SharedSecret(for: identity);
     }
     
-    /**
-     Create credentials from profile.
-     */
-    public func instantiate(from profile: JSON, for identity: Identity) -> Credentials
+    // MARK: - Waveform Factory
+    
+    public func instantiateController(for resource: Resource) -> WaveformController?
     {
-        return instantiate(for: identity);
+        if resource.schema == SchemaTypeWaveform {
+            return WaveformControllerBase(resource: resource)
+        }
+        return nil
     }
     
 }

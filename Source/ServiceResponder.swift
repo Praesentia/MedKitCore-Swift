@@ -88,7 +88,7 @@ public class ServiceResponder: NSObject, NetServiceDelegate {
         var txt = [String : Data]();
         
         txt["dn"] = device.name.data(using: .utf8);
-        txt["dt"] = (deviceTypeName(with: device.type) ?? "Other").data(using: .utf8);
+        txt["dt"] = (device.type.name ?? "Other").data(using: .utf8);
         txt["mf"] = device.manufacturer.data(using: .utf8);
         txt["md"] = device.model.data(using: .utf8);
         txt["sn"] = device.serialNumber.data(using: .utf8);
@@ -103,7 +103,7 @@ public class ServiceResponder: NSObject, NetServiceDelegate {
         var txt = [String : Data]();
         
         txt["dn"] = deviceInfo.name.data(using: .utf8);
-        txt["dt"] = (deviceTypeName(with: deviceInfo.type) ?? "Other").data(using: .utf8);
+        txt["dt"] = (deviceInfo.type.name ?? "Other").data(using: .utf8);
         txt["mf"] = deviceInfo.manufacturer.data(using: .utf8);
         txt["md"] = deviceInfo.model.data(using: .utf8);
         txt["sn"] = deviceInfo.serialNumber.data(using: .utf8);

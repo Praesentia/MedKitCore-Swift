@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2017 Jon Griffeth
+ Copyright 2016-2017 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -23,27 +23,27 @@ import Foundation;
 
 
 /**
- Public key certificate.
+ Secure port policy delegate.
+ 
+ Placeholder.∫
  */
-public protocol Certificate {
-    
-    // MARK: - Properties
-    var chain     : [Data]       { get }
-    var identity  : Identity?    { get }
-    var profile   : JSON         { get }
-    var publicKey : Key          { get }
-    var trusted   : Bool         { get }
-    var validity  : Range<Date>? { get }
-    
-    // MARK: - Identity Verification
+public protocol PortSecurePolicy: class {
     
     /**
-     Verify certificate is for identity.
+     Should authenticate peer.
+     */
+    func portShouldAuthenticatePeer(_ port: PortSecure) -> Bool
+    
+    /**
+     Should accept peer.
      
      - Parameters:
-        - identity: An identity.
+        - port:
+        - peer:
+     
+     - Precondition: peer.trusted
      */
-    func verify(for identity: Identity) -> Bool;
+    func port(_ port: PortSecure, shouldAccept peer: Principal) -> Bool
     
 }
 

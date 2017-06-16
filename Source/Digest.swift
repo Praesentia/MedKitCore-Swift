@@ -88,6 +88,18 @@ public extension Digest {
     }
     
     /**
+     Update digest from data.
+     
+     A convenience method for updating the digest from optional data.
+     */
+    public func update(data: Data?)
+    {
+        if let data = data {
+            update(bytes: [UInt8](data));
+        }
+    }
+    
+    /**
      Update digest from string.
      
      A convenience method for updating the digest from an optional string.

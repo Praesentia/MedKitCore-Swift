@@ -22,6 +22,9 @@
 import Foundation;
 
 
+/**
+ PortMonitor delegate protocol.
+ */
 public protocol PortMonitorDelegate: class {
     
     // MARK: - Lifecycle

@@ -61,10 +61,10 @@ class NetBackend: Backend, ConnectionDelegate {
         - principal:
         - completion:
      */
-    private func connect(as principal: Principal?, completionHandler completion: @escaping (Error?) -> Void)
+    private func connect(to device: DeviceBackend, as principal: Principal?, completionHandler completion: @escaping (Error?) -> Void)
     {
         if let port = ports.selectPort() {
-            if let connection = port.instantiateConnection(as: principal) {
+            if let connection = port.instantiateConnection(to: device, as: principal) {
                 connection.start() { error in
                     
                     if error == nil {
@@ -92,7 +92,7 @@ class NetBackend: Backend, ConnectionDelegate {
         syncOpen.wait(completionHandler: completion);
         
         if syncOpen.first {
-            connect(as: PrincipalManager.main.primary) { error in
+            connect(to: device, as: PrincipalManager.main.primary) { error in
                 if error == nil {
                     self.connection.backend.deviceOpen(device) { error in
                         self.isOpen = true;
@@ -119,7 +119,8 @@ class NetBackend: Backend, ConnectionDelegate {
      */
     func connectionDidClose(_ connection: Connection, for reason: Error?)
     {
-        self.connection.backend.deviceClose(device, for: reason) { error in
+        // TODO: backend nil?
+        self.connection.backend?.deviceClose(device, for: reason) { error in
             
             // TODO
             if error == nil {
