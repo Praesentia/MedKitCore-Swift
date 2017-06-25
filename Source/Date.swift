@@ -7,23 +7,23 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 public extension Date {
     
-    static private let BirthdateFormat = "yyyy-MM-dd";
-    static private let dateFormatter   = DateFormatter();
+    static private let BirthdateFormat = "yyyy-MM-dd"
+    static private let dateFormatter   = DateFormatter()
     
     var rfc3339: String {
-        Date.dateFormatter.dateFormat = Date.BirthdateFormat;
-        return Date.dateFormatter.string(from: self);
+        Date.dateFormatter.dateFormat = Date.BirthdateFormat
+        return Date.dateFormatter.string(from: self)
     }
     
     static func rfc3339(_ string: String) -> Date?
     {
-        Date.dateFormatter.dateFormat = Date.BirthdateFormat;
-        return Date.dateFormatter.date(from: string);
+        Date.dateFormatter.dateFormat = Date.BirthdateFormat
+        return Date.dateFormatter.date(from: string)
     }
     
 }

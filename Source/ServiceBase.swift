@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -31,24 +31,24 @@ public class ServiceBase: Service, ServiceBackend {
     
     // MARK: - Properties
     public weak var              device     : Device?     { return _device }
-    public private(set) var      identifier : UUID;
-    public private(set) var      name       : String;
-    public var                   profile    : JSON        { return getProfile(); }
-    public var                   resources  : [Resource]  { return _resources; }
-    public private(set) var      type       : ServiceType;
+    public private(set) var      identifier : UUID
+    public private(set) var      name       : String
+    public var                   profile    : JSON        { return getProfile() }
+    public var                   resources  : [Resource]  { return _resources }
+    public private(set) var      type       : ServiceType
     
     // MARK: - Properties - ServiceBackend
-    public var deviceBackend    : DeviceBackend!           { return _device; }
-    public var defaultBackend   : Backend                  { return deviceBackend.defaultBackend; }
-    public var backend          : ServiceBackendDelegate!;
-    public var resourceBackends : [ResourceBackend]        { return _resources; }
+    public var deviceBackend    : DeviceBackend!           { return _device }
+    public var defaultBackend   : Backend                  { return deviceBackend.defaultBackend }
+    public var backend          : ServiceBackendDelegate!
+    public var resourceBackends : [ResourceBackend]        { return _resources }
     
     // MARK: - Shadowed
-    private var _device    : DeviceBase?;
-    private var _resources = [ResourceBase]();
+    private var _device    : DeviceBase?
+    private var _resources = [ResourceBase]()
     
     // MARK: - Private
-    private var  observers  = ObserverManager<ServiceObserver>();
+    private var  observers  = ObserverManager<ServiceObserver>()
     
     // MARK: - Initializers
     
@@ -57,16 +57,16 @@ public class ServiceBase: Service, ServiceBackend {
      */
     public init(_ device: DeviceBase, from profile: JSON)
     {
-        backend = device.defaultBackend;
+        backend = device.defaultBackend
         
-        _device    = device;
-        identifier = profile[KeyIdentifier].uuid!;
-        name       = profile[KeyName].string!;
-        type       = ServiceType(with: profile[KeyType].uuid!);
+        _device    = device
+        identifier = profile[KeyIdentifier].uuid!
+        name       = profile[KeyName].string!
+        type       = ServiceType(with: profile[KeyType].uuid!)
         
         if let resources = profile[KeyResources].array {
             for profile in resources {
-                _resources.append(ResourceBase(self, from: profile));
+                _resources.append(ResourceBase(self, from: profile))
             }
         }
     }
@@ -75,12 +75,12 @@ public class ServiceBase: Service, ServiceBackend {
     
     public func addObserver(_ observer: ServiceObserver)
     {
-        observers.add(observer);
+        observers.add(observer)
     }
     
     public func removeObserver(_ observer: ServiceObserver)
     {
-        observers.remove(observer);
+        observers.remove(observer)
     }
     
     // MARK: - Mutators
@@ -94,7 +94,7 @@ public class ServiceBase: Service, ServiceBackend {
      */
     public func updateName(_ name: String, completionHandler completion: @escaping (Error?) -> Void)
     {
-        backend.service(self, updateName: name, completionHandler: completion);
+        backend.service(self, updateName: name, completionHandler: completion)
     }
     
     // MARK: - Profile
@@ -104,27 +104,27 @@ public class ServiceBase: Service, ServiceBackend {
      */
     private func getProfile() -> JSON
     {
-        let profile = JSON();
+        let profile = JSON()
         
-        profile[KeyIdentifier] = JSON(identifier);
-        profile[KeyName]       = JSON(name);
-        profile[KeyType]       = JSON(type.identifier);
+        profile[KeyIdentifier] = JSON(identifier)
+        profile[KeyName]       = JSON(name)
+        profile[KeyType]       = JSON(type.identifier)
         profile[KeyResources]  = resources.map { $0.profile }
         
-        return profile;
+        return profile
     }
     
     func connected()
     {
         for resource in _resources {
-            resource.connected();
+            resource.connected()
         }
     }
     
     func disconnected()
     {
         for resource in _resources {
-            resource.disconnected();
+            resource.disconnected()
         }
     }
     
@@ -135,10 +135,10 @@ public class ServiceBase: Service, ServiceBackend {
      */
     public func updateName(_ name: String, notify: Bool)
     {
-        self.name = name;
+        self.name = name
         
         if notify {
-            observers.withEach { $0.serviceDidUpdateName(self); }
+            observers.withEach { $0.serviceDidUpdateName(self) }
         }
     }
     
@@ -146,31 +146,31 @@ public class ServiceBase: Service, ServiceBackend {
     {
         for resource in _resources {
             if resource.identifier == identifier {
-                return resource;
+                return resource
             }
         }
         
-        return nil;
+        return nil
     }
     
     public func addResource(_ resource: ResourceBase, notify : Bool)
     {
-        _resources.append(resource);
+        _resources.append(resource)
         
         if notify {
-            observers.withEach { $0.service(self, didAdd: resource); }
+            observers.withEach { $0.service(self, didAdd: resource) }
         }
     }
     
     public func removeResource(withIdentifier identifier: UUID, notify : Bool)
     {
-        if let index = (_resources.index { $0.identifier == identifier; }) {
-            let resource = _resources[index];
+        if let index = (_resources.index { $0.identifier == identifier }) {
+            let resource = _resources[index]
             
-            _resources.remove(at: index);
+            _resources.remove(at: index)
             
             if notify {
-                observers.withEach { $0.service(self, didRemove: resource); }
+                observers.withEach { $0.service(self, didRemove: resource) }
             }
         }
     }

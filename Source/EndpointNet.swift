@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -28,19 +28,19 @@ import Foundation;
 class EndpointNet: Endpoint {
 
     // MARK: - Properties
-    var hostAddress : SockAddr? { return getHostAddress(); }
-    var peerAddress : SockAddr? { return getPeerAddress(); }
+    var hostAddress : SockAddr? { return getHostAddress() }
+    var peerAddress : SockAddr? { return getPeerAddress() }
 
     // MARK: - Private Constants
-    private let InvalidSocket : Int32 = -1;
+    private let InvalidSocket : Int32 = -1
     
     // MARK: - Private
-    private var proto         : InetProto = .udp;
-    private var receiver      : DispatchSourceRead!;
-    private var receiverActive: Bool = false;
-    private var sender        : DispatchSourceWrite!;
-    private var senderActive  : Bool = false;
-    private var socket        : Int32 = -1;
+    private var proto         : InetProto = .udp
+    private var receiver      : DispatchSourceRead!
+    private var receiverActive: Bool = false
+    private var sender        : DispatchSourceWrite!
+    private var senderActive  : Bool = false
+    private var socket        : Int32 = -1
     
     // MARK: - Initializers/Deinitializers
     
@@ -60,13 +60,13 @@ class EndpointNet: Endpoint {
      */
     init(socket: Int32, proto: InetProto)
     {
-        self.socket = socket;
-        self.proto  = proto;
+        self.socket = socket
+        self.proto  = proto
         
-        super.init();
+        super.init()
         
         if fcntl(socket, F_SETFL, O_NONBLOCK) == 0 {
-            instantiateDispatch();
+            instantiateDispatch()
         }
         else {
             // TODO
@@ -78,7 +78,7 @@ class EndpointNet: Endpoint {
      */
     deinit
     {
-        close();
+        close()
     }
     
     // MARK: -
@@ -87,33 +87,33 @@ class EndpointNet: Endpoint {
      */
     override func shutdown()
     {
-        close();
+        close()
     }
     
     /**
      */
     func accept() -> EndpointNet?
     {
-        guard(socket != InvalidSocket) else { return nil; }
+        guard(socket != InvalidSocket) else { return nil }
     
-        var endpoint : EndpointNet?;
-        var storage  = sockaddr_storage();
+        var endpoint : EndpointNet?
+        var storage  = sockaddr_storage()
         
         withUnsafeMutablePointer(to: &storage) { ptr in
             ptr.withMemoryRebound(to: sockaddr.self, capacity: 1) { address in
                 
-                var client : Int32;
-                var len    = socklen_t(MemoryLayout<sockaddr_storage>.size);
+                var client : Int32
+                var len    = socklen_t(MemoryLayout<sockaddr_storage>.size)
                 
-                client = Foundation.accept(socket, address, &len);
+                client = Foundation.accept(socket, address, &len)
                 if client != InvalidSocket {
-                    endpoint = EndpointNet(socket: client, proto: proto);
+                    endpoint = EndpointNet(socket: client, proto: proto)
                 }
                 
             }
         }
         
-        return endpoint;
+        return endpoint
     }
     
     /**
@@ -121,26 +121,26 @@ class EndpointNet: Endpoint {
      */
     func close()
     {
-        guard(socket != InvalidSocket) else { return; }
+        guard(socket != InvalidSocket) else { return }
 
         if let receiver = self.receiver {
-            receiver.cancel();
+            receiver.cancel()
             if !receiverActive {
-                receiver.resume(); // TODO
+                receiver.resume() // TODO
             }
-            self.receiver = nil;
+            self.receiver = nil
         }
         
         if let sender = self.sender {
-            sender.cancel();
+            sender.cancel()
             if !senderActive {
-                sender.resume();
+                sender.resume()
             }
-            self.sender = nil;
+            self.sender = nil
         }
 
-        _ = Foundation.close(socket);
-        socket = InvalidSocket;
+        _ = Foundation.close(socket)
+        socket = InvalidSocket
     }
 
     /**
@@ -148,24 +148,24 @@ class EndpointNet: Endpoint {
      */
     func connect(address: SockAddr) -> Bool
     {
-        guard(socket == InvalidSocket) else { return false; }
+        guard(socket == InvalidSocket) else { return false }
         
-        var status : Int32 = -1;
+        var status : Int32 = -1
         
         if instantiate(address: address) {
             
             withUnsafePointer(to: &address.storage) { ptr in
                 ptr.withMemoryRebound(to: sockaddr.self, capacity: 1) { destination in
 
-                    status = Foundation.connect(socket, destination, address.len);
+                    status = Foundation.connect(socket, destination, address.len)
                     if status != 0 {
                         switch errno {
                         case EINPROGRESS :
-                            status = 0;
-                            resumeOut();
+                            status = 0
+                            resumeOut()
                             
                         default :
-                            break; // TODO: early connection?
+                            break // TODO: early connection?
                         }
                     }
                 }
@@ -173,7 +173,7 @@ class EndpointNet: Endpoint {
             
         }
         
-        return status == 0;
+        return status == 0
     }
     
     /**
@@ -185,17 +185,17 @@ class EndpointNet: Endpoint {
      */
     func listen(address: SockAddr, backlog: Int32) -> Bool
     {
-        guard(socket == InvalidSocket) else { return false; }
+        guard(socket == InvalidSocket) else { return false }
         
-        var status: Bool = false;
+        var status: Bool = false
         
         if instantiate(address: address) {
             if bind(address: address) {
-                status = (Foundation.listen(socket, backlog) == 0);
+                status = (Foundation.listen(socket, backlog) == 0)
             }
         }
         
-        return status;
+        return status
     }
     
     /**
@@ -204,8 +204,8 @@ class EndpointNet: Endpoint {
     override func resumeIn()
     {
         if !receiverActive {
-            receiver.resume();
-            receiverActive = true;
+            receiver.resume()
+            receiverActive = true
         }
     }
     
@@ -215,8 +215,8 @@ class EndpointNet: Endpoint {
     func suspendIn()
     {
         if !receiverActive {
-            receiver.suspend();
-            receiverActive = false;
+            receiver.suspend()
+            receiverActive = false
         }
     }
     
@@ -226,8 +226,8 @@ class EndpointNet: Endpoint {
     override func resumeOut()
     {
         if !senderActive {
-            sender.resume();
-            senderActive = true;
+            sender.resume()
+            senderActive = true
         }
     }
     
@@ -237,8 +237,8 @@ class EndpointNet: Endpoint {
     func suspendOut()
     {
         if !senderActive {
-            sender.suspend();
-            senderActive = false;
+            sender.suspend()
+            senderActive = false
         }
     }
     
@@ -247,29 +247,29 @@ class EndpointNet: Endpoint {
      */
     func receive(_ data: inout Data) -> Int
     {
-        guard(socket != InvalidSocket) else { return Endpoint.Failed; }
+        guard(socket != InvalidSocket) else { return Endpoint.failed }
         
-        var count = Int();
+        var count = Int()
         
         data.withUnsafeMutableBytes { bytes in
-            count = read(socket, bytes, data.count);
+            count = read(socket, bytes, data.count)
         }
         
         if count < 0 {
             switch errno {
             case EAGAIN :
-                count = Endpoint.WouldBlock;
+                count = Endpoint.wouldBlock
                 
             default :
-                count = Endpoint.Failed;
+                count = Endpoint.failed
             }
         }
         
         if count == 0 {
-            count = Endpoint.Closed;
+            count = Endpoint.closed
         }
         
-        return count;
+        return count
     }
     
     /**
@@ -277,29 +277,29 @@ class EndpointNet: Endpoint {
      */
     func send(_ data: Data) -> Int
     {
-        guard(socket != InvalidSocket) else { return Endpoint.Failed; }
+        guard(socket != InvalidSocket) else { return Endpoint.failed }
         
-        var count = Int();
+        var count = Int()
         
         data.withUnsafeBytes { bytes in
-            count = write(socket, bytes, data.count);
+            count = write(socket, bytes, data.count)
         }
         
         if count < 0 {
             switch errno {
             case EAGAIN :
-                count = Endpoint.WouldBlock;
+                count = Endpoint.wouldBlock
                 
             default :
-                count = Endpoint.Failed;
+                count = Endpoint.failed
             }
         }
         
         if count == 0 {
-            count = Endpoint.Closed;
+            count = Endpoint.closed
         }
         
-        return count;
+        return count
     }
     
     /**
@@ -307,15 +307,15 @@ class EndpointNet: Endpoint {
      */
     private func bind(address: SockAddr) -> Bool
     {
-        var status: Int32 = -1;
+        var status: Int32 = -1
         
         withUnsafePointer(to: &address.storage) { ptr in
             ptr.withMemoryRebound(to: sockaddr.self, capacity: 1) { local in
-                status = Foundation.bind(socket, local, address.len);
+                status = Foundation.bind(socket, local, address.len)
             }
         }
         
-        return status == 0;
+        return status == 0
     }
     
     /**
@@ -323,19 +323,19 @@ class EndpointNet: Endpoint {
      */
     private func instantiate(address: SockAddr) -> Bool
     {
-        socket = Foundation.socket(address.address.family, address.proto.inet, 0);
+        socket = Foundation.socket(address.address.family, address.proto.inet, 0)
         if socket != InvalidSocket {
             if setSocketOptions(socket) {
-                proto = address.proto;
-                instantiateDispatchConnect();
+                proto = address.proto
+                instantiateDispatchConnect()
             }
             else {
-                _ = Foundation.close(socket); // TODO: check result
-                socket = InvalidSocket;
+                _ = Foundation.close(socket) // TODO: check result
+                socket = InvalidSocket
             }
         }
         
-        return socket != InvalidSocket;
+        return socket != InvalidSocket
     }
     
     /**
@@ -343,18 +343,18 @@ class EndpointNet: Endpoint {
      */
     private func setSocketOptions(_ socket: Int32) -> Bool
     {
-        var option: Int32 = 1;
-        let len   = socklen_t(MemoryLayout<Int32>.size);
+        var option: Int32 = 1
+        let len   = socklen_t(MemoryLayout<Int32>.size)
         
         if setsockopt(socket, SOL_SOCKET, SO_NOSIGPIPE, &option, len) != 0 {
-            return false;
+            return false
         }
             
         if fcntl(socket, F_SETFL, O_NONBLOCK) != 0 {
-            return false;
+            return false
         }
         
-        return true;
+        return true
     }
     
     /**
@@ -362,26 +362,26 @@ class EndpointNet: Endpoint {
      */
     private func connected()
     {
-        var value = Int32();
-        var len   = socklen_t(MemoryLayout<Int32>.size);
-        var error : Error?;
+        var value = Int32()
+        var len   = socklen_t(MemoryLayout<Int32>.size)
+        var error : Error?
         
-        suspendOut();
+        suspendOut()
         
-        let status = getsockopt(socket, SOL_SOCKET, SO_ERROR, &value, &len);
+        let status = getsockopt(socket, SOL_SOCKET, SO_ERROR, &value, &len)
         
         if status == 0 {
-            error = NSError(posix: value);
+            error = NSError(posix: value)
         }
         else {
-            error = NSError(posix: errno);
+            error = NSError(posix: errno)
         }
         
         if error == nil {
-            sender.setEventHandler { [weak self] in self?.output(); }
+            sender.setEventHandler { [weak self] in self?.output() }
         }
         
-        delegate?.endpointDidConnect(self, with: error);
+        delegate?.endpointDidConnect(self, with: error)
     }
     
     /**
@@ -389,15 +389,15 @@ class EndpointNet: Endpoint {
      */
     private func instantiateDispatch()
     {
-        receiver = DispatchSource.makeReadSource(fileDescriptor: socket, queue: DispatchQueue.main);
-        receiver.setEventHandler { [weak self] in self?.input(); }
-        receiver.activate();
-        suspendIn();
+        receiver = DispatchSource.makeReadSource(fileDescriptor: socket, queue: DispatchQueue.main)
+        receiver.setEventHandler { [weak self] in self?.input() }
+        receiver.activate()
+        suspendIn()
         
-        sender = DispatchSource.makeWriteSource(fileDescriptor: socket, queue: DispatchQueue.main);
-        sender.setEventHandler { [weak self] in self?.output(); }
-        sender.activate();
-        suspendOut();
+        sender = DispatchSource.makeWriteSource(fileDescriptor: socket, queue: DispatchQueue.main)
+        sender.setEventHandler { [weak self] in self?.output() }
+        sender.activate()
+        suspendOut()
     }
     
     /**
@@ -405,15 +405,15 @@ class EndpointNet: Endpoint {
      */
     private func instantiateDispatchConnect()
     {
-        receiver = DispatchSource.makeReadSource(fileDescriptor: socket, queue: DispatchQueue.main);
-        receiver.setEventHandler { [weak self] in self?.input(); }
-        receiver.activate();
-        suspendIn();
+        receiver = DispatchSource.makeReadSource(fileDescriptor: socket, queue: DispatchQueue.main)
+        receiver.setEventHandler { [weak self] in self?.input() }
+        receiver.activate()
+        suspendIn()
         
-        sender = DispatchSource.makeWriteSource(fileDescriptor: socket, queue: DispatchQueue.main);
-        sender.setEventHandler { [weak self] in self?.connected(); }
-        sender.activate();
-        suspendOut();
+        sender = DispatchSource.makeWriteSource(fileDescriptor: socket, queue: DispatchQueue.main)
+        sender.setEventHandler { [weak self] in self?.connected() }
+        sender.activate()
+        suspendOut()
     }
     
     /**
@@ -421,23 +421,23 @@ class EndpointNet: Endpoint {
      */
     private func getHostAddress() -> SockAddr?
     {
-        var host: SockAddr?;
+        var host: SockAddr?
         
         if socket != InvalidSocket {
-            let temp = SockAddr(proto: proto);
+            let temp = SockAddr(proto: proto)
             
             withUnsafeMutablePointer(to: &temp.storage) { ptr in
                 ptr.withMemoryRebound(to: sockaddr.self, capacity: 1) { address in
-                    var len = temp.len;
+                    var len = temp.len
                     
                     if getsockname(socket, address, &len) == 0 {
-                        host = temp;
+                        host = temp
                     }
                 }
             }
         }
         
-        return host;
+        return host
     }
     
     /**
@@ -448,20 +448,20 @@ class EndpointNet: Endpoint {
         var peer: SockAddr?
         
         if socket != InvalidSocket {
-            let temp = SockAddr(proto: proto);
+            let temp = SockAddr(proto: proto)
             
             withUnsafeMutablePointer(to: &temp.storage) { ptr in
                 ptr.withMemoryRebound(to: sockaddr.self, capacity: 1) { address in
-                    var len = temp.len;
+                    var len = temp.len
                     
                     if getsockname(socket, address, &len) == 0 {
-                        peer = temp;
+                        peer = temp
                     }
                 }
             }
         }
         
-        return peer;
+        return peer
     }
     
     /**
@@ -469,8 +469,8 @@ class EndpointNet: Endpoint {
      */
     private func input()
     {
-        suspendIn();
-        delegate?.endpointIn(self);
+        suspendIn()
+        delegate?.endpointIn(self)
     }
     
     /**
@@ -478,8 +478,8 @@ class EndpointNet: Endpoint {
      */
     private func output()
     {
-        suspendOut();
-        delegate?.endpointOut(self);
+        suspendOut()
+        delegate?.endpointOut(self)
     }
     
 }

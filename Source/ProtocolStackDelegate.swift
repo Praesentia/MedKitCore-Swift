@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -43,7 +43,7 @@ public protocol ProtocolStackDelegate: class {
         - reason: Nil for normal shutdowns.  Otherwise, the error leading to
                   the stack being closed.
      */
-    func protocolStackDidClose(_ stack: ProtocolStack, for reason: Error?);
+    func protocolStackDidClose(_ stack: ProtocolStack, for reason: Error?)
     
     /**
      ProtocolStack did initialize.
@@ -57,7 +57,7 @@ public protocol ProtocolStackDelegate: class {
         - error: Nil if successful.  Otherwise, the error that prevented the
                  stack from initializing properly.
      */
-    func protocolStackDidInitialize(_ stack: ProtocolStack, with error: Error?);
+    func protocolStackDidInitialize(_ stack: ProtocolStack, with error: Error?)
 
     
 }

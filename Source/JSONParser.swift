@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -32,8 +32,8 @@ public class JSONParser {
      */
     public class func parse(data: Data) throws -> JSON
     {
-        let data = try JSONSerialization.jsonObject(with: data, options: .allowFragments);
-        return JSONConverter.convert(data);
+        let data = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+        return JSONConverter.convert(data)
     }
 
 }

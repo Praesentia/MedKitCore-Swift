@@ -41,6 +41,11 @@ public class WaveformReader: ResourceObserver {
         self.resource = resource
     }
     
+    /**
+     Deinitialize instance.
+     
+     Automatically removes the instance from the stream cache.
+     */
     deinit
     {
         assert(count == 0)
@@ -48,6 +53,9 @@ public class WaveformReader: ResourceObserver {
         WaveformStreamCache.main.removeReader(with: resource.identifier)
     }
     
+    /**
+     Start streaming waveform data.
+     */
     public func start(completionHandler completion: @escaping (Error?) -> Void)
     {
         let sync = Sync()
@@ -65,6 +73,9 @@ public class WaveformReader: ResourceObserver {
         sync.close(completionHandler: completion)
     }
     
+    /**
+     Stop streaming waveform data.
+     */
     public func stop(completionHandler completion: @escaping (Error?) -> Void)
     {
         let sync = Sync()
@@ -86,6 +97,10 @@ public class WaveformReader: ResourceObserver {
     
     /**
      Decode 16-bit waveform data from base64 string.
+     
+     - Parameters:
+        - string: 16bit waveform data, encoded as a base64 string.
+        - scale:  Scaling factor, used to convert signed 16bit integers to floats.
      */
     private func decode16BitWaveformData(base64Encoded string: String, scale: Float) -> [Float]?
     {
@@ -95,11 +110,11 @@ public class WaveformReader: ResourceObserver {
             data = [Float]()
             
             var array = bytes.withUnsafeBytes {
-                Array(UnsafeBufferPointer<Int16>(start: $0, count: bytes.count / MemoryLayout<Int16>.size));
+                Array(UnsafeBufferPointer<Int16>(start: $0, count: bytes.count / MemoryLayout<Int16>.size))
             }
             
             for i in 0..<array.count {
-                data.append(Float(Int16(bigEndian: array[i])) * scale);
+                data.append(Float(Int16(bigEndian: array[i])) * scale)
             }
         }
         
@@ -117,7 +132,7 @@ public class WaveformReader: ResourceObserver {
     {
         if let value = resource.cache?.value, let string = value[KeyMeasurement].string {
             if let data = decode16BitWaveformData(base64Encoded: string, scale: 0.01) {
-                stream.append(data: data, at: Int64(value[KeyIndex].double!));
+                stream.append(data: data, at: Int64(value[KeyIndex].double!))
             }
         }
     }

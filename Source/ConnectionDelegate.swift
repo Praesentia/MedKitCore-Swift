@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -41,7 +41,7 @@ public protocol ConnectionDelegate: class {
         This method is dispatched asynchronously in order to insure that it is
         delivered last.
      */
-    func connectionDidClose(_ connection: Connection, for reason: Error?);
+    func connectionDidClose(_ connection: Connection, for reason: Error?)
     
 }
 

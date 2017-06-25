@@ -19,14 +19,14 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
- WaveformController base class.
+ Waveform controller base class.
  */
-class WaveformControllerBase: WaveformController {
-    
+public class WaveformControllerBase: WaveformController {
+        
     // MARK: - Properties
     public weak var delegate : WaveformControllerDelegate?
     public var      source   : WaveformSource? { return reader?.stream }
@@ -37,9 +37,14 @@ class WaveformControllerBase: WaveformController {
     
     // MARK: - Initializers
     
-    init(resource: Resource)
+    required public init(for resource: Resource)
     {
         self.resource = resource
+    }
+    
+    deinit
+    {
+        reader?.stop() { _ in }
     }
     
     // MARK: - Controls
@@ -60,7 +65,7 @@ class WaveformControllerBase: WaveformController {
             }
         }
         else {
-            sync.fail(MedKitError.Failed)
+            sync.fail(MedKitError.failed)
         }
         
         sync.close() { error in

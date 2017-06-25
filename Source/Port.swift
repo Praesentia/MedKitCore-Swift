@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -53,7 +53,7 @@ public protocol Port: class {
                indicates the shutdown was issued during the normal course of
                operation.
      */
-    func shutdown(for reason: Error?);
+    func shutdown(for reason: Error?)
     
     /**
      Start port.
@@ -63,7 +63,7 @@ public protocol Port: class {
      propagated downward to the port at the base of the stack, which then
      begins the initialization process.
      */
-    func start();
+    func start()
     
     // MARK: - Output
     
@@ -77,7 +77,7 @@ public protocol Port: class {
                 in a data stream or a complete message depending on the
                 functionality being provided by the port.
      */
-    func send(_ data: Data);
+    func send(_ data: Data)
     
 }
 

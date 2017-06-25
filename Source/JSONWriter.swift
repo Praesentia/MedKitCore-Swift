@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -37,13 +37,13 @@ public class JSONWriter {
     {
         do {
             if let data = JSONConverter.externalize(json: json) {
-                let data = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted);
-                return String(data: data, encoding: .utf8);
+                let data = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
+                return String(data: data, encoding: .utf8)
             }
-            return nil;
+            return nil
         }
         catch {
-            return nil;
+            return nil
         }
     }
     

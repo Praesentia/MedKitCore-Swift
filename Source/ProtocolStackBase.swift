@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -30,11 +30,11 @@ import Foundation;
 open class ProtocolStackBase: ProtocolStack, PortDelegate {
     
     // MARK: - Properties
-    public weak var delegate: ProtocolStackDelegate?;
-    public let      port    : Port;
+    public weak var delegate: ProtocolStackDelegate?
+    public let      port    : Port
     
     // MARK: - Private Properties
-    private var completion: ((Error?) -> Void)?; //: Start completion handler.
+    private var completion: ((Error?) -> Void)? //: Start completion handler.
     
     // MARK: - Initializers
     
@@ -46,8 +46,8 @@ open class ProtocolStackBase: ProtocolStack, PortDelegate {
      */
     public init(_ port: Port)
     {
-        self.port = port;
-        port.delegate = self;
+        self.port = port
+        port.delegate = self
     }
     
     // MARK: - Lifecycle
@@ -60,7 +60,7 @@ open class ProtocolStackBase: ProtocolStack, PortDelegate {
      */
     open func shutdown(for reason: Error?)
     {
-        port.shutdown(for: reason);
+        port.shutdown(for: reason)
     }
     
     /**
@@ -71,8 +71,8 @@ open class ProtocolStackBase: ProtocolStack, PortDelegate {
      */
     open func start(completionHandler completion: @escaping (Error?)->Void)
     {
-        self.completion = completion;
-        port.start();
+        self.completion = completion
+        port.start()
     }
     
     /**
@@ -87,8 +87,8 @@ open class ProtocolStackBase: ProtocolStack, PortDelegate {
     open func complete(_ error: Error?)
     {
         if let completion = self.completion {
-            DispatchQueue.main.async() { completion(error); }
-            self.completion = nil;
+            DispatchQueue.main.async { completion(error) }
+            self.completion = nil
         }
     }
     
@@ -99,10 +99,10 @@ open class ProtocolStackBase: ProtocolStack, PortDelegate {
      */
     public func portDidInitialize(_ port: Port, with error: Error?)
     {
-        complete(error);
+        complete(error)
         
         if let delegate = self.delegate {
-            DispatchQueue.main.async() { delegate.protocolStackDidInitialize(self, with: error); }
+            DispatchQueue.main.async { delegate.protocolStackDidInitialize(self, with: error) }
         }
     }
     
@@ -112,7 +112,7 @@ open class ProtocolStackBase: ProtocolStack, PortDelegate {
     open func portDidClose(_ port: Port, for reason: Error?)
     {
         if let delegate = self.delegate {
-            DispatchQueue.main.async() { delegate.protocolStackDidClose(self, for: reason); }
+            DispatchQueue.main.async { delegate.protocolStackDidClose(self, for: reason) }
         }
     }
     

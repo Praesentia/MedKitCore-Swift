@@ -19,17 +19,17 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 // string constants
-fileprivate let NullString = "Null";
+fileprivate let NullString = "Null"
 
 /**
  Credentials type.
  */
 public enum AuthorizationType {
-    case Null;
+    case null
     
     /**
      Initialize instance from string.
@@ -40,11 +40,11 @@ public enum AuthorizationType {
     init?(string: String)
     {
         switch string {
-        case NullString :
-            self = .Null;
+        case NullString:
+            self = .null
             
         default :
-            return nil;
+            return nil
         }
     }
     
@@ -56,8 +56,8 @@ public enum AuthorizationType {
      */
     public var string: String {
         switch self {
-        case .Null :
-            return NullString;
+        case .null:
+            return NullString
         }
     }
 }

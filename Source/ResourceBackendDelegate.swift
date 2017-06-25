@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -29,10 +29,10 @@ public protocol ResourceBackendDelegate: class {
     
     var isOpen: Bool { get }
     
-    func resourceEnableNotification(_ resource : ResourceBackend, completionHandler completion : @escaping (ResourceCache?, Error?) -> Void);
-    func resourceDisableNotification(_ resource : ResourceBackend, completionHandler completion : @escaping (Error?) -> Void);
-    func resourceReadValue(_ resource : ResourceBackend, completionHandler completion : @escaping (ResourceCache?, Error?) -> Void);
-    func resourceWriteValue(_ resource : ResourceBackend, _ value: JSON?, completionHandler completion : @escaping (ResourceCache?, Error?) -> Void);
+    func resourceEnableNotification(_ resource : ResourceBackend, completionHandler completion : @escaping (ResourceCache?, Error?) -> Void)
+    func resourceDisableNotification(_ resource : ResourceBackend, completionHandler completion : @escaping (Error?) -> Void)
+    func resourceReadValue(_ resource : ResourceBackend, completionHandler completion : @escaping (ResourceCache?, Error?) -> Void)
+    func resourceWriteValue(_ resource : ResourceBackend, _ value: JSON?, completionHandler completion : @escaping (ResourceCache?, Error?) -> Void)
     
 }
 

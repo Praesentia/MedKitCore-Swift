@@ -19,13 +19,13 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 public protocol Decoder: class {
     
-    func type(data: Data) -> String?;
-    func string(data: Data) -> String?;
+    func type(data: Data) -> String?
+    func string(data: Data) -> String?
     
 }
 
@@ -41,12 +41,12 @@ open class DecoderDefault: Decoder {
     
     open func type(data: Data) -> String?
     {
-        return "Other";
+        return "Other"
     }
     
     open func string(data: Data) -> String?
     {
-        return String(data: data, encoding: .utf8);
+        return String(data: data, encoding: .utf8)
     }
     
 }

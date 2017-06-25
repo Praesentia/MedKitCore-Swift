@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -30,9 +30,9 @@ import Foundation;
 public class ResourceCacheBase: ResourceCache {
     
     // MARK: - Properties
-    public var              json         : JSON         { return getJSON(); }
-    public private(set) var timeModified : TimeInterval = 0;
-    public private(set) var value        : JSON?;
+    public var              json         : JSON         { return getJSON() }
+    public private(set) var timeModified : TimeInterval = 0
+    public private(set) var value        : JSON?
     
     // MARK: - Initializers
     
@@ -45,8 +45,8 @@ public class ResourceCacheBase: ResourceCache {
      */
     public init(value: JSON?, at time: TimeInterval)
     {
-        self.timeModified = time;
-        self.value        = value;
+        self.timeModified = time
+        self.value        = value
     }
     
     /**
@@ -57,8 +57,8 @@ public class ResourceCacheBase: ResourceCache {
      */
     public init(from json: JSON)
     {
-        timeModified = Clock.convert(time: json[KeyTimeModified].time!);
-        value        = json[KeyValue];
+        timeModified = Clock.convert(time: json[KeyTimeModified].time!)
+        value        = json[KeyValue]
     }
    
     /**
@@ -69,8 +69,8 @@ public class ResourceCacheBase: ResourceCache {
      */
     public init(from cache: ResourceCache)
     {
-        timeModified = cache.timeModified;
-        value        = cache.value;
+        timeModified = cache.timeModified
+        value        = cache.value
     }
     
     // MARK: - JSON
@@ -82,12 +82,12 @@ public class ResourceCacheBase: ResourceCache {
      */
     private func getJSON() -> JSON
     {
-        let result = JSON();
+        let result = JSON()
         
-        result[KeyTimeModified] = Double(Clock.convert(time: timeModified));
-        result[KeyValue]        = value;
+        result[KeyTimeModified] = Double(Clock.convert(time: timeModified))
+        result[KeyValue]        = value
         
-        return result;
+        return result
     }
     
     // MARK: - Updates
@@ -96,24 +96,24 @@ public class ResourceCacheBase: ResourceCache {
      */
     public func update(changes: JSON?, at time: TimeInterval)
     {
-        timeModified = time;
-        value        = changes;
+        timeModified = time
+        value        = changes
     }
     
     /**
      */
     public func update(from cache: ResourceCache)
     {
-        timeModified = cache.timeModified;
-        value        = cache.value;
+        timeModified = cache.timeModified
+        value        = cache.value
     }
     
     /**
      */
     public func update(value: JSON?, at time: TimeInterval)
     {
-        self.timeModified = time;
-        self.value        = value;
+        self.timeModified = time
+        self.value        = value
     }
     
 }

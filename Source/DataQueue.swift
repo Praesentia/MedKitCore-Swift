@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -30,8 +30,8 @@ import Foundation;
 public class DataQueue {
     
     // MARK: - Properties
-    public  var count : UInt64 { return UInt64(queue.count); }
-    private var queue = [UInt8]();
+    public  var count : UInt64 { return UInt64(queue.count) }
+    private var queue = [UInt8]()
     
     // MARK: - Initializers
     
@@ -43,32 +43,32 @@ public class DataQueue {
     
     public func append(_ data: Data)
     {
-        queue += data;
+        queue += data
     }
     
     // MARK: - Access
     
     public func peek(count: Int) -> [UInt8]
     {
-        return Array<UInt8>(queue[0..<count]);
+        return Array<UInt8>(queue[0..<count])
     }
     
     public func peek(count: UInt64) -> [UInt8]
     {
-        return Array<UInt8>(queue[0..<Int(count)]);
+        return Array<UInt8>(queue[0..<Int(count)])
     }
     
     public func read(count: Int) -> [UInt8]
     {
-        let data = Array<UInt8>(queue[0..<count]);
+        let data = Array<UInt8>(queue[0..<count])
         
-        queue.removeFirst(Int(count));
-        return data;
+        queue.removeFirst(Int(count))
+        return data
     }
     
     public func read(count: UInt64) -> [UInt8]
     {
-        return read(count: Int(count));
+        return read(count: Int(count))
     }
 
     // MARK: - Search
@@ -78,23 +78,23 @@ public class DataQueue {
         if queue.count >= sequence.count {
             for i in 0...(queue.count - sequence.count) {
                 if match(queue, i, sequence) {
-                    return UInt64(i + sequence.count);
+                    return UInt64(i + sequence.count)
                 }
             }
         }
         
-        return nil;
+        return nil
     }
     
     private func match(_ buffer: [UInt8], _ offset: Int, _ sequence: [UInt8]) -> Bool
     {
         for i in 0..<sequence.count {
             if sequence[i] != buffer[offset + i] {
-                return false;
+                return false
             }
         }
         
-        return true;
+        return true
     }
     
 }

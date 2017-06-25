@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -28,10 +28,10 @@ import Foundation;
 public class AuthorizationFactoryDB {
     
     // MARK: - Class Properties
-    public static let main = AuthorizationFactoryDB();
+    public static let main = AuthorizationFactoryDB()
     
     // MARK: - Private
-    private var factories = [ AuthorizationType : AuthorizationFactory ]();
+    private var factories = [ AuthorizationType : AuthorizationFactory ]()
     
     // MARK: - Initializers
     
@@ -51,11 +51,11 @@ public class AuthorizationFactoryDB {
     {
         if let string = profile[KeyType].string, let type = AuthorizationType(string: string) {
             if let factory = factories[type] {
-                return factory.instantiate(from: profile);
+                return factory.instantiate(from: profile)
             }
         }
         
-        return NullAuthorization.shared;
+        return NullAuthorization.shared
     }
     
 }

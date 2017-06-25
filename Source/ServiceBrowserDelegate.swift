@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -27,8 +27,8 @@ import Foundation;
  */
 protocol ServiceBrowserDelegate: class {
     
-    func serviceBrowser(_ serviceBrowser: ServiceBrowser, didAdd device: NetDevice);
-    func serviceBrowser(_ serviceBrowser: ServiceBrowser, didRemove device: NetDevice);
+    func serviceBrowser(_ serviceBrowser: ServiceBrowser, didAdd device: NetDevice)
+    func serviceBrowser(_ serviceBrowser: ServiceBrowser, didRemove device: NetDevice)
     
 }
 

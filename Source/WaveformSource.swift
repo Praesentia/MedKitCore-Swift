@@ -19,7 +19,7 @@
  */
  
  
-import Foundation;
+import Foundation
 
 
 /**
@@ -32,12 +32,12 @@ public protocol WaveformSource: class {
     /**
      A queue of cached waveform data.  New data is append to the end of the
      queue.  Earlier data, that has exceeded the retention time (see history),
-     will be dropped from the head of the queue.
+     is dropped from the head of the queue.
      */
-    var cache: [Float] { get }
+    var channel: [Float] { get }
     
     /**
-     Amount of data that will be retained in the cache, as a measure of time.
+     Amount of data that will be retained in the channel, as a measure of time.
      */
     var history: TimeInterval { get }
     
@@ -52,8 +52,8 @@ public protocol WaveformSource: class {
     
     /**
      This value represents the time index for the first data element in the
-     cache.  The value is updated whenever data is removed from the head of the
-     cache.
+     channel.  The value is updated whenever data is dropped from the head of
+     the queue.
      */
     var offset: Index { get }
     
@@ -67,9 +67,9 @@ public protocol WaveformSource: class {
 
 public extension WaveformSource {
     
-    public var count   : Int   { return cache.count }
-    public var end     : Index { return offset + Int64(cache.count) }
-    public var isEmpty : Bool  { return cache.isEmpty }
+    public var count   : Int   { return channel.count }
+    public var end     : Index { return offset + Int64(channel.count) }
+    public var isEmpty : Bool  { return channel.isEmpty }
     
     public func inBounds(_ index: Index) -> Bool { return index >= offset && index < end }
     
@@ -83,7 +83,7 @@ public extension WaveformSource {
      */
     public func value(at index: Index) -> Float?
     {
-        return inBounds(index) ? cache[Int(index - offset)] : nil
+        return inBounds(index) ? channel[Int(index - offset)] : nil
     }
     
 }

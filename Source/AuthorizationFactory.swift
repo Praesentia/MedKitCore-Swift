@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -27,7 +27,7 @@ import Foundation;
  */
 public protocol AuthorizationFactory: class {
     
-    func instantiate(from profile: JSON) -> Authorization;
+    func instantiate(from profile: JSON) -> Authorization
     
 }
 

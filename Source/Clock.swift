@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -30,7 +30,7 @@ import Foundation;
 public class Clock {
     
     // MARK: - Constants
-    public static let Resolution: TimeInterval = 1000000;   //: microseconds
+    public static let Resolution: TimeInterval = 1000000   //: microseconds
     
     // MARK: - Initializers
     
@@ -45,7 +45,7 @@ public class Clock {
      */
     public class func convert(time: TimeInterval) -> Time
     {
-        return Time((time + Date.timeIntervalBetween1970AndReferenceDate) * Clock.Resolution);
+        return Time((time + Date.timeIntervalBetween1970AndReferenceDate) * Clock.Resolution)
     }
     
     /**
@@ -53,7 +53,7 @@ public class Clock {
      */
     public class func convert(time: Time) -> TimeInterval
     {
-        return TimeInterval(time) / Clock.Resolution - Date.timeIntervalBetween1970AndReferenceDate;
+        return TimeInterval(time) / Clock.Resolution - Date.timeIntervalBetween1970AndReferenceDate
     }
     
     /**
@@ -61,7 +61,7 @@ public class Clock {
      */
     public class func getTime() -> TimeInterval
     {
-        return Date.timeIntervalSinceReferenceDate;
+        return Date.timeIntervalSinceReferenceDate
     }
 
 }

@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -29,15 +29,15 @@ protocol EndpointDelegate: class {
     
     /**
      */
-    func endpointDidConnect(_ endpoint: Endpoint, with error: Error?);
+    func endpointDidConnect(_ endpoint: Endpoint, with error: Error?)
     
     /**
      */
-    func endpointIn(_ endpoint: Endpoint);
+    func endpointIn(_ endpoint: Endpoint)
     
     /**
      */
-    func endpointOut(_ endpoint: Endpoint);
+    func endpointOut(_ endpoint: Endpoint)
     
 }
 

@@ -2,8 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- 
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2017 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -24,39 +23,12 @@ import Foundation
 
 
 /**
- Wait
+ Simple waveform controller.
  */
-class Wait {
+class WaveformControllerSimple: WaveformControllerBase {
     
-    public var first: Bool { return completionHandlers.count == 1 }
-    
-    private var completionHandlers = [(Error?) -> Void]()
-    
-    /**
-     Initialize instance.
-     */
-    init()
-    {
-    }
-    
-    /**
-     Append completion handler.
-     */
-    func wait(completionHandler completion: @escaping (Error?) -> Void)
-    {
-        completionHandlers.append(completion)
-    }
-    
-    /**
-     Operation completed.
-     */
-    func complete(_ error: Error?)
-    {
-        for completion in completionHandlers {
-            completion(error)
-        }
-        completionHandlers.removeAll()
-    }
+    // MARK: - Class Properties
+    static let factory = WaveformControllerFactoryTemplate<WaveformControllerSimple>()
     
 }
 

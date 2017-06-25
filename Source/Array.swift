@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 extension Array {
@@ -27,9 +27,9 @@ extension Array {
     public func find(where check: (Element) -> Bool) -> Element?
     {
         if let index = index(where: check) {
-            return self[index];
+            return self[index]
         }
-        return nil;
+        return nil
     }
     
 }
@@ -38,12 +38,12 @@ public extension Sequence where Iterator.Element == UInt8 {
  
     var base64EncodedString: String
     {
-        return Data(self).base64EncodedString();
+        return Data(self).base64EncodedString()
     }
     
     var hexEncodedString: String
     {
-        return map { String(format: "%02hhx", $0) }.joined();
+        return map { String(format: "%02hhx", $0) }.joined()
     }
 
 }

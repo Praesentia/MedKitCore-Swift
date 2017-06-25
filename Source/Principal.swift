@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -35,11 +35,40 @@ import Foundation;
 public class Principal {
     
     // MARK: - Properties
-    public let                   authorization: Authorization;
-    public let                   credentials  : Credentials;
-    public let                   identity     : Identity;
-    public var                   profile      : JSON { return getProfile(); }
-    public private(set) lazy var trusted      : Bool = self.getTrust();
+    public let authorization : Authorization
+    public let credentials   : Credentials
+    public let identity      : Identity
+    public var profile       : JSON { return getProfile() }
+    
+    // MARK: - Class Initializers
+    
+    public static func instantiate(from profile: JSON, completionHandler completion: @escaping (Principal?, Error?) -> Void)
+    {
+        let identity      = Identity(from: profile[KeyIdentity] as JSON)
+        let authorization = AuthorizationFactoryDB.main.instantiate(from: profile[KeyAuthorization])
+        var principal     : Principal?
+        let sync          = Sync()
+        
+        sync.incr()
+        SecurityManagerShared.main.instantiateCredentials(for: identity, from: profile[KeyCredentials]) { credentials, error in
+
+            if error == nil, let credentials = credentials {
+                sync.incr()
+                credentials.verifyTrust() { error in
+                    if error == nil {
+                        principal = Principal(identity: identity, credentials: credentials, authorization: authorization)
+                    }
+                    sync.decr(error)
+                }
+            }
+            
+            sync.decr(error)
+        }
+        
+        sync.close() { error in
+            completion(principal, error)
+        }
+    }
     
     // MARK: - Initializers
     
@@ -48,31 +77,16 @@ public class Principal {
      */
     public init(identity: Identity, credentials: Credentials, authorization: Authorization)
     {
-        self.identity      = identity;
-        self.credentials   = credentials;
-        self.authorization = authorization;
-    }
-    
-    /**
-     Initialize instance from profile.
-     */
-    public init(from profile: JSON)
-    {
-        identity      = Identity(from: profile[KeyIdentity]);
-        credentials   = SecurityManagerShared.main.getCredentials(for: identity, from: profile[KeyCredentials]) ?? NullCredentials.shared;
-        authorization = AuthorizationFactoryDB.main.instantiate(from: profile[KeyAuthorization]);
+        self.identity      = identity
+        self.credentials   = credentials
+        self.authorization = authorization
     }
     
     // MARK: - Experimental
     
     public func isaSubject(_ identity: UUID) -> Bool
     {
-        return true; // TODO
-    }
-    
-    private func getTrust() -> Bool
-    {
-        return credentials.trusted && identity == credentials.identity;
+        return true // TODO
     }
     
     // MARK: - Profile
@@ -82,13 +96,13 @@ public class Principal {
      */
     private func getProfile() -> JSON
     {
-        let profile = JSON();
+        let profile = JSON()
         
-        profile[KeyIdentity]      = identity.profile;
-        profile[KeyCredentials]   = credentials.profile;
-        profile[KeyAuthorization] = authorization.profile;
+        profile[KeyIdentity]      = identity.profile
+        profile[KeyCredentials]   = credentials.profile
+        profile[KeyAuthorization] = authorization.profile
         
-        return profile;
+        return profile
     }
     
 }

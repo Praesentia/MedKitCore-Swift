@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -29,10 +29,10 @@ public class NetPortFactory: PortFactory {
     
     // MARK: - Properties
     public let domain    : String
-    public let address   : SockAddr;
-    public var priority  : Int    { return type.priority; }
-    public var reachable : Bool   { return true; }
-    public let type      : DeviceProtocol;
+    public let address   : SockAddr
+    public var priority  : Int    { return type.priority }
+    public var reachable : Bool   { return true }
+    public let type      : DeviceProtocol
     
     // MARK: - Initializers
     
@@ -46,9 +46,9 @@ public class NetPortFactory: PortFactory {
      */
     init(domain: String, type: DeviceProtocol, address: SockAddr)
     {
-        self.domain  = domain;
-        self.type    = type;
-        self.address = address;
+        self.domain  = domain
+        self.type    = type
+        self.address = address
     }
     
     // MARK: - Instantiation
@@ -67,13 +67,13 @@ public class NetPortFactory: PortFactory {
      */
     public func instantiateConnection(to device: DeviceBackend, as principal: Principal?) -> ClientConnection?
     {
-        var connection: ClientConnection?;
+        var connection: ClientConnection?
         
         if let port = instantiatePort() {
-            connection = type.clientFactory.instantiate(to: port, for: device, as: principal);
+            connection = type.clientFactory.instantiate(to: port, for: device, as: principal)
         }
         
-        return connection;
+        return connection
     }
     
     /**
@@ -89,10 +89,10 @@ public class NetPortFactory: PortFactory {
     {
         switch address.proto {
         case .tcp :
-            return PortNetStream(address: address);
+            return PortNetStream(address: address)
             
         case .udp :
-            return nil;
+            return nil
         }
     }
     

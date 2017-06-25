@@ -7,7 +7,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 public extension NSError {
@@ -15,10 +15,10 @@ public extension NSError {
     convenience init?(posix: Int32)
     {
         if posix != 0 {
-            self.init(domain: NSPOSIXErrorDomain, code: Int(posix), userInfo: nil);
+            self.init(domain: NSPOSIXErrorDomain, code: Int(posix), userInfo: nil)
         }
         else {
-            return nil;
+            return nil
         }
     }
     

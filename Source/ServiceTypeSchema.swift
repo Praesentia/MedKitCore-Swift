@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -36,7 +36,7 @@ protocol ServiceTypeSchema {
         - txt: Dictionary of key/value pairs derived from an associated TXT
                record.
      */
-    func verifyTXT(_ txt: [String : String]) -> Bool;
+    func verifyTXT(_ txt: [String : String]) -> Bool
     
 }
 

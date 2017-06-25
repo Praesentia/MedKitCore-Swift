@@ -19,19 +19,24 @@
  */
 
 
-import Foundation;
+import Foundation
 
+
+public typealias Sync = SyncT<Error>
 
 /**
  Sync
  
  Used to synchronize multiple asynchronous calls.
  */
-public class Sync {
+public class SyncT<Result> {
     
-    private var completion : ((Error?) -> Void)!; //: nil until close() is called
-    private var count      : Int = 1;
-    private var error      : Error?;
+    // MARK: - Properties
+    public private(set) var error: Result?
+    
+    // MARK: - Private Properties
+    private var completion : ((Result?) -> Void)!
+    private var count      : Int = 1
     
     /**
      Initialize instance.
@@ -43,9 +48,19 @@ public class Sync {
     /**
      Initialize instance with error.
      */
-    public init(_ error: Error?)
+    public init(_ error: Result?)
     {
-        self.error = error;
+        self.error = error
+    }
+    
+    /**
+     Clear
+     
+     Clear the current error.
+     */
+    public func clear()
+    {
+        self.error = nil
     }
     
     /**
@@ -53,23 +68,23 @@ public class Sync {
      
      Used to set or clear the current error.
      */
-    public func fail(_ error: Error?)
+    public func fail(_ error: Result?)
     {
-        self.error = error;
+        self.error = error
     }
     
     /**
      Decrement the synchronization count.
      */
-    public func decr(_ error: Error?)
+    public func decr(_ error: Result?)
     {
-        assert(count > 0);
+        assert(count > 0)
         
         if self.error == nil {
-            self.error = error;
+            self.error = error
         }
         
-        decrAndExecute();
+        decrAndExecute()
     }
     
     /**
@@ -77,20 +92,20 @@ public class Sync {
      */
     public func incr()
     {
-        assert(count > 0);
+        assert(count > 0)
         
-        count += 1;
+        count += 1
     }
     
     /**
      Finished
      */
-    public func close(completionHandler completion: @escaping (Error?) -> Void)
+    public func close(completionHandler completion: @escaping (Result?) -> Void)
     {
-        assert(count > 0);
+        assert(count > 0)
         
-        self.completion = completion;
-        decrAndExecute();
+        self.completion = completion
+        decrAndExecute()
     }
     
     /**
@@ -101,10 +116,10 @@ public class Sync {
      */
     private func decrAndExecute()
     {
-        count -= 1;
+        count -= 1
         if count == 0 {
-            assert(completion != nil);
-            completion(error);
+            assert(completion != nil)
+            completion(error)
         }
     }
     

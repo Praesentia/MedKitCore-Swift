@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -27,7 +27,7 @@ import Foundation;
  */
 public protocol PrincipalManagerObserver: class {
     
-    func principalManagerDidUpdatePrimary(_ manager: PrincipalManager);
+    func principalManagerDidUpdatePrimary(_ manager: PrincipalManager)
     
 }
 

@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -28,14 +28,13 @@ import Foundation;
 public class NullCredentials: Credentials {
     
     // MARK: - Class Properties
-    public static let shared = NullCredentials();
+    public static let shared = NullCredentials()
 
     // MARK: - Properties
-    public let identity : Identity?       = nil
-    public var profile  : JSON            { return getProfile() }
-    public var trusted  : Bool            { return false }
-    public var type     : CredentialsType { return .Null }
-    public let validity : Range<Date>?    = nil
+    public let identity : Identity?          = nil
+    public var profile  : JSON               { return getProfile() }
+    public var type     : CredentialsType    { return .null }
+    public let validity : ClosedRange<Date>? = nil
     
     // MARK: - Initializers
     
@@ -44,6 +43,13 @@ public class NullCredentials: Credentials {
      */
     private init()
     {
+    }
+    
+    // MARK: - Authentication
+    
+    public func verifyTrust(completionHandler completion: @escaping (Error?) -> Void)
+    {
+        completion(MedKitError.badCredentials)
     }
     
     // MARK: - Signing
@@ -59,7 +65,7 @@ public class NullCredentials: Credentials {
      */
     public func sign(bytes: [UInt8]) -> [UInt8]?
     {
-        return nil;
+        return nil
     }
     
     /**
@@ -73,16 +79,16 @@ public class NullCredentials: Credentials {
      */
     public func verify(signature: [UInt8], for bytes: [UInt8]) -> Bool
     {
-        return false;
+        return false
     }
     
     private func getProfile() -> JSON
     {
-        let profile = JSON();
+        let profile = JSON()
         
-        profile[KeyType] = type.string;
+        profile[KeyType] = type.string
         
-        return profile;
+        return profile
     }
     
 }

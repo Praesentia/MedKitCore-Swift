@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -27,7 +27,7 @@ import Foundation;
  */
 public func +=(check: Check, value: Bool)
 {
-    check.update(value);
+    check.update(value)
 }
 
 /**
@@ -36,7 +36,7 @@ public func +=(check: Check, value: Bool)
 public class Check {
     
     // MARK: - Properties
-    public private(set) var value: Bool = true;
+    public private(set) var value: Bool = true
     
     // MARK: - Initializers
     
@@ -49,7 +49,7 @@ public class Check {
     public func update(_ value: Bool)
     {
         if !value {
-            self.value = false;
+            self.value = false
         }
     }
 

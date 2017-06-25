@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -32,15 +32,15 @@ open class ConnectionBase: Connection, ProtocolStackDelegate {
     
     // MARK: - Properties
     open var dataTap : DataTap? {
-        get        { return nil; }
+        get        { return nil }
         set(value) { }
     }
     
-    public weak var delegate : ConnectionDelegate?;
-    public let      port     : Port;                //: The base port, at the bottom of the protocol stack.
+    public weak var delegate : ConnectionDelegate?
+    public let      port     : Port                //: The base port, at the bottom of the protocol stack.
     
     // MARK: - Private
-    private var completion: ((Error?) -> Void)?;    //: Completion handler for the start() method.
+    private var completion: ((Error?) -> Void)?    //: Completion handler for the start() method.
     
     /**
      Initialize instance.
@@ -51,7 +51,7 @@ open class ConnectionBase: Connection, ProtocolStackDelegate {
      */
     public init(port: Port)
     {
-        self.port = port;
+        self.port = port
     }
     
     /**
@@ -66,8 +66,8 @@ open class ConnectionBase: Connection, ProtocolStackDelegate {
     open func complete(_ error: Error?)
     {
         if let completion = self.completion {
-            completion(error);
-            self.completion = nil;
+            completion(error)
+            self.completion = nil
         }
     }
     
@@ -81,8 +81,8 @@ open class ConnectionBase: Connection, ProtocolStackDelegate {
      */
     open func start(completionHandler completion: @escaping (Error?)->Void)
     {
-        self.completion = completion;
-        port.start();
+        self.completion = completion
+        port.start()
     }
     
     /**
@@ -94,20 +94,20 @@ open class ConnectionBase: Connection, ProtocolStackDelegate {
      */
     open func shutdown(for reason: Error?)
     {
-        port.shutdown(for: reason);
+        port.shutdown(for: reason)
     }
     
     // MARK: - ProtocolStackDelegate
     
     open func protocolStackDidInitialize(_ stack: ProtocolStack, with error: Error?)
     {
-        complete(error);
+        complete(error)
     }
     
     open func protocolStackDidClose(_ stack: ProtocolStack, for reason: Error?)
     {
-        complete(MedKitError.Unreachable);
-        delegate?.connectionDidClose(self, for: reason);
+        complete(MedKitError.unreachable)
+        delegate?.connectionDidClose(self, for: reason)
     }
     
 }

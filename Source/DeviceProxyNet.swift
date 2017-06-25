@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -28,13 +28,13 @@ import Foundation;
 public class DeviceProxyNet: DeviceBase, DeviceProxy {
     
     // MARK: - Properties
-    override public var isOpen         : Bool          { return netBackend.isOpen; }
-    override public var defaultBackend : Backend       { return netBackend; }
-    public var          ports          : [PortFactory] { return netBackend.ports.ports; }
-    override public var reachable      : Bool          { return netBackend.reachable; }
+    override public var isOpen         : Bool          { return netBackend.isOpen }
+    override public var defaultBackend : Backend       { return netBackend }
+    public var          ports          : [PortFactory] { return netBackend.ports.ports }
+    override public var reachable      : Bool          { return netBackend.reachable }
 
     // MARK: - Private
-    private var netBackend: NetBackend!;
+    private var netBackend: NetBackend!
     
     // MARK: - Initializers
     
@@ -43,9 +43,9 @@ public class DeviceProxyNet: DeviceBase, DeviceProxy {
      */
     override public init(from deviceInfo: DeviceInfo)
     {
-        super.init(from: deviceInfo);
-        netBackend = NetBackend(device: self);
-        backend    = netBackend;
+        super.init(from: deviceInfo)
+        netBackend = NetBackend(device: self)
+        backend    = netBackend
     }
     
     /**
@@ -53,9 +53,9 @@ public class DeviceProxyNet: DeviceBase, DeviceProxy {
      */
     override public init(_ parent: DeviceBase?, from profile: JSON)
     {
-        super.init(parent, from: profile);
-        netBackend = NetBackend(device: self);
-        backend    = netBackend;
+        super.init(parent, from: profile)
+        netBackend = NetBackend(device: self)
+        backend    = netBackend
     }
     
     /**
@@ -63,7 +63,7 @@ public class DeviceProxyNet: DeviceBase, DeviceProxy {
      */
     deinit
     {
-        DeviceProxyNetCache.main.removeDevice(with: identifier);
+        DeviceProxyNetCache.main.removeDevice(with: identifier)
     }
     
     // MARK: - Connectivity
@@ -83,16 +83,16 @@ public class DeviceProxyNet: DeviceBase, DeviceProxy {
      */
     override public func close(completionHandler completion: @escaping (Error?) -> Void)
     {
-        let sync = Sync();
+        let sync = Sync()
         
         if netBackend.isOpen {
-            sync.incr();
+            sync.incr()
             netBackend.deviceClose(self, for: nil) { error in
-                sync.decr(error);
+                sync.decr(error)
             }
         }
         
-        sync.close(completionHandler: completion);
+        sync.close(completionHandler: completion)
     }
     
     /**
@@ -100,16 +100,16 @@ public class DeviceProxyNet: DeviceBase, DeviceProxy {
      */
     override public func open(completionHandler completion: @escaping (Error?) -> Void)
     {
-        let sync = Sync();
+        let sync = Sync()
         
         if !netBackend.isOpen {
-            sync.incr();
+            sync.incr()
             netBackend.deviceOpen(self) { error in
-                sync.decr(error);
+                sync.decr(error)
             }
         }
             
-        sync.close(completionHandler: completion);
+        sync.close(completionHandler: completion)
     }
     
     // MARK: - Port Interface
@@ -119,13 +119,13 @@ public class DeviceProxyNet: DeviceBase, DeviceProxy {
      */
     func addPort(_ port: NetPortFactory)
     {
-        let reachable = netBackend.reachable;
+        let reachable = netBackend.reachable
         
-        netBackend.ports.addPort(port);
-        observers.withEach { $0.device(self, didAdd: port); }
+        netBackend.ports.addPort(port)
+        observers.withEach { $0.device(self, didAdd: port) }
         
         if !reachable && netBackend.reachable {
-            observers.withEach { $0.deviceDidUpdateReachability(self); }
+            observers.withEach { $0.deviceDidUpdateReachability(self) }
         }
     }
     
@@ -134,13 +134,13 @@ public class DeviceProxyNet: DeviceBase, DeviceProxy {
      */
     func removePort(_ port: NetPortFactory)
     {
-        let reachable = netBackend.reachable;
+        let reachable = netBackend.reachable
         
-        netBackend.ports.removePort(port);
-        observers.withEach { $0.device(self, didRemove: port); }
+        netBackend.ports.removePort(port)
+        observers.withEach { $0.device(self, didRemove: port) }
         
         if reachable && !netBackend.reachable {
-            observers.withEach { $0.deviceDidUpdateReachability(self); }
+            observers.withEach { $0.deviceDidUpdateReachability(self) }
         }
     }
     
@@ -149,11 +149,11 @@ public class DeviceProxyNet: DeviceBase, DeviceProxy {
      */
     func removeAllPorts()
     {
-        let reachable = netBackend.reachable;
+        let reachable = netBackend.reachable
         
-        netBackend.ports.removeAllPorts();
+        netBackend.ports.removeAllPorts()
         if reachable {
-            observers.withEach { $0.deviceDidUpdateReachability(self); }
+            observers.withEach { $0.deviceDidUpdateReachability(self) }
         }
     }
     

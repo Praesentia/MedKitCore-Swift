@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -28,9 +28,9 @@ import Foundation;
 class NetDevice {
 
     // MARK: - Properties
-    let              info      : DeviceInfo;
-    weak var         observer  : NetDeviceObserver?; //: Only one observer supported.
-    private(set) var ports = [NetPortFactory]();
+    let              info      : DeviceInfo
+    weak var         observer  : NetDeviceObserver? //: Only one observer supported.
+    private(set) var ports = [NetPortFactory]()
     
     // MARK: - Initializers
     
@@ -39,7 +39,7 @@ class NetDevice {
      */
     init(from info: DeviceInfo)
     {
-        self.info = info;
+        self.info = info
     }
     
     /**
@@ -47,8 +47,8 @@ class NetDevice {
      */
     func addPort(_ port: NetPortFactory)
     {
-        ports.append(port);
-        observer?.netDevice(self, didAdd: port);
+        ports.append(port)
+        observer?.netDevice(self, didAdd: port)
     }
     
     /**
@@ -57,8 +57,8 @@ class NetDevice {
     func removePort(_ port: NetPortFactory)
     {
         if let index = (ports.index() { $0 === port }) {
-            ports.remove(at: index);
-            observer?.netDevice(self, didRemove: port);
+            ports.remove(at: index)
+            observer?.netDevice(self, didRemove: port)
         }
     }
     

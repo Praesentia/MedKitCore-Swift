@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -31,12 +31,12 @@ import Foundation;
 public class PortTap: Port, PortDelegate {
     
     // MARK: - Properties
-    public weak var dataTap  : DataTap?;
-    public weak var delegate : PortDelegate?;
+    public weak var dataTap  : DataTap?
+    public weak var delegate : PortDelegate?
     
     // MARK: - Private Properties
-    private let port           : Port;
-    private let decoderFactory : DecoderFactory;
+    private let port           : Port
+    private let decoderFactory : DecoderFactory
     
     // MARK: - Initializers
     
@@ -49,48 +49,48 @@ public class PortTap: Port, PortDelegate {
      */
     public init(_ port: Port, decoderFactory: DecoderFactory)
     {
-        self.port           = port;
-        self.decoderFactory = decoderFactory;
+        self.port           = port
+        self.decoderFactory = decoderFactory
         
-        port.delegate = self;
+        port.delegate = self
     }
     
     // MARK: - Lifecycle
     
     public func shutdown(for reason: Error?)
     {
-        port.shutdown(for: reason);
+        port.shutdown(for: reason)
     }
     
     public func start()
     {
-        port.start();
+        port.start()
     }
     
     // MARK: - Output
     
     public func send(_ data: Data)
     {
-        dataTap?.dataTap(self, willSend: data, decoderFactory: decoderFactory);
-        port.send(data);
+        dataTap?.dataTap(self, willSend: data, decoderFactory: decoderFactory)
+        port.send(data)
     }
     
     // MARK: - PortDelegate
     
     public func portDidClose(_ port: Port, for reason: Error?)
     {
-        delegate?.portDidClose(self, for: reason);
+        delegate?.portDidClose(self, for: reason)
     }
     
     public func portDidInitialize(_ port: Port, with error: Error?)
     {
-        delegate?.portDidInitialize(self, with: error);
+        delegate?.portDidInitialize(self, with: error)
     }
     
     public func port(_ port: Port, didReceive data: Data)
     {
-        dataTap?.dataTap(self, didReceive: data, decoderFactory: decoderFactory);
-        delegate?.port(self, didReceive: data);
+        dataTap?.dataTap(self, didReceive: data, decoderFactory: decoderFactory)
+        delegate?.port(self, didReceive: data)
     }
     
 }

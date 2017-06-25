@@ -4,7 +4,7 @@
  
  Copyright 2017 Jon Griffeth
  
- Licensed under the Apache License, Version 2.0 (the "License")
+ Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
  
@@ -35,7 +35,7 @@ public class WaveformStreamCache {
         }
     }
     
-    private var cache = [UUID : Entry]()
+    private var channel = [UUID : Entry]()
     
     /**
      Initialize instance.
@@ -49,11 +49,11 @@ public class WaveformStreamCache {
      */
     public func findReader(for resource: Resource) -> WaveformReader?
     {
-        var reader = cache[resource.identifier]?.reader
+        var reader = channel[resource.identifier]?.reader
         
         if reader == nil {
             reader = WaveformReader(from: resource)
-            cache[resource.identifier] = Entry(reader!)
+            channel[resource.identifier] = Entry(reader!)
         }
         
         return reader
@@ -61,7 +61,7 @@ public class WaveformStreamCache {
     
     public func removeReader(with identifier: UUID)
     {
-        cache[identifier] = nil
+        channel[identifier] = nil
     }
     
 }

@@ -19,15 +19,15 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 public func decodeBase64(_ string: String) -> [UInt8]?
 {
     if let data = Data(base64Encoded: string) {
-        return [UInt8](data);
+        return [UInt8](data)
     }
-    return nil;
+    return nil
 }
 
 

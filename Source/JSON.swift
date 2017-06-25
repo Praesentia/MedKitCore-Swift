@@ -20,7 +20,7 @@ This source file is part of MedKitCore.
 */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -36,98 +36,98 @@ public class JSON {
      JSON Type
      */
     public enum JSONType {
-        case any;
-        case Array;
-        case Bool;
-        case Number;
-        case int;
-        case Null;
-        case Object;
-        case String;
+        case any
+        case Array
+        case Bool
+        case Number
+        case int
+        case Null
+        case Object
+        case String
     }
     
     // MARK: - Properties
-    public var type   : JSONType         { return _type;      }
-    public var array  : [JSON]?          { return _array;     }
-    public var bool   : Bool?            { return _bool;      }
-    public var double : Double?          { return toDouble(); }
-    public var int    : Int?             { return toInt();    }
-    public var number : Double?          { return toDouble(); }
-    public var object : [String : JSON]? { return _object;    }
-    public var string : String?          { return _string;    }
-    public var time   : Int64?           { return toInt64();  }
-    public var uuid   : UUID?            { return toUUID();   }
+    public var type   : JSONType         { return _type      }
+    public var array  : [JSON]?          { return _array     }
+    public var bool   : Bool?            { return _bool      }
+    public var double : Double?          { return toDouble() }
+    public var int    : Int?             { return toInt()    }
+    public var number : Double?          { return toDouble() }
+    public var object : [String : JSON]? { return _object    }
+    public var string : String?          { return _string    }
+    public var time   : Int64?           { return toInt64()  }
+    public var uuid   : UUID?            { return toUUID()   }
 
     // MARK: - Shadowed
-    private var _type   : JSONType;
-    private var _array  : [JSON]!;
-    private var _bool   : Bool!;
-    private var _int    : Int!;
-    private var _double : Double!;
-    private var _object : [String : JSON]!;
-    private var _string : String!;
+    private var _type   : JSONType
+    private var _array  : [JSON]!
+    private var _bool   : Bool!
+    private var _int    : Int!
+    private var _double : Double!
+    private var _object : [String : JSON]!
+    private var _string : String!
     
     /**
      */
     public init()
     {
-        _type = .any;
+        _type = .any
     }
     
     /**
      */
     public init(_ value: [JSON])
     {
-        _type  = .Array;
-        _array = value;
+        _type  = .Array
+        _array = value
     }
     
     /**
      */
     public init(_ value: Bool)
     {
-        _type = .Bool;
-        _bool = value;
+        _type = .Bool
+        _bool = value
     }
     
     /**
      */
     public init(_ value: Double)
     {
-        _type   = .Number;
-        _double = value;
+        _type   = .Number
+        _double = value
     }
     
     /**
      */
     public init(_ value: Int)
     {
-        _type = .int;
-        _int  = value;
+        _type = .int
+        _int  = value
     }
     
     /**
      */
     public init(_ value: [String : JSON])
     {
-        _type   = .Object;
-        _object = value;
+        _type   = .Object
+        _object = value
     }
     
     /**
      */
     public init(_ value: String)
     {
-        _type   = .String;
-        _string = value;
+        _type   = .String
+        _string = value
     }
     
     /**
      */
     public init(_ value: UUID)
     {
-        _type   = .String;
-        _string = value.uuidstring;
+        _type   = .String
+        _string = value.uuidstring
     }
     
     /**
@@ -135,28 +135,28 @@ public class JSON {
     public subscript(index: Int) -> JSON
     {
         get {
-            cast(to: .Array);
-            extend(to: index + 1);
-            return _array[index];
+            cast(to: .Array)
+            extend(to: index + 1)
+            return _array[index]
         }
         set(value) {
-            cast(to: .Array);
-            extend(to: index + 1);
-            _array[index] = value;
+            cast(to: .Array)
+            extend(to: index + 1)
+            _array[index] = value
         }
     }
     
     public subscript(index: Int) -> UUID
     {
         get {
-            cast(to: .Array);
-            extend(to: index + 1);
-            return UUID(uuidString: _array[index]._string!)!;
+            cast(to: .Array)
+            extend(to: index + 1)
+            return UUID(uuidString: _array[index]._string!)!
         }
         set(value) {
-            cast(to: .Array);
-            extend(to: index + 1);
-            _array[index] = JSON(value);
+            cast(to: .Array)
+            extend(to: index + 1)
+            _array[index] = JSON(value)
         }
     }
     
@@ -164,17 +164,17 @@ public class JSON {
     public subscript(index: Int) -> UUID?
     {
         get {
-            cast(to: .Array);
-            extend(to: index);
+            cast(to: .Array)
+            extend(to: index)
             if let value = _array[index]._string {
-                return UUID(uuidString: value);
+                return UUID(uuidString: value)
             }
-            return nil;
+            return nil
         }
         set(value) {
-            cast(to: .Array);
-            extend(to: index);
-            _array[index] = JSON(value!);
+            cast(to: .Array)
+            extend(to: index)
+            _array[index] = JSON(value!)
         }
     }
     */
@@ -182,49 +182,49 @@ public class JSON {
     public subscript(key: String) -> JSON
     {
         get {
-            cast(to: .Object);
+            cast(to: .Object)
             if let v = _object[key] {
-                return v;
+                return v
             }
-            _object[key] = JSON();
-            return _object[key]!;
+            _object[key] = JSON()
+            return _object[key]!
         }
         set(value) {
-            cast(to: .Object);
-            _object[key] = value;
+            cast(to: .Object)
+            _object[key] = value
         }
     }
     
     public subscript(key: String) -> JSON?
     {
         get {
-            return (type == .Object) ? _object[key] : nil;
+            return (type == .Object) ? _object[key] : nil
         }
         set(value) {
-            cast(to: .Object);
-            _object[key] = value;
+            cast(to: .Object)
+            _object[key] = value
         }
     }
     
     public subscript(key: String) -> Bool
     {
         get {
-            cast(to: .Object);
-            return _object[key]!._bool!;
+            cast(to: .Object)
+            return _object[key]!._bool!
         }
         set(value) {
-            cast(to: .Object);
-            _object[key] = JSON(value);
+            cast(to: .Object)
+            _object[key] = JSON(value)
         }
     }
     
     public subscript(key: String) -> Bool?
     {
         get {
-            return (type == .Object) ? _object[key]?._bool : nil;
+            return (type == .Object) ? _object[key]?._bool : nil
         }
         set(value) {
-            cast(to: .Object);
+            cast(to: .Object)
             _object[key] = value != nil ? JSON(value!) : nil
         }
     }
@@ -232,22 +232,22 @@ public class JSON {
     public subscript(key: String) -> Double
     {
         get {
-            cast(to: .Object);
-            return _object[key]!._double!;
+            cast(to: .Object)
+            return _object[key]!._double!
         }
         set(value) {
-            cast(to: .Object);
-            _object[key] = JSON(value);
+            cast(to: .Object)
+            _object[key] = JSON(value)
         }
     }
     
     public subscript(key: String) -> Double?
     {
         get {
-            return (type == .Object) ? _object[key]?._double : nil;
+            return (type == .Object) ? _object[key]?._double : nil
         }
         set(value) {
-            cast(to: .Object);
+            cast(to: .Object)
             _object[key] = value != nil ? JSON(value!) : nil
         }
     }
@@ -255,38 +255,38 @@ public class JSON {
     public subscript(key: String) -> Int
     {
         get {
-            cast(to: .Object);
+            cast(to: .Object)
             if let v = _object[key]!.toInt() {
-                return v;
+                return v
             }
-            _object[key] = JSON();
-            return _object[key]!.toInt()!;
+            _object[key] = JSON()
+            return _object[key]!.toInt()!
         }
         set(value) {
-            cast(to: .Object);
-            _object[key] = JSON(value);
+            cast(to: .Object)
+            _object[key] = JSON(value)
         }
     }
     
     public subscript(key: String) -> String
     {
         get {
-            cast(to: .Object);
-            return _object[key]!._string!;
+            cast(to: .Object)
+            return _object[key]!._string!
         }
         set(value) {
-            cast(to: .Object);
-            _object[key] = JSON(value);
+            cast(to: .Object)
+            _object[key] = JSON(value)
         }
     }
     
     public subscript(key: String) -> String?
     {
         get {
-            return (type == .Object) ? _object[key]?._string : nil;
+            return (type == .Object) ? _object[key]?._string : nil
         }
         set(value) {
-            cast(to: .Object);
+            cast(to: .Object)
             _object[key] = value != nil ? JSON(value!) : nil
         }
     }
@@ -294,12 +294,12 @@ public class JSON {
     public subscript(key: String) -> UUID
     {
         get {
-            cast(to: .Object);
-            return UUID(uuidString: _object[key]!._string)!;
+            cast(to: .Object)
+            return UUID(uuidString: _object[key]!._string)!
         }
         set(value) {
-            cast(to: .Object);
-            _object[key] = JSON(value);
+            cast(to: .Object)
+            _object[key] = JSON(value)
         }
     }
     
@@ -308,26 +308,26 @@ public class JSON {
         get {
             if type == .Object {
                 if let string = _object[key]?.string {
-                    return UUID(uuidString: string);
+                    return UUID(uuidString: string)
                 }
             }
-            return nil;
+            return nil
         }
         set(value) {
-            cast(to: .Object);
-            _object[key] = value != nil ? JSON(value!) : nil;
+            cast(to: .Object)
+            _object[key] = value != nil ? JSON(value!) : nil
         }
     }
     
     public subscript(key: String) -> [JSON]
     {
         get {
-            cast(to: .Object);
-            return _object[key]!._array!;
+            cast(to: .Object)
+            return _object[key]!._array!
         }
         set(value) {
-            cast(to: .Object);
-            _object[key] = JSON(value);
+            cast(to: .Object)
+            _object[key] = JSON(value)
         }
     }
     
@@ -335,64 +335,64 @@ public class JSON {
     public subscript(key: String) -> [JSON]?
     {
         get {
-            cast(to: .Object);
+            cast(to: .Object)
             if let value = _object[key]?._array {
-                return value;
+                return value
             }
-            return nil;
+            return nil
         }
         set(value) {
-            cast(to: .Object);
-            _object[key] = JSON(value!);
+            cast(to: .Object)
+            _object[key] = JSON(value!)
         }
     }
     */
     
     public func append(_ value: JSON)
     {
-        cast(to: .Array);
-        _array.append(value);
+        cast(to: .Array)
+        _array.append(value)
     }
     
     public func getCount() -> Int?
     {
         switch type {
         case .Array :
-            return _array.count;
+            return _array.count
         
         case .Object :
-            return _object.count;
+            return _object.count
 
         default :
-            return nil;
+            return nil
         }
     }
     
     public func contains(key: String) -> Bool
     {
-        return type == .Object && _object[key] != nil;
+        return type == .Object && _object[key] != nil
     }
     
     public func contains(key: String, type: JSONType) -> Bool
     {
         if type == .Object, let value = _object[key] {
-            return value.type == type;
+            return value.type == type
         }
-        return false;
+        return false
     }
     
     public func contains(_ path: [String]) -> Bool
     {
-        var value = self;
+        var value = self
         
         for key in path {
             if !value.contains(key: key) {
-                return false;
+                return false
             }
-            value = value[key];
+            value = value[key]
         }
         
-        return true;
+        return true
     }
     
     private func cast(to type: JSONType)
@@ -400,31 +400,31 @@ public class JSON {
         if _type == .any {
             switch type {
             case .any :
-                break;
+                break
                 
             case .Array:
-                _array  = [JSON]();
+                _array  = [JSON]()
             
             case .Bool:
-                _bool   = Bool();
+                _bool   = Bool()
                 
             case .Number:
-                _double = Double();
+                _double = Double()
                 
             case .int:
-                _int = Int();
+                _int = Int()
                 
             case .Null:
-                break;
+                break
                 
             case .Object:
-                _object = [String : JSON]();
+                _object = [String : JSON]()
                 
             case .String:
-                _string = String();
+                _string = String()
             }
             
-            _type = type;
+            _type = type
         }
     }
     
@@ -433,7 +433,7 @@ public class JSON {
         if _array != nil {
             if _array.count < count {
                 for _ in _array.count..<count {
-                    _array.append(JSON());
+                    _array.append(JSON())
                 }
             }
         }
@@ -441,39 +441,39 @@ public class JSON {
     
     private func force(to type: JSONType)
     {
-        reset();
-        cast(to: type);
+        reset()
+        cast(to: type)
     }
     
     private func reset()
     {
         switch _type {
         case .any :
-            break;
+            break
 
         case .Array:
-            _array  = nil;
+            _array  = nil
             
         case .Bool:
-            _bool   = nil;
+            _bool   = nil
             
         case .Number:
-            _double = nil;
+            _double = nil
             
         case .int:
-            _int    = nil;
+            _int    = nil
             
         case .Null:
-            break;
+            break
             
         case .Object:
-            _object = nil;
+            _object = nil
             
         case .String:
-            _string = nil;
+            _string = nil
         }
         
-        _type = .any;
+        _type = .any
     }
     
     private func toDouble() -> Double?
@@ -481,15 +481,15 @@ public class JSON {
         switch type {
         case .int:
             if let value = _int {
-                return Double(value);
+                return Double(value)
             }
-            return nil;
+            return nil
             
         case .Number:
-            return _double;
+            return _double
             
         default:
-            return nil;
+            return nil
         }
     }
     
@@ -497,16 +497,16 @@ public class JSON {
     {
         switch type {
         case .int:
-            return _int;
+            return _int
             
         case .Number:
             if let value = _double {
-                return Int(value);
+                return Int(value)
             }
-            return nil;
+            return nil
             
         default:
-            return nil;
+            return nil
         }
     }
     
@@ -515,18 +515,18 @@ public class JSON {
         switch type {
         case .int:
             if let value = _int {
-                return Int64(value);
+                return Int64(value)
             }
-            return nil;
+            return nil
             
         case .Number:
             if let value = _double {
-                return Int64(value);
+                return Int64(value)
             }
-            return nil;
+            return nil
             
         default:
-            return nil;
+            return nil
         }
     }
     
@@ -535,12 +535,12 @@ public class JSON {
         switch type {
         case .String:
             if let value = _string {
-                return UUID(uuidString: value);
+                return UUID(uuidString: value)
             }
-            return nil;
+            return nil
             
         default:
-            return nil;
+            return nil
         }
     }
     

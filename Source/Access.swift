@@ -19,13 +19,13 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 public enum Access: Int {
-    case ReadOnly  = 1
-    case WriteOnly = 2
-    case ReadWrite = 3
+    case readOnly  = 1
+    case writeOnly = 2
+    case readWrite = 3
 }
 
 public extension Access {
@@ -34,29 +34,29 @@ public extension Access {
     {
         switch string {
         case "ReadOnly" :
-            self = .ReadOnly;
+            self = .readOnly
             
         case "WriteOnly" :
-            self = .WriteOnly;
+            self = .writeOnly
             
         case "ReadWrite" :
-            self = .ReadWrite;
+            self = .readWrite
             
         default :
-            return nil;
+            return nil
         }
     }
     
     public var string: String {
         switch self {
-        case .ReadOnly :
-            return "ReadOnly";
+        case .readOnly :
+            return "ReadOnly"
             
-        case .WriteOnly :
-            return "WriteOnly";
+        case .writeOnly :
+            return "WriteOnly"
             
-        case .ReadWrite :
-            return "ReadWrite";
+        case .readWrite :
+            return "ReadWrite"
         }
     }
     

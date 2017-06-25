@@ -19,15 +19,15 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
-public let OperationTypeDeviceGetProfile           = UUID(uuidString: "089f991d-3941-43b8-ae74-9af7d3901c04")!; // final
-public let OperationTypeDeviceUpdateName           = UUID(uuidString: "72bac99f-a496-4dfd-8e9b-d92d27a9046d")!; // final
-public let OperationTypeServiceUpdateName          = UUID(uuidString: "e3f90b84-df64-49e8-a22f-355e9f239297")!; // final
-public let OperationTypeResourceEnableNotification = UUID(uuidString: "d8a9cef2-b192-4cb6-80db-04109d5e1425")!; // final
-public let OperationTypeResourceReadValue          = UUID(uuidString: "132d9e13-cdb0-4082-b055-04df73cd103d")!; // final
-public let OperationTypeResourceWriteValue         = UUID(uuidString: "7d03083e-5bb2-4184-8c70-5b1f5fc92d3b")!; // final
+public let OperationTypeDeviceGetProfile           = UUID(uuidString: "089f991d-3941-43b8-ae74-9af7d3901c04")! // final
+public let OperationTypeDeviceUpdateName           = UUID(uuidString: "72bac99f-a496-4dfd-8e9b-d92d27a9046d")! // final
+public let OperationTypeServiceUpdateName          = UUID(uuidString: "e3f90b84-df64-49e8-a22f-355e9f239297")! // final
+public let OperationTypeResourceEnableNotification = UUID(uuidString: "d8a9cef2-b192-4cb6-80db-04109d5e1425")! // final
+public let OperationTypeResourceReadValue          = UUID(uuidString: "132d9e13-cdb0-4082-b055-04df73cd103d")! // final
+public let OperationTypeResourceWriteValue         = UUID(uuidString: "7d03083e-5bb2-4184-8c70-5b1f5fc92d3b")! // final
 
 
 // End of File

@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 public enum InetProto: Int {
@@ -30,20 +30,20 @@ public enum InetProto: Int {
 public extension InetProto {
     
     // MARK: - Properties
-    public var inet: Int32 { return InetProto.codes[rawValue]; }
+    public var inet: Int32 { return InetProto.codes[rawValue] }
     
     // MARK: - Private Constants
-    private static let codes = [ SOCK_STREAM, SOCK_DGRAM ];
+    private static let codes = [ SOCK_STREAM, SOCK_DGRAM ]
     
     // MARK: - Initializers
     
     public init?(inet: Int32)
     {
         if let code = InetProto.codes.index(of: inet) {
-            self.init(rawValue: code);
+            self.init(rawValue: code)
         }
         else {
-            return nil;
+            return nil
         }
     }
 

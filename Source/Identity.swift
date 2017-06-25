@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -38,17 +38,17 @@ public class Identity: Equatable {
      identity type separates namespaces to prevent conflicts.
      */
     public enum IdentityType {
-        case Device       //: Devices.
-        case Organization //: An organization, such as a certificate authority.
-        case Other
-        case User         //: An actual person.
+        case device       //: Devices.
+        case organization //: An organization, such as a certificate authority.
+        case other
+        case user         //: An actual person.
     }
     
     // MARK: - Properties
-    public var  profile : JSON         { return getProfile(); }
-    public let  name    : String;
-    public let  type    : IdentityType;
-    public var  string  : String       { return "\(type.prefix)\(name)"; }
+    public var  profile : JSON         { return getProfile() }
+    public let  name    : String
+    public let  type    : IdentityType
+    public var  string  : String       { return "\(type.prefix)\(name)" }
     
     // MARK: - Initializers
     
@@ -57,8 +57,8 @@ public class Identity: Equatable {
      */
     public init(named name: String, type: IdentityType)
     {
-        self.name = name;
-        self.type = type;
+        self.name = name
+        self.type = type
     }
     
     /**
@@ -66,38 +66,38 @@ public class Identity: Equatable {
      */
     public init(from profile: JSON)
     {
-        self.name = profile[KeyName].string!;
-        self.type = IdentityType(string: profile[KeyType].string!)!;
-    }
+        self.name = profile[KeyName].string!
+        self.type = IdentityType(string: profile[KeyType].string!)!
+    } 
     
     /**
      Initialize instance from string.
      */
-    public convenience init?(from string: String)
+    public convenience init?(from string: String) // TODO
     {
-        var t: IdentityType?;
-        var n: String?;
+        var t: IdentityType?
+        var n: String?
         
         if string.hasPrefix(Identity.IdentityType.PrefixDevice) {
-            n = String(string.characters.suffix(string.characters.count - 18));
-            t = .Device
+            n = String(string.characters.suffix(string.characters.count - 18))
+            t = .device
         }
     
         if string.hasPrefix(Identity.IdentityType.PrefixUser) {
-            n = String(string.characters.suffix(string.characters.count - 16));
-            t = .User
+            n = String(string.characters.suffix(string.characters.count - 16))
+            t = .user
         }
     
         if string.hasPrefix(Identity.IdentityType.PrefixOrganization) {
-            n = String(string.characters.suffix(string.characters.count - 24));
-            t = .Organization
+            n = String(string.characters.suffix(string.characters.count - 24))
+            t = .organization
         }
         
         if t != nil {
-            self.init(named: n!, type: t!);
+            self.init(named: n!, type: t!)
         }
         else {
-            return nil;
+            self.init(named: string, type: .other)
         }
     }
     
@@ -105,12 +105,12 @@ public class Identity: Equatable {
     
     private func getProfile() -> JSON
     {
-        let profile = JSON();
+        let profile = JSON()
         
-        profile[KeyName] = name;
-        profile[KeyType] = type.string;
+        profile[KeyName] = name
+        profile[KeyType] = type.string
         
-        return profile;
+        return profile
     }
     
 }
@@ -122,67 +122,67 @@ public class Identity: Equatable {
  */
 public func ==(lhs: Identity, rhs: Identity) -> Bool
 {
-    return lhs.name == rhs.name && lhs.type == rhs.type;
+    return lhs.name == rhs.name && lhs.type == rhs.type
 }
 
 // MARK: - Extensions
 
 public extension Identity.IdentityType {
     
-    static let PrefixDevice       = "org.medkit.device.";
-    static let PrefixOrganization = "org.medkit.organization.";
-    static let PrefixOther        = "";
-    static let PrefixUser         = "org.medkit.user.";
+    static let PrefixDevice       = "org.medkit.device."
+    static let PrefixOrganization = "org.medkit.organization."
+    static let PrefixOther        = ""
+    static let PrefixUser         = "org.medkit.user."
     
     public init?(string: String)
     {
         switch string {
         case "Device" :
-            self = .Device;
+            self = .device
             
         case "Organization" :
-            self = .Organization;
+            self = .organization
             
         case "Other" :
-            self = .Other
+            self = .other
             
         case "User" :
-            self = .User;
+            self = .user
 
         default :
-            return nil;
+            return nil
         }
     }
     
     public var prefix: String {
         switch self {
-        case .Device :
-            return Identity.IdentityType.PrefixDevice;
+        case .device :
+            return Identity.IdentityType.PrefixDevice
             
-        case .Organization :
-            return Identity.IdentityType.PrefixOrganization;
+        case .organization :
+            return Identity.IdentityType.PrefixOrganization
             
-        case .Other :
-            return Identity.IdentityType.PrefixOther;
+        case .other :
+            return Identity.IdentityType.PrefixOther
             
-        case .User :
-            return Identity.IdentityType.PrefixUser;
+        case .user :
+            return Identity.IdentityType.PrefixUser
         }
     }
     
     public var string: String {
         switch self {
-        case .Device :
-            return "Device";
+        case .device :
+            return "Device"
         
-        case .Organization :
-            return "Organization";
+        case .organization :
+            return "Organization"
             
-        case .Other :
-            return "Other";
+        case .other :
+            return "Other"
         
-        case .User :
-            return "User";
+        case .user :
+            return "User"
         }
     }
     

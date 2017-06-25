@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -28,8 +28,8 @@ import Foundation;
 class NetPorts {
     
     // MARK: - Properties
-    private(set) var ports     = [NetPortFactory]();
-    var              reachable : Bool { return reachablePorts(); }
+    private(set) var ports     = [NetPortFactory]()
+    var              reachable : Bool { return reachablePorts() }
     
     // MARK: - Initializers
     
@@ -47,7 +47,7 @@ class NetPorts {
      */
     func addPort(_ port: NetPortFactory)
     {
-        ports.append(port);
+        ports.append(port)
     }
     
     /**
@@ -55,8 +55,8 @@ class NetPorts {
      */
     func removePort(_ port: PortFactory)
     {
-        if let index = (ports.index { $0 === port; }) {
-            ports.remove(at: index);
+        if let index = (ports.index { $0 === port }) {
+            ports.remove(at: index)
         }
     }
     
@@ -65,7 +65,7 @@ class NetPorts {
      */
     func removeAllPorts()
     {
-        ports.removeAll();
+        ports.removeAll()
     }
     
     // MARK: - Port Selection
@@ -77,11 +77,11 @@ class NetPorts {
     {
         for port in ports {
             if port.reachable {
-                return true;
+                return true
             }
         }
         
-        return false;
+        return false
     }
     
     /**
@@ -89,17 +89,17 @@ class NetPorts {
      */
     func selectPort() -> NetPortFactory?
     {
-        var selection: NetPortFactory?;
+        var selection: NetPortFactory?
         
         for port in ports {
             if port.reachable {
                 if selection == nil || port.priority < selection!.priority {
-                    selection = port;
+                    selection = port
                 }
             }
         }
         
-        return selection;
+        return selection
     }
     
 }

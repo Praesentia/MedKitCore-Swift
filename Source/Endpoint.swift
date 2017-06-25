@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -30,12 +30,12 @@ import Foundation;
 class Endpoint {
     
     // MARK: - Class Properties
-    static let Closed     : Int =  0;
-    static let Failed     : Int = -1;
-    static let WouldBlock : Int = -2;
+    static let closed     : Int =  0
+    static let failed     : Int = -1
+    static let wouldBlock : Int = -2
     
     // MARK: - Properties
-    weak var delegate : EndpointDelegate?; //: Delegate
+    weak var delegate : EndpointDelegate? //: Delegate
     
     /**
      Resume input.

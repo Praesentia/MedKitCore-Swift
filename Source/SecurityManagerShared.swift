@@ -19,22 +19,22 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 public class SecurityManagerShared {
     
-    public static var main: SecurityManager { return _main!; }
+    public static var main: SecurityManager { return _main! }
     
     // MARK: - Private
-    private static var _main: SecurityManager?;
+    private static var _main: SecurityManager?
     
     /**
      Initialize main security maanger implementation.
      */
     public class func initializeMain(_ main: SecurityManager)
     {
-        _main = main;
+        _main = main
     }
     
 }

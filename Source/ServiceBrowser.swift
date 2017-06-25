@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -30,22 +30,22 @@ import Foundation;
 class ServiceBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
 
     // MARK: - Properties
-    weak var         delegate : ServiceBrowserDelegate?;
-    private(set) var devices  = [NetDevice]();
+    weak var         delegate : ServiceBrowserDelegate?
+    private(set) var devices  = [NetDevice]()
     var              domains  : [String] { return browsers.map { $0.0 } }
     
     // MARK: - Private
-    private let ServiceType = "_mist._tcp";
-    private var browsers    = [String : NetServiceBrowser]();
-    private var services    = [NetService : NetServiceExt]();
-    private let schema      = MISTV1Schema();
+    private let ServiceType = "_mist._tcp"
+    private var browsers    = [String : NetServiceBrowser]()
+    private var services    = [NetService : NetServiceExt]()
+    private let schema      = MISTV1Schema()
  
     /**
      Initialize instance.
      */
     override init()
     {
-        super.init();
+        super.init()
     }
     
     /**
@@ -54,7 +54,7 @@ class ServiceBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
     func resume()
     {
         for (domain, browser) in browsers {
-            browser.searchForServices(ofType: ServiceType, inDomain: domain);
+            browser.searchForServices(ofType: ServiceType, inDomain: domain)
         }
     }
     
@@ -64,15 +64,15 @@ class ServiceBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
     func suspend()
     {
         for (_, browser) in browsers {
-            browser.stop();
+            browser.stop()
         }
         
         while !devices.isEmpty {
-            let device = devices.removeFirst();
-            delegate?.serviceBrowser(self, didRemove: device);
+            let device = devices.removeFirst()
+            delegate?.serviceBrowser(self, didRemove: device)
         }
 
-        services.removeAll();
+        services.removeAll()
     }
     
     /**
@@ -81,12 +81,12 @@ class ServiceBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
     func startBrowsing(domain: String)
     {
         if browsers[domain] == nil {
-            let browser = NetServiceBrowser();
+            let browser = NetServiceBrowser()
         
-            browsers[domain] = browser;
+            browsers[domain] = browser
         
-            browser.delegate = self;
-            browser.searchForServices(ofType: ServiceType, inDomain: domain);
+            browser.delegate = self
+            browser.searchForServices(ofType: ServiceType, inDomain: domain)
         }
     }
     
@@ -96,16 +96,16 @@ class ServiceBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
     func stopBrowsing()
     {
         for (_, browser) in browsers {
-            browser.stop();
+            browser.stop()
         }
         
         while !devices.isEmpty {
-            let device = devices.removeFirst();
-            delegate?.serviceBrowser(self, didRemove: device);
+            let device = devices.removeFirst()
+            delegate?.serviceBrowser(self, didRemove: device)
         }
         
-        browsers.removeAll();
-        services.removeAll();
+        browsers.removeAll()
+        services.removeAll()
     }
     
     /**
@@ -117,18 +117,18 @@ class ServiceBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
     func stopBrowsing(domain: String)
     {
         if let browser = browsers[domain] {
-            browsers[domain] = nil;
-            browser.stop();
+            browsers[domain] = nil
+            browser.stop()
             
             for (netService, service) in services {
                 if service.browser == browser {
-                    services[netService] = nil;
+                    services[netService] = nil
                     
                     if let device = service.device {
                         for port in service.ports {
-                            device.removePort(port);
+                            device.removePort(port)
                         }
-                        pruneDevice(device);
+                        pruneDevice(device)
                     }
                 }
             }
@@ -140,17 +140,17 @@ class ServiceBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
      */
     private func internDevice(fromTXT txt: [String : String]) -> NetDevice
     {
-        let info   = DeviceInfo(fromTXT: txt);
-        var device : NetDevice! = devices.find(where: { $0.info.identifier == info.identifier });
+        let info   = DeviceInfo(fromTXT: txt)
+        var device : NetDevice! = devices.find(where: { $0.info.identifier == info.identifier })
 
         if device == nil {
-            device = NetDevice(from: info);
+            device = NetDevice(from: info)
             
-            devices.append(device);
-            delegate?.serviceBrowser(self, didAdd: device);
+            devices.append(device)
+            delegate?.serviceBrowser(self, didAdd: device)
         }
         
-        return device;
+        return device
     }
     
     /**
@@ -159,9 +159,9 @@ class ServiceBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
     private func pruneDevice(_ device: NetDevice)
     {
         if device.ports.isEmpty {
-            if let index = (devices.index { $0 === device; }) {
-                devices.remove(at: index);
-                delegate?.serviceBrowser(self, didRemove: device);
+            if let index = (devices.index { $0 === device }) {
+                devices.remove(at: index)
+                delegate?.serviceBrowser(self, didRemove: device)
             }
         }
     }
@@ -171,16 +171,16 @@ class ServiceBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
      */
     private func parseTXT(fromTXTRecord record: Data) -> [String : String]?
     {
-        let pairs = NetService.dictionary(fromTXTRecord: record);
-        var txt   = [String : String]();
+        let pairs = NetService.dictionary(fromTXTRecord: record)
+        var txt   = [String : String]()
         
         for (key, data) in pairs {
             if let value = String(data: data, encoding: .utf8) {
-                txt[key] = value;
+                txt[key] = value
             }
         }
         
-        return schema.verifyTXT(txt) ? txt : nil;
+        return schema.verifyTXT(txt) ? txt : nil
     }
     
     // MARK: - NetServiceBrowserDelegate
@@ -190,11 +190,11 @@ class ServiceBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
      */
     func netServiceBrowser(_ browser: NetServiceBrowser, didFind service: NetService, moreComing: Bool)
     {
-        services[service] = NetServiceExt(browser, service);
+        services[service] = NetServiceExt(browser, service)
         
-        service.delegate = self;
-        service.startMonitoring();
-        service.resolve(withTimeout: 0);
+        service.delegate = self
+        service.startMonitoring()
+        service.resolve(withTimeout: 0)
     }
     
     /**
@@ -203,18 +203,18 @@ class ServiceBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
     func netServiceBrowser(_ browser: NetServiceBrowser, didRemove netService: NetService, moreComing: Bool)
     {
         if let service = services[netService] {
-            services[netService] = nil;
+            services[netService] = nil
             
             if let device = service.device {
                 
                 for port in service.ports {
-                    device.removePort(port);
+                    device.removePort(port)
                 }
             
                 if device.ports.isEmpty {
-                    if let index = (devices.index { $0 === device; }) {
-                        devices.remove(at: index);
-                        delegate?.serviceBrowser(self, didRemove: device);
+                    if let index = (devices.index { $0 === device }) {
+                        devices.remove(at: index)
+                        delegate?.serviceBrowser(self, didRemove: device)
                     }
                 }
             }
@@ -227,9 +227,9 @@ class ServiceBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
     {
         if let service = services[netService] {
             if let txt = parseTXT(fromTXTRecord: record) {
-                let device = internDevice(fromTXT: txt);
+                let device = internDevice(fromTXT: txt)
                 
-                service.updateNetDevice(device, type: txt["pr"]);
+                service.updateNetDevice(device, type: txt["pr"])
             }
         }
     }
@@ -237,9 +237,9 @@ class ServiceBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
     func netServiceDidResolveAddress(_ netService: NetService)
     {
         if let service = services[netService] {
-            let addresses = netService.addresses ?? [];
+            let addresses = netService.addresses ?? []
             
-            service.updateAddresses(addresses.map() { SockAddr(proto: InetProto(inet: service.proto)!, address: $0); }, from: netService.domain);
+            service.updateAddresses(addresses.map() { SockAddr(proto: InetProto(inet: service.proto)!, address: $0) }, from: netService.domain)
         }
     }
     

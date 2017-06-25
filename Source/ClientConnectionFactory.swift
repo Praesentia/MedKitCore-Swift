@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -33,10 +33,10 @@ public protocol ClientConnectionFactory {
      Create connection.
      
      - Parameters:
-     - port: The server port.
-     - principal: The principal for the client.
+        - port: The server port.
+        - principal: The principal for the client.
      */
-    func instantiate(to port: Port, for device: DeviceBackend, as principal: Principal?) -> ClientConnectionBase;
+    func instantiate(to port: Port, for device: DeviceBackend, as principal: Principal?) -> ClientConnectionBase
     
 }
 
@@ -45,16 +45,16 @@ public protocol ClientConnectionFactory {
  */
 public class ClientConnectionFactoryTemplate<T: ClientConnectionBase>: ClientConnectionFactory {
     
-    public let priority: Int;
+    public let priority: Int
     
     public init(priority: Int)
     {
-        self.priority = priority;
+        self.priority = priority
     }
     
     public func instantiate(to port: Port, for device: DeviceBackend, as principal: Principal?) -> ClientConnectionBase
     {
-        return T(to: port, for: device, as: principal);
+        return T(to: port, for: device, as: principal)
     }
     
 }

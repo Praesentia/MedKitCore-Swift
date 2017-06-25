@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -27,8 +27,8 @@ import Foundation;
  */
 protocol NetDeviceObserver: class {
     
-    func netDevice(_ netDevice: NetDevice, didAdd port: NetPortFactory);
-    func netDevice(_ netDevice: NetDevice, didRemove port: NetPortFactory);
+    func netDevice(_ netDevice: NetDevice, didAdd port: NetPortFactory)
+    func netDevice(_ netDevice: NetDevice, didRemove port: NetPortFactory)
     
 }
 

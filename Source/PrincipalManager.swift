@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -28,13 +28,13 @@ import Foundation;
 public class PrincipalManager {
     
     // MARK: - Class Properties
-    public static let main = PrincipalManager();
+    public static let main = PrincipalManager()
     
     // MARK: - Properties
-    public private(set) var primary : Principal?;
+    public private(set) var primary : Principal?
     
     // MARK: - Private
-    private var observers = ObserverManager<PrincipalManagerObserver>();
+    private var observers = ObserverManager<PrincipalManagerObserver>()
     
     // MARK: - Initializers
     
@@ -52,7 +52,7 @@ public class PrincipalManager {
      */
     public func addObserver(_ observer: PrincipalManagerObserver)
     {
-        observers.add(observer);
+        observers.add(observer)
     }
     
     /**
@@ -60,7 +60,7 @@ public class PrincipalManager {
      */
     public func removeObserver(_ observer: PrincipalManagerObserver)
     {
-        observers.remove(observer);
+        observers.remove(observer)
     }
     
     // MARK: - Mutators
@@ -70,8 +70,8 @@ public class PrincipalManager {
      */
     public func updatePrimary(_ principal: Principal?)
     {
-        primary = principal;
-        observers.withEach { $0.principalManagerDidUpdatePrimary(self); }
+        primary = principal
+        observers.withEach { $0.principalManagerDidUpdatePrimary(self) }
     }
     
 }

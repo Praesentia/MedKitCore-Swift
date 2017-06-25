@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -27,8 +27,8 @@ import Foundation;
  */
 public protocol DataTap: class {
     
-    func dataTap(_ sender: Any, willSend data: Data, decoderFactory: DecoderFactory);
-    func dataTap(_ sender: Any, didReceive data: Data, decoderFactory: DecoderFactory);
+    func dataTap(_ sender: Any, willSend data: Data, decoderFactory: DecoderFactory)
+    func dataTap(_ sender: Any, didReceive data: Data, decoderFactory: DecoderFactory)
     
 }
 

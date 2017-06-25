@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -27,9 +27,9 @@ import Foundation;
  */
 public protocol ServiceObserver: class {
     
-    func serviceDidUpdateName(_ service: Service);
-    func service(_ service: Service, didAdd resource: Resource);
-    func service(_ service: Service, didRemove resource: Resource);
+    func serviceDidUpdateName(_ service: Service)
+    func service(_ service: Service, didAdd resource: Resource)
+    func service(_ service: Service, didRemove resource: Resource)
     
 }
 

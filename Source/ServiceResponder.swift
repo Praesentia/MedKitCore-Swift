@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -27,23 +27,23 @@ import Foundation;
  */
 public class ServiceResponder: NSObject, NetServiceDelegate {
     
-    private let ServiceDomain  = "local.";
-    private let ServiceType    = "_mist._tcp";
-    private let ServiceVersion = "1";
-    private let identifier     = SecurityManagerShared.main.randomBytes(count: 8).hexEncodedString;
-    private var netService     : NetService;
+    private let ServiceDomain  = "local."
+    private let ServiceType    = "_mist._tcp"
+    private let ServiceVersion = "1"
+    private let identifier     = SecurityManagerShared.main.randomBytes(count: 8).hexEncodedString
+    private var netService     : NetService
     
     /**
      Initialize instance.
      */
     public init(deviceInfo: DeviceInfo, protocolType: String, port: UInt16)
     {
-        netService = NetService(domain: ServiceDomain, type: ServiceType, name: identifier, port: Int32(port));
+        netService = NetService(domain: ServiceDomain, type: ServiceType, name: identifier, port: Int32(port))
         
-        super.init();
+        super.init()
         
-        netService.delegate = self;
-        netService.setTXTRecord(makeTXTRecord(deviceInfo: deviceInfo, protocolType: protocolType));
+        netService.delegate = self
+        netService.setTXTRecord(makeTXTRecord(deviceInfo: deviceInfo, protocolType: protocolType))
     }
     
     /**
@@ -51,12 +51,12 @@ public class ServiceResponder: NSObject, NetServiceDelegate {
      */
     public init(device: Device, protocolType: String, port: UInt16)
     {
-        netService = NetService(domain: ServiceDomain, type: ServiceType, name: identifier, port: Int32(port));
+        netService = NetService(domain: ServiceDomain, type: ServiceType, name: identifier, port: Int32(port))
         
-        super.init();
+        super.init()
         
-        netService.delegate = self;
-        netService.setTXTRecord(makeTXTRecord(device: device, protocolType: protocolType));
+        netService.delegate = self
+        netService.setTXTRecord(makeTXTRecord(device: device, protocolType: protocolType))
     }
     
     /**
@@ -64,7 +64,7 @@ public class ServiceResponder: NSObject, NetServiceDelegate {
      */
     deinit
     {
-        retract();
+        retract()
     }
     
     /**
@@ -72,7 +72,7 @@ public class ServiceResponder: NSObject, NetServiceDelegate {
      */
     public func publish()
     {
-        netService.publish();
+        netService.publish()
     }
     
     /**
@@ -80,37 +80,37 @@ public class ServiceResponder: NSObject, NetServiceDelegate {
      */
     public func retract()
     {
-        netService.stop();
+        netService.stop()
     }
     
     private func makeTXTRecord(device: Device, protocolType: String) -> Data
     {
-        var txt = [String : Data]();
+        var txt = [String : Data]()
         
-        txt["dn"] = device.name.data(using: .utf8);
-        txt["dt"] = (device.type.name ?? "Other").data(using: .utf8);
-        txt["mf"] = device.manufacturer.data(using: .utf8);
-        txt["md"] = device.model.data(using: .utf8);
-        txt["sn"] = device.serialNumber.data(using: .utf8);
-        txt["pr"] = protocolType.data(using: .utf8);
-        txt["vn"] = ServiceVersion.data(using: .utf8);
+        txt["dn"] = device.name.data(using: .utf8)
+        txt["dt"] = device.type.name.data(using: .utf8)
+        txt["mf"] = device.manufacturer.data(using: .utf8)
+        txt["md"] = device.model.data(using: .utf8)
+        txt["sn"] = device.serialNumber.data(using: .utf8)
+        txt["pr"] = protocolType.data(using: .utf8)
+        txt["vn"] = ServiceVersion.data(using: .utf8)
         
-        return NetService.data(fromTXTRecord: txt);
+        return NetService.data(fromTXTRecord: txt)
     }
     
     private func makeTXTRecord(deviceInfo: DeviceInfo, protocolType: String) -> Data
     {
-        var txt = [String : Data]();
+        var txt = [String : Data]()
         
-        txt["dn"] = deviceInfo.name.data(using: .utf8);
-        txt["dt"] = (deviceInfo.type.name ?? "Other").data(using: .utf8);
-        txt["mf"] = deviceInfo.manufacturer.data(using: .utf8);
-        txt["md"] = deviceInfo.model.data(using: .utf8);
-        txt["sn"] = deviceInfo.serialNumber.data(using: .utf8);
-        txt["pr"] = protocolType.data(using: .utf8);
-        txt["vn"] = ServiceVersion.data(using: .utf8);
+        txt["dn"] = deviceInfo.name.data(using: .utf8)
+        txt["dt"] = deviceInfo.type.name.data(using: .utf8)
+        txt["mf"] = deviceInfo.manufacturer.data(using: .utf8)
+        txt["md"] = deviceInfo.model.data(using: .utf8)
+        txt["sn"] = deviceInfo.serialNumber.data(using: .utf8)
+        txt["pr"] = protocolType.data(using: .utf8)
+        txt["vn"] = ServiceVersion.data(using: .utf8)
         
-        return NetService.data(fromTXTRecord: txt);
+        return NetService.data(fromTXTRecord: txt)
     }
     
     public func netServiceWillPublish(_ netService: NetService)

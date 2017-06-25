@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -30,11 +30,11 @@ import Foundation;
 public class PortSecure: Port, PortDelegate {
     
     // MARK: - Properties
-    public weak var delegate: PortDelegate?;
-    public weak var policy  : PortSecurePolicy?;
+    public weak var delegate: PortDelegate?
+    public weak var policy  : PortSecurePolicy?
     
     // MARK: - Private Properties
-    private let port: Port;
+    private let port: Port
     
     // MARK: - Initializers
     
@@ -46,44 +46,44 @@ public class PortSecure: Port, PortDelegate {
      */
     public init(_ port: Port)
     {
-        self.port = port;
-        port.delegate = self;
+        self.port = port
+        port.delegate = self
     }
     
     // MARK: - Lifecycle
     
     public func shutdown(for reason: Error?)
     {
-        port.shutdown(for: reason);
+        port.shutdown(for: reason)
     }
     
     public func start()
     {
-        port.start();
+        port.start()
     }
     
     // MARK: - Output
     
     public func send(_ data: Data)
     {
-        port.send(data);
+        port.send(data)
     }
     
     // MARK: - PortDelegate
     
     public func portDidClose(_ port: Port, for reason: Error?)
     {
-        delegate?.portDidClose(self, for: reason);
+        delegate?.portDidClose(self, for: reason)
     }
     
     public func portDidInitialize(_ port: Port, with error: Error?)
     {
-        delegate?.portDidInitialize(self, with: error);
+        delegate?.portDidInitialize(self, with: error)
     }
     
     public func port(_ port: Port, didReceive data: Data)
     {
-        delegate?.port(self, didReceive: data);
+        delegate?.port(self, didReceive: data)
     }
     
 }

@@ -20,10 +20,10 @@ This source file is part of MedKitCore.
 */
 
 
-import Foundation;
+import Foundation
 
 
-private let UUID_LENGTH = Int(16);
+private let UUID_LENGTH = Int(16)
 
 
 public extension UUID {
@@ -31,13 +31,13 @@ public extension UUID {
     /**
      Null UUID, consisting entirely of zero bytes.
      */
-    static let null = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!;
+    static let null = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!
     
     /**
      */
     init(uuidBytes bytes: [UInt8])
     {
-        self.init(uuidString: NSUUID(uuidBytes: bytes).uuidString)!; // TODO: is there a better way?
+        self.init(uuidString: NSUUID(uuidBytes: bytes).uuidString)! // TODO: is there a better way?
     }
     
     /**
@@ -51,12 +51,12 @@ public extension UUID {
      */
     init(fromSHA1 digest: [UInt8])
     {
-        var data = Array<UInt8>(digest[0..<UUID_LENGTH]);
+        var data = Array<UInt8>(digest[0..<UUID_LENGTH])
         
-        data[6] = data[6] & 0x0f | 0x50;
-        data[8] = data[8] & 0x3f | 0x80;
+        data[6] = data[6] & 0x0f | 0x50
+        data[8] = data[8] & 0x3f | 0x80
         
-        self.init(uuidBytes: data);
+        self.init(uuidBytes: data)
     }
     
     /**
@@ -69,7 +69,7 @@ public extension UUID {
      */
     var uuidstring: String
     {
-        return uuidString.lowercased();
+        return uuidString.lowercased()
     }
 
 }

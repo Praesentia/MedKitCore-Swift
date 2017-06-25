@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -34,10 +34,10 @@ public class ObserverManager<T> {
     /**
      The number of observers registered with the manager.
      */
-    public var count: Int { return observers.count; }
+    public var count: Int { return observers.count }
     
     // MARK: - Private
-    private var observers = [Weak]();
+    private var observers = [Weak]()
     
     // MARK: - Initializers
     
@@ -57,12 +57,12 @@ public class ObserverManager<T> {
      */
     public func add(_ observer: T)
     {
-        let x = observer as AnyObject;
+        let x = observer as AnyObject
         
-        assert(!contains(x));
+        assert(!contains(x))
 
-        if !observers.contains(where: { $0.value === x; }) {
-            observers.append(Weak(x));
+        if !observers.contains(where: { $0.value === x }) {
+            observers.append(Weak(x))
         }
     }
     
@@ -73,10 +73,10 @@ public class ObserverManager<T> {
      */
     public func remove(_ observer: AnyObject)
     {
-        assert(contains(observer));
+        assert(contains(observer))
         
-        if let index = observers.index(where: { $0.value === observer; }) {
-            observers.remove(at: index);
+        if let index = observers.index(where: { $0.value === observer }) {
+            observers.remove(at: index)
         }
     }
     
@@ -85,7 +85,7 @@ public class ObserverManager<T> {
      */
     public func contains(_ observer: AnyObject) -> Bool
     {
-        return observers.contains(where: { $0.value === observer; });
+        return observers.contains(where: { $0.value === observer })
     }
     
     /**
@@ -100,10 +100,10 @@ public class ObserverManager<T> {
     {
         for observer in observers {
             if let x = observer.value as? T {
-                handler(x);
+                handler(x)
             }
             else {
-                debugPrint("Dangling reference");
+                debugPrint("Dangling reference")
             }
         }
     }

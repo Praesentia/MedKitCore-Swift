@@ -19,12 +19,12 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 public class DeviceBrowserShared {
     
-    public static let main = DeviceBrowserMain.shared;
+    public static let main = DeviceBrowserMain.shared
     
 }
 

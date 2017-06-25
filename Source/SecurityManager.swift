@@ -19,12 +19,7 @@
  */
 
 
-import Foundation;
-
-
-public typealias SecKeyType = UUID;
-public let SecKeyRoot           = UUID(uuidString: "9c9dacb6-14f4-426a-8bb7-a7037ea1b204")!;
-public let SecKeyAuthentication = UUID(uuidString: "5c88ea5b-a058-4d6a-a2dc-10747f7f3953")!;
+import Foundation
 
 
 /**
@@ -42,37 +37,9 @@ public let SecKeyAuthentication = UUID(uuidString: "5c88ea5b-a058-4d6a-a2dc-1074
  */
 public protocol SecurityManager: class {
     
-    var identities : [Identity] { get };
-    
-    // MARK: - Credentials
-    
-    func createCredentials(for identity: Identity) -> Credentials?;
-    
-    func createSharedSecretCredentials(for identity: Identity, with secret: [UInt8], completionHandler completion: @escaping (Error?, Credentials?) -> Void);
-    
-    /**
-     Get credentials for identity.
-     
-     - Parameters:
-        - identity: Identifies the principal.
-     
-     - Returns:
-        Returns the credentials for identity, or nil if the credentials do not
-        exist.
-     */
-    func getCredentials(for identity: Identity, using type: CredentialsType) -> Credentials?;
-    
-    func getCredentials(for identity: Identity, from profile: JSON) -> Credentials?
-    
-    func loadSharedSecretCredentials(for identity: Identity) -> Credentials?;
-    
-    func loadPublicCredentials(for identity: Identity, from data: Data) -> Credentials?;
-    
-    func loadCredentials(fromPKCS12 data: Data, with password: String) -> Credentials?;
-    
     // MARK: - Digest
     
-    func digest(using algorithm: DigestType) -> Digest;
+    func digest(using algorithm: DigestType) -> Digest
     
     // MARK: - Random
     
@@ -86,43 +53,107 @@ public protocol SecurityManager: class {
      
      - Returns: Returns the array of random bytes.
      */
-    func randomBytes(count: Int) -> [UInt8];
+    func randomBytes(count: Int) -> [UInt8]
     
-    // MARK: - Public Key
-    
-    func generateKeyPair(for identity: Identity, role: SecKeyType, completionHandler completion: @escaping (Error?) -> Void);
-    
-    func generateCertificate(for identity: Identity, role: SecKeyType, completionHandler completion: @escaping (Error?) -> Void);
-    
-    func loadCertificate(from data: Data) -> Certificate?;
+    // MARK: - General Credentials
     
     /**
-     Get certificate for identity.
+     Instantiate credentials from profile.
      
-     Gets the public key certifcate for the specified identity.
+     Instantiate credentials from profile data.
+     
+     Credentials instantiated in this manner are ephemeral.
+     
+     - Parameters
+        - identity: The identity of the principal.
+     */
+    func instantiateCredentials(for identity: Identity, from profile: JSON, completionHandler completion: @escaping (Credentials?, Error?) -> Void)
+    
+    // MARK: - Public Key Credentials
+    
+    /**
+     Create public key credentials.
+     
+     Create a new set of self-signed public key credentials.
      
      - Parameters:
-        - identity: Identifies the principal.
-     
-     - Returns:
-        Returns the certificate for identity, or nil if a certificate does not
-        exist.
+        - identity:
+        - completion:
      */
-    func getCertificate(for identity: Identity, role: SecKeyType) -> Certificate?;
-    
-    
-    // MARK: - Shared Secret
+    func createPublicKeyCredentials(for identity: Identity, completionHandler completion: @escaping (Credentials?, Error?) -> Void)
     
     /**
-     Intern shared secret.
+     Create public key credentials.
      
-     Interns a shared secret within the security enclave for the specified
+     Create a new set of a public key credentials.
+     
+     - Parameters:
+        - identity:
+        - issuer:
+        - completion:
+     */
+    func createPublicKeyCredentials(for identity: Identity, issuer: Identity, completionHandler completion: @escaping (Credentials?, Error?) -> Void)
+    
+    /**
+     Import credentials from X509 data.
+     
+     Import credentials from X509 data and add them to the security enclave
+     persistent store.
+     
+     - Parameters:
+        - data:       DER encoded X509 data representing the credentials to be imported.
+        - completion:
+     */
+    func importPublicKeyCredentials(from data: Data, completionHandler completion: @escaping (Certificate?, Error?) -> Void)
+    
+    /**
+     Import credentials from PKCS12 data.
+     
+     Import credentials from PKCS12 data and add them to the security enclave
+     persistent store.
+     
+     - Parameters:
+        - data:       DER encoded PKCS12 data representing the credentials to be imported.
+        - password:   A password used to unlock the PKCS12 data prior to being imported.
+        - completion:
+     */
+    func importPublicKeyCredentials(from data: Data, with password: String, completionHandler completion: @escaping (Credentials?, Error?) -> Void)
+    
+    /**
+     Instantiate public key credentials.
+     
+     Instantiate public key credentials from data.
+     
+     Credentials instantiated in this manner are ephemeral.
+     
+     - Parameters
+        - identity: The identity of the principal.
+        - data:     A DER encoded X509 leaf certificate.
+        - chain:    A chain of intermediate signing authorities, consisting of DER encoded X509 certificates.
+     */
+    func instantiatePublicKeyCredentials(for identity: Identity, from data: Data, chain: [Data], completionHandler completion: @escaping (Credentials?, Error?) -> Void)
+    
+    /**
+     Get credentials for identity.
+     
+     - Parameters:
+        - identity:   Identifies the principal.
+        - completion:
+     */
+    func getCredentials(for identity: Identity, using type: CredentialsType, completionHandler completion: @escaping (Credentials?, Error?) -> Void)
+
+    // MARK: - Shared Secret Credentials
+    
+    /**
+     Import shared secret credentials.
+     
+     Imports a shared secret within the security enclave for the specified
      identity.  Any existing shared secret associated with identity will be
      lost.
      
      - Parameters:
-        - secret:    The secret to be interned within the security enclave.
         - identity:  The identity to which the shared secret will be associated.
+        - secret:    The secret to be interned within the security enclave.
         - completion A completion handler that will be invoked will the result
                      of the operation.
      
@@ -130,22 +161,11 @@ public protocol SecurityManager: class {
         Password strings may be converted to a byte array by encoding the
         string as a UTF-8 byte sequence.
      */
-    func internSharedKey(for identity: Identity, with secret: [UInt8], completionHandler completion: @escaping (Error?, Key?) -> Void);
+    func importSharedSecretCredentials(for identity: Identity, with secret: [UInt8], completionHandler completion: @escaping (Credentials?, Error?) -> Void)
     
-    func loadSharedKey(for identity: Identity) -> Key?;
+    func loadSharedSecretCredentials(for identity: Identity, completionHandler completion: @escaping (Credentials?, Error?) -> Void)
     
-    /**
-     Remove shared secret.
-     
-     Removes a shared secret from the security enclave that was previously
-     interned for identity.
-     
-     - Parameters:
-        - identity:  The identity to which the shared secret will be associated.
-        - completion A completion handler that will be invoked will the result
-                     of the operation.
-     */
-    func removeSharedKey(for identity: Identity, completionHandler completion: @escaping (Error?) -> Void);
+    func removeSharedSecretCredentials(for identity: Identity, completionHandler completion: @escaping (Error?) -> Void)
 
     
 }

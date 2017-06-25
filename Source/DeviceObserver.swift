@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -27,22 +27,22 @@ import Foundation;
  */
 public protocol DeviceObserver: class {
     
-    func deviceDidUpdateName(_ device: Device);
+    func deviceDidUpdateName(_ device: Device)
     
     // MARK: - Bridged Devices
-    func device(_ device: Device, didAdd bridgedDevice: Device);
-    func device(_ device: Device, didRemove bridgedDevice: Device);
+    func device(_ device: Device, didAdd bridgedDevice: Device)
+    func device(_ device: Device, didRemove bridgedDevice: Device)
     
     // MARK: - Services
-    func device(_ device: Device, didAdd service: Service);
-    func device(_ device: Device, didRemove service: Service);
+    func device(_ device: Device, didAdd service: Service)
+    func device(_ device: Device, didRemove service: Service)
     
     // MARK: - Connectivity
-    func deviceOpened(_ device: Device);
-    func deviceDidClose(_ device: Device, for reason: Error?);
-    func deviceDidUpdateReachability(_ device: DeviceProxy);
-    func device(_ device: DeviceProxy, didAdd port: PortFactory);
-    func device(_ device: DeviceProxy, didRemove port: PortFactory);
+    func deviceOpened(_ device: Device)
+    func deviceDidClose(_ device: Device, for reason: Error?)
+    func deviceDidUpdateReachability(_ device: DeviceProxy)
+    func device(_ device: DeviceProxy, didAdd port: PortFactory)
+    func device(_ device: DeviceProxy, didRemove port: PortFactory)
     
 }
 

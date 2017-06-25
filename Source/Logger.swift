@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -27,15 +27,15 @@ import Foundation;
  */
 public class Logger {
     
-    public static let main = Logger();
+    public static let main = Logger()
     
-    public weak var dataTap: DataTap?;
+    public weak var dataTap: DataTap?
     
     public func log(message: String)
     {
         if let dataTap = self.dataTap {
-            let data = message.data(using: .utf8)!;
-            dataTap.dataTap(self, willSend: data, decoderFactory: DecoderDefaultFactory.main);
+            let data = message.data(using: .utf8)!
+            dataTap.dataTap(self, willSend: data, decoderFactory: DecoderDefaultFactory.main)
         }
     }
     

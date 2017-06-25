@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -27,54 +27,54 @@ import Foundation;
  */
 class BackendDefault: Backend {
     
-    static let main = BackendDefault();
+    static let main = BackendDefault()
     
-    let isOpen = true;
+    let isOpen = true
 
     // MARK: - DeviceObserver
     
     func deviceClose(_ device: DeviceBackend, for reason: Error?, completionHandler completion: @escaping (Error?) -> Void)
     {
-        DispatchQueue.main.async() { completion(nil); }
+        DispatchQueue.main.async { completion(nil) }
     }
     
     func deviceOpen(_ device: DeviceBackend, completionHandler completion: @escaping (Error?) -> Void)
     {
-        DispatchQueue.main.async() { completion(MedKitError.Unreachable); }
+        DispatchQueue.main.async { completion(MedKitError.unreachable) }
     }
     
     func device(_ device: DeviceBackend, updateName name: String, completionHandler completion: @escaping (Error?) -> Void)
     {
-        DispatchQueue.main.async() { completion(MedKitError.NotSupported); }
+        DispatchQueue.main.async { completion(MedKitError.notSupported) }
     }
     
     // MARK: - ServiceObserver
     
     func service(_ service: ServiceBackend, updateName name: String, completionHandler completion: @escaping (Error?) -> Void)
     {
-        DispatchQueue.main.async() { completion(MedKitError.NotSupported); }
+        DispatchQueue.main.async { completion(MedKitError.notSupported) }
     }
     
     // MARK: - ResourceObserver
     
     func resourceEnableNotification(_ resource: ResourceBackend, completionHandler completion: @escaping (ResourceCache?, Error?) -> Void)
     {
-        DispatchQueue.main.async() { completion(nil, MedKitError.NotSupported); }
+        DispatchQueue.main.async { completion(nil, MedKitError.notSupported) }
     }
     
     func resourceDisableNotification(_ resource: ResourceBackend, completionHandler completion: @escaping (Error?) -> Void)
     {
-        DispatchQueue.main.async() { completion(MedKitError.NotSupported); }
+        DispatchQueue.main.async { completion(MedKitError.notSupported) }
     }
     
     func resourceReadValue(_ resource: ResourceBackend, completionHandler completion: @escaping (ResourceCache?, Error?) -> Void)
     {
-        DispatchQueue.main.async() { completion(nil, MedKitError.NotSupported); }
+        DispatchQueue.main.async { completion(nil, MedKitError.notSupported) }
     }
     
     func resourceWriteValue(_ resource: ResourceBackend, _ value: JSON?, completionHandler completion: @escaping (ResourceCache?, Error?) -> Void)
     {
-        DispatchQueue.main.async() { completion(nil, MedKitError.NotSupported); }
+        DispatchQueue.main.async { completion(nil, MedKitError.notSupported) }
     }
     
 }

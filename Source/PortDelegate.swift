@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -39,7 +39,7 @@ public protocol PortDelegate: class {
         - port: The port that has been closed.
         - error: Error code.
      */
-    func portDidClose(_ port: Port, for reason: Error?);
+    func portDidClose(_ port: Port, for reason: Error?)
     
     /**
      Port did initialize.
@@ -51,7 +51,7 @@ public protocol PortDelegate: class {
         - error: Nil if successful.  Otherwise, the error that prevented the
                  port from initializing properly.
      */
-    func portDidInitialize(_ port: Port, with error: Error?);
+    func portDidInitialize(_ port: Port, with error: Error?)
     
     // MARK: - Input
     
@@ -62,7 +62,7 @@ public protocol PortDelegate: class {
         - port: Caller
         - data: The data being received from the port.
      */
-    func port(_ port: Port, didReceive data: Data);
+    func port(_ port: Port, didReceive data: Data)
     
 }
 

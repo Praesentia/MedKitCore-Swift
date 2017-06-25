@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -28,28 +28,28 @@ import Foundation;
 public class ACL {
     
     class Subject {
-        let         identity   : UUID; // placeholder
-        private var operations : [UUID];
+        let         identity   : UUID // placeholder
+        private var operations : [UUID]
         
         init(identity: UUID, operations: [UUID])
         {
-            self.identity   = identity;
-            self.operations = operations;
+            self.identity   = identity
+            self.operations = operations
         }
         
         init(from profile: JSON)
         {
-            identity   = profile[KeyIdentity].uuid!;
-            operations = profile[KeyOperations].array!.map() { e in e.uuid!; }
+            identity   = profile[KeyIdentity].uuid!
+            operations = profile[KeyOperations].array!.map() { e in e.uuid! }
         }
         
         func authorized(operation: UUID) -> Bool
         {
-            return operations.contains(operation);
+            return operations.contains(operation)
         }
     }
     
-    private var subjects = [Subject]();
+    private var subjects = [Subject]()
     
     /**
      Initialize empty instance.
@@ -64,7 +64,7 @@ public class ACL {
     public init(profile: JSON)
     {
         for subject in profile.array! {
-            subjects.append(Subject(from: subject));
+            subjects.append(Subject(from: subject))
         }
     }
     
@@ -79,16 +79,16 @@ public class ACL {
             for subject in subjects {
                 if subject.authorized(operation: operation) {
                     if principal.isaSubject(subject.identity) {
-                        return true;
+                        return true
                     }
                 }
             }
             */
-            return true;
+            return true
             
         }
         
-        return false;
+        return false
     }
     
 }

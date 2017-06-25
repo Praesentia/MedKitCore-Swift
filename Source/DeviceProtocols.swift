@@ -19,19 +19,19 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 public class DeviceProtocols {
     
     // MARK: - Class Properties
-    public static let main = DeviceProtocols();
+    public static let main = DeviceProtocols()
     
     // MARK: - Properties
-    public var protocols : [DeviceProtocol] { return deviceProtocols.map { $0.1; } }
+    public var protocols : [DeviceProtocol] { return deviceProtocols.map { $0.1 } }
 
     // MARK: - Private Properties
-    private var deviceProtocols = [String : DeviceProtocol]();
+    private var deviceProtocols = [String : DeviceProtocol]()
     
     // MARK: - Initializers
     
@@ -43,12 +43,12 @@ public class DeviceProtocols {
     
     public func findProtocol(named name: String) -> DeviceProtocol?
     {
-        return deviceProtocols[name];
+        return deviceProtocols[name]
     }
     
     public func registerProtocol(_ deviceProtocol: DeviceProtocol)
     {
-        deviceProtocols[deviceProtocol.identifier] = deviceProtocol;
+        deviceProtocols[deviceProtocol.identifier] = deviceProtocol
     }
     
 }

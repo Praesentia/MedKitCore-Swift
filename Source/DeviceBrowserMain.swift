@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -28,16 +28,16 @@ import Foundation;
 public class DeviceBrowserMain: DeviceBrowser, ServiceBrowserDelegate, NetDeviceObserver {
     
     // MARK: - Properties
-    public static let shared: DeviceBrowser = DeviceBrowserMain();
+    public static let shared: DeviceBrowser = DeviceBrowserMain()
     
-    public var devices : [DeviceProxy] { return _devices; };         //: Device list.
+    public var devices : [DeviceProxy] { return _devices }         //: Device list.
     
     // MARK: - Shadowed
-    private var _devices  = [DeviceProxyNet]();
+    private var _devices  = [DeviceProxyNet]()
     
     // MARK: - Private
-    private let browser   = ServiceBrowser();
-    private var observers = ObserverManager<DeviceBrowserObserver>(); //: Observers
+    private let browser   = ServiceBrowser()
+    private var observers = ObserverManager<DeviceBrowserObserver>() //: Observers
     
     // MARK: - Initializers
     
@@ -46,32 +46,32 @@ public class DeviceBrowserMain: DeviceBrowser, ServiceBrowserDelegate, NetDevice
      */
     private init()
     {
-        browser.delegate = self;
+        browser.delegate = self
     }
     
     // MARK: - Observer Interface
     
     public func addObserver(_ observer: DeviceBrowserObserver)
     {
-        observers.add(observer);
+        observers.add(observer)
     }
     
     public func removeObserver(_ observer: DeviceBrowserObserver)
     {
-        observers.remove(observer);
+        observers.remove(observer)
     }
     
     // MARK: - Suspend.Resume
     
     public func resume()
     {
-        browser.resume();
+        browser.resume()
         observers.withEach { $0.deviceBrowserDidUpdate(self) }
     }
     
     public func suspend()
     {
-        browser.suspend();
+        browser.suspend()
     }
     
     // MARK: - Search
@@ -81,7 +81,7 @@ public class DeviceBrowserMain: DeviceBrowser, ServiceBrowserDelegate, NetDevice
      */
     public func startBrowsing(domain: String)
     {
-        browser.startBrowsing(domain: domain);
+        browser.startBrowsing(domain: domain)
     }
     
     /**
@@ -89,7 +89,7 @@ public class DeviceBrowserMain: DeviceBrowser, ServiceBrowserDelegate, NetDevice
      */
     public func stopBrowsing()
     {
-        browser.stopBrowsing();
+        browser.stopBrowsing()
     }
     
     /**
@@ -97,7 +97,7 @@ public class DeviceBrowserMain: DeviceBrowser, ServiceBrowserDelegate, NetDevice
      */
     public func stopBrowsing(domain: String)
     {
-        browser.stopBrowsing(domain: domain);
+        browser.stopBrowsing(domain: domain)
     }
     
     // MARK: - Private
@@ -106,10 +106,10 @@ public class DeviceBrowserMain: DeviceBrowser, ServiceBrowserDelegate, NetDevice
      */
     private func internDevice(from deviceInfo: DeviceInfo) -> DeviceProxyNet
     {
-        let device = DeviceProxyNetCache.main.findDevice(with: deviceInfo);
+        let device = DeviceProxyNetCache.main.findDevice(with: deviceInfo)
         
-        _devices.append(device);
-        return device;
+        _devices.append(device)
+        return device
     }
     
     /**
@@ -117,14 +117,14 @@ public class DeviceBrowserMain: DeviceBrowser, ServiceBrowserDelegate, NetDevice
      */
     private func removeDevice(withIdentifier identifier: UUID) -> DeviceProxyNet?
     {
-        var device: DeviceProxyNet?;
+        var device: DeviceProxyNet?
         
         if let index = _devices.index(where: { $0.identifier == identifier }) {
-            device = _devices[index];
-            _devices.remove(at: index);
+            device = _devices[index]
+            _devices.remove(at: index)
         }
         
-        return device;
+        return device
     }
     
     // MARK: - ServiceBrowserDelegate
@@ -135,11 +135,11 @@ public class DeviceBrowserMain: DeviceBrowser, ServiceBrowserDelegate, NetDevice
     func serviceBrowser(_ serviceBrowser: ServiceBrowser, didAdd netDevice: NetDevice)
     {
         if _devices.find(where: { $0.identifier == netDevice.info.identifier}) == nil {
-            let device = internDevice(from: netDevice.info);
+            let device = internDevice(from: netDevice.info)
             
-            netDevice.observer = self;
+            netDevice.observer = self
             for port in netDevice.ports {
-                device.addPort(port);
+                device.addPort(port)
             }
             
             observers.withEach { $0.deviceBrowser(self, didAdd: device) }
@@ -151,11 +151,11 @@ public class DeviceBrowserMain: DeviceBrowser, ServiceBrowserDelegate, NetDevice
      */
     func serviceBrowser(_ serviceBrowser: ServiceBrowser, didRemove netDevice: NetDevice)
     {
-        netDevice.observer = nil;
+        netDevice.observer = nil
         
         if let device = removeDevice(withIdentifier: netDevice.info.identifier) {
-            device.removeAllPorts();
-            device.close(for: MedKitError.Suspended); // TODO: fix reason
+            device.removeAllPorts()
+            device.close(for: MedKitError.suspended) // TODO: fix reason
             observers.withEach { $0.deviceBrowser(self, didRemove: device) }
         }
     }
@@ -168,7 +168,7 @@ public class DeviceBrowserMain: DeviceBrowser, ServiceBrowserDelegate, NetDevice
     func netDevice(_ netDevice: NetDevice, didAdd port: NetPortFactory)
     {
         if let device = _devices.find(where: { $0.identifier == netDevice.info.identifier}) {
-            device.addPort(port);
+            device.addPort(port)
         }
     }
     
@@ -178,7 +178,7 @@ public class DeviceBrowserMain: DeviceBrowser, ServiceBrowserDelegate, NetDevice
     func netDevice(_ netDevice: NetDevice, didRemove port: NetPortFactory)
     {
         if let device = _devices.find(where: { $0.identifier == netDevice.info.identifier}) {
-            device.removePort(port);
+            device.removePort(port)
         }
     }
     

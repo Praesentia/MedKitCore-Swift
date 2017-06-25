@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -35,12 +35,12 @@ public protocol ServiceBackend: class {
     var resourceBackends : [ResourceBackend]       { get }
     
     // MARK: - Mutator
-    func updateName(_ name: String, notify: Bool);
+    func updateName(_ name: String, notify: Bool)
     
     // MARK: - Resource Interface
     func getResource(withIdentifier identifier: UUID) -> ResourceBackend?
-    func addResource(_ resource: ResourceBase, notify : Bool);
-    func removeResource(withIdentifier identifier: UUID, notify : Bool);
+    func addResource(_ resource: ResourceBase, notify : Bool)
+    func removeResource(withIdentifier identifier: UUID, notify : Bool)
 
     
 }

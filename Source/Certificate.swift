@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -28,22 +28,11 @@ import Foundation;
 public protocol Certificate {
     
     // MARK: - Properties
-    var chain     : [Data]       { get }
-    var identity  : Identity?    { get }
-    var profile   : JSON         { get }
-    var publicKey : Key          { get }
-    var trusted   : Bool         { get }
-    var validity  : Range<Date>? { get }
-    
-    // MARK: - Identity Verification
-    
-    /**
-     Verify certificate is for identity.
-     
-     - Parameters:
-        - identity: An identity.
-     */
-    func verify(for identity: Identity) -> Bool;
+    var data      : Data              { get }
+    var identity  : Identity?         { get }
+    var profile   : JSON              { get }
+    var publicKey : Key               { get }
+    var validity  : ClosedRange<Date> { get }
     
 }
 

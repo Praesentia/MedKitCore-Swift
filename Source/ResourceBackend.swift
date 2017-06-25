@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -36,9 +36,9 @@ public protocol ResourceBackend: class {
     var serviceBackend : ServiceBackend!          { get }
     
     // MARK: - Mutators
-    func update(changes: JSON, at time: TimeInterval);
-    func update(value: JSON?, at time: TimeInterval);
-    func update(from cache: ResourceCache);
+    func update(changes: JSON, at time: TimeInterval)
+    func update(value: JSON?, at time: TimeInterval)
+    func update(from cache: ResourceCache)
 }
 
 

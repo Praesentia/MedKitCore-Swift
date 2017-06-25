@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -45,7 +45,7 @@ class CameraControllerBase: CameraController {
     
     public func start()
     {
-        stopped(for: MedKitError.NotSupported)
+        stopped(for: MedKitError.notSupported)
     }
     
     public func stop()

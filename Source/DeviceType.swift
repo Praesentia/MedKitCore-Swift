@@ -19,23 +19,56 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
+/**
+ Device type.
+ */
 public class DeviceType {
     
-    public let identifier           : UUID
-    public var name                 : String? { return DeviceType.names[identifier] }
-    public var localizedDescription : String  { return name ?? identifier.uuidstring }
+    // MARK: - Properties
     
-    public init(with identifier: UUID)
-    {
-        self.identifier = identifier
-    }
+    /**
+     Device type identifier.
+     
+     A type 5 UUID derived from the device type name.
+     */
+    public private(set) lazy var identifier: UUID = DeviceType.identifier(from: self.name)
     
+    /**
+     Device type name.
+     */
+    public let name: String
+
+    /**
+     Normalized device type name.
+     
+     Lower-cased version of device name.
+     */
+    public var normalizedName: String { return name.lowercased() }
+    
+    /**
+     Localized description for the device type.
+     */
+    public var localizedDescription: String { return DeviceType.localizedDescriptions[normalizedName] ?? name }
+    
+    // MARK: - Initializers
+    
+    /**
+     Initialize instance.
+     
+     Initializes the DeviceType from it's string representation.
+     
+     The name should preferrably be in cased form, as the name will be used as
+     a default for the localized description.
+     
+     - Parameters:
+        - name: String representation of the device type.
+     */
     public init(named name: String)
     {
-        identifier = DeviceType.identifier(from: name)
+        self.name = name
     }
     
 }
@@ -50,45 +83,45 @@ extension DeviceType {
      */
     class func identifier(from name: String) -> UUID
     {
-        let digest = SecurityManagerShared.main.digest(using: .SHA1);
+        let digest = SecurityManagerShared.main.digest(using: .sha1)
         
-        digest.update(uuid: UUIDNSDeviceType);
-        digest.update(string: name.lowercased());
+        digest.update(uuid: UUIDNSDeviceType)
+        digest.update(string: name.lowercased())
         
-        return UUID(fromSHA1: digest.final());
+        return UUID(fromSHA1: digest.final())
     }
     
     /**
-     String representation for the device types.
+     Localizable string representation for device types.
      */
-    static let names = [
-        DeviceTypeOther              : "Other",
-        DeviceTypeBridge             : "Bridge",
-        DeviceTypeElectrocardiograph : "Electrocardiograph",
-        DeviceTypeEndoscope          : "Endoscope",
-        DeviceTypePatientSimulator   : "Patient Simulator",
-        DeviceTypePulseOximeter      : "Pulse Oximeter",
-        DeviceTypeRespirationMonitor : "Respiration Monitor",
-        DeviceTypeSphygmograph       : "Sphygmograph",
-        DeviceTypeSphygmomanometer   : "Sphygmomanometer",
-        DeviceTypeThermometer        : "Thermometer"
-    ];
+    static let localizedDescriptions = [
+        "other"               : NSLocalizedString("Other",               comment: "Device type description."),
+        "bridge"              : NSLocalizedString("Bridge",              comment: "Device type description."),
+        "electrocardiograph"  : NSLocalizedString("Electrocardiograph",  comment: "Device type description."),
+        "endoscope"           : NSLocalizedString("Endoscope",           comment: "Device type description."),
+        "patient simulator"   : NSLocalizedString("Patient Simulator",   comment: "Device type description."),
+        "pulse oximeter"      : NSLocalizedString("Pulse Oximeter",      comment: "Device type description."),
+        "respiration monitor" : NSLocalizedString("Respiration Monitor", comment: "Device type description."),
+        "sphygmograph"        : NSLocalizedString("Sphygmograph",        comment: "Device type description."),
+        "sphygmomanometer"    : NSLocalizedString("Sphygmomanometer",    comment: "Device type description."),
+        "thermometer"         : NSLocalizedString("Thermometer",         comment: "Device type description.")
+    ]
     
 }
 
 /**
  Type 5 UUID representation for the device types.
  */
-public let DeviceTypeBridge             = DeviceType.identifier(from: "Bridge");
-public let DeviceTypeElectrocardiograph = DeviceType.identifier(from: "Electrocardiograph");
-public let DeviceTypeEndoscope          = DeviceType.identifier(from: "Endoscope");
-public let DeviceTypeOther              = DeviceType.identifier(from: "Other");
-public let DeviceTypePatientSimulator   = DeviceType.identifier(from: "Patient Simulator");
-public let DeviceTypePulseOximeter      = DeviceType.identifier(from: "Pulse Oximeter");
-public let DeviceTypeRespirationMonitor = DeviceType.identifier(from: "Respiration Monitor");
-public let DeviceTypeSphygmograph       = DeviceType.identifier(from: "Sphygmograph");
-public let DeviceTypeSphygmomanometer   = DeviceType.identifier(from: "Sphygmomanometer");
-public let DeviceTypeThermometer        = DeviceType.identifier(from: "Thermometer");
+public let DeviceTypeBridge             = DeviceType.identifier(from: "Bridge")
+public let DeviceTypeElectrocardiograph = DeviceType.identifier(from: "Electrocardiograph")
+public let DeviceTypeEndoscope          = DeviceType.identifier(from: "Endoscope")
+public let DeviceTypeOther              = DeviceType.identifier(from: "Other")
+public let DeviceTypePatientSimulator   = DeviceType.identifier(from: "Patient Simulator")
+public let DeviceTypePulseOximeter      = DeviceType.identifier(from: "Pulse Oximeter")
+public let DeviceTypeRespirationMonitor = DeviceType.identifier(from: "Respiration Monitor")
+public let DeviceTypeSphygmograph       = DeviceType.identifier(from: "Sphygmograph")
+public let DeviceTypeSphygmomanometer   = DeviceType.identifier(from: "Sphygmomanometer")
+public let DeviceTypeThermometer        = DeviceType.identifier(from: "Thermometer")
 
 
 

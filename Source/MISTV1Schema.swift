@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -28,8 +28,8 @@ import Foundation;
 class MISTV1Schema: ServiceTypeSchema {
     
     // MARK: - Private
-    private let RequiredTXT   = [ "dn", "dt", "md", "mf", "pr", "sn", "vn" ];
-    private let VersionString = "1";
+    private let RequiredTXT   = [ "dn", "dt", "md", "mf", "pr", "sn", "vn" ]
+    private let VersionString = "1"
     
     /**
      Verify TXT fields.
@@ -45,17 +45,17 @@ class MISTV1Schema: ServiceTypeSchema {
             case VersionString :
                 for key in RequiredTXT {
                     if txt[key] == nil {
-                        return false;
+                        return false
                     }
                 }
-                return true;
+                return true
                 
             default :
-                return false;
+                return false
             }
         }
         
-        return false;
+        return false
     }
     
 }

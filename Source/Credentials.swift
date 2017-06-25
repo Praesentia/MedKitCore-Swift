@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -35,11 +35,14 @@ import Foundation;
 public protocol Credentials: class  {
     
     // MARK: - Properties
-    var identity : Identity?       { get }
-    var profile  : JSON            { get } //: A JSON profile representing the public credentials.
-    var trusted  : Bool            { get }
-    var type     : CredentialsType { get } //: Identifies the type of credentials.
-    var validity : Range<Date>?    { get }
+    var identity : Identity?          { get }
+    var profile  : JSON               { get } //: A JSON profile representing the public credentials.
+    var type     : CredentialsType    { get } //: Identifies the type of credentials.
+    var validity : ClosedRange<Date>? { get }
+    
+    // MARK: - Authentication
+    
+    func verifyTrust(completionHandler completion: @escaping (Error?) -> Void)
     
     // MARK: - Signing
     
@@ -50,7 +53,7 @@ public protocol Credentials: class  {
         - bytes: The bytes being signed.  This will typically be a hash value
             of the actual data.
      */
-    func sign(bytes: [UInt8]) -> [UInt8]?;
+    func sign(bytes: [UInt8]) -> [UInt8]?
     
     /**
      Verify signature
@@ -59,7 +62,7 @@ public protocol Credentials: class  {
         - bytes: The bytes that were originally signed.  This will typically be
             a hash value of the actual data.
      */
-    func verify(signature: [UInt8], for bytes: [UInt8]) -> Bool;
+    func verify(signature: [UInt8], for bytes: [UInt8]) -> Bool
 }
 
 public extension Credentials {
@@ -70,7 +73,7 @@ public extension Credentials {
      - Parameters:
         - date: The time to be checked.
      */
-    func valid(at date: Date) -> Bool
+    func valid(for date: Date) -> Bool
     {
         return validity?.contains(date) ?? false
     }

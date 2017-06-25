@@ -19,21 +19,21 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 // string constants
-fileprivate let NullString         = "Null";
-fileprivate let PublicKeyString    = "Public Key";
-fileprivate let SharedSecretString = "Shared Secret";
+fileprivate let NullString         = "Null"
+fileprivate let PublicKeyString    = "Public Key"
+fileprivate let SharedSecretString = "Shared Secret"
 
 /**
  Credentials type.
  */
 public enum CredentialsType {
-    case Null;
-    case PublicKey;
-    case SharedSecret;
+    case null
+    case publicKey
+    case sharedSecret
     
     /**
      Initialize instance from string.
@@ -45,16 +45,16 @@ public enum CredentialsType {
     {
         switch string {
         case NullString :
-            self = .Null;
+            self = .null
             
         case PublicKeyString :
-            self = .PublicKey;
+            self = .publicKey
             
         case SharedSecretString :
-            self = .SharedSecret;
+            self = .sharedSecret
             
         default :
-            return nil;
+            return nil
         }
     }
     
@@ -66,14 +66,14 @@ public enum CredentialsType {
      */
     public var string: String {
         switch self {
-        case .Null :
-            return NullString;
+        case .null :
+            return NullString
 
-        case .PublicKey :
-            return PublicKeyString;
+        case .publicKey :
+            return PublicKeyString
             
-        case .SharedSecret :
-            return SharedSecretString;
+        case .sharedSecret :
+            return SharedSecretString
         }
     }
 }

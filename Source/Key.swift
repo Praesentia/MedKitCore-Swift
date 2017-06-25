@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -55,6 +55,14 @@ public protocol Key: class {
      */
     func verify(signature: [UInt8], for bytes: [UInt8]) -> Bool
     
+    /**
+     Verify signature for identity.
+     
+     - Parameters:
+        - signature: The signature to be verified.
+        - data:      The byte sequence to be verified.
+     */
+    func verify(signature: [UInt8], using digestType: DigestType, for data: Data) -> Bool
 }
 
 

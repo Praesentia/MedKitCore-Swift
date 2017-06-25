@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -48,7 +48,7 @@ public protocol PortFactory: class {
         Returns a reference to the new connection if successful.  A return
         value of nil indicates failure.
      */
-    func instantiateConnection(to device: DeviceBackend, as principal: Principal?) -> ClientConnection?;
+    func instantiateConnection(to device: DeviceBackend, as principal: Principal?) -> ClientConnection?
     
 }
 

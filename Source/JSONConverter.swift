@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 
@@ -32,38 +32,38 @@ public class JSONConverter {
     {
         switch json.type {
         case .any :
-            return nil;
+            return nil
         
         case .Array :
-            var array = [Any]();
+            var array = [Any]()
             
             for value in json.array! {
-                array.append(externalize(json: value) ?? NSNull());
+                array.append(externalize(json: value) ?? NSNull())
             }
-            return array;
+            return array
         
         case .Bool :
-            return json.bool!;
+            return json.bool!
 
         case .Number :
-            return json.number!;
+            return json.number!
             
         case .int :
-            return json.int!;
+            return json.int!
             
         case .Null :
-            return NSNull();
+            return NSNull()
             
         case .Object :
-            var object = [String : Any]();
+            var object = [String : Any]()
             
             for (key, value) in json.object! {
-                object[key] = externalize(json: value);
+                object[key] = externalize(json: value)
             }
-            return object;
+            return object
         
         case .String :
-            return json.string!;
+            return json.string!
         }
     }
     
@@ -71,51 +71,51 @@ public class JSONConverter {
     {
         switch value {
         case let v as [Any]:
-            return convertArray(v);
+            return convertArray(v)
             
         case let v as Double:
-            return JSON(v);
+            return JSON(v)
             
         case let v as Int:
-            return JSON(v);
+            return JSON(v)
         
         case let v as Bool:
-            return JSON(v);
+            return JSON(v)
             
         case is NSNull:
-            return JSON();
+            return JSON()
             
         case let v as [String : Any]:
-            return convertObject(v);
+            return convertObject(v)
         
         case let v as String:
-            return JSON(v);
+            return JSON(v)
             
         default :
-            fatalError("Unsupported Type");
+            fatalError("Unsupported Type")
         }
     }
     
     private class func convertArray(_ values: [Any]) -> JSON
     {
-        var array = [JSON]();
+        var array = [JSON]()
         
         for value in values {
-            array.append(convert(value));
+            array.append(convert(value))
         }
         
-        return JSON(array);
+        return JSON(array)
     }
     
     private class func convertObject(_ pairs: [String : Any]) -> JSON
     {
-        var dictionary = [String : JSON]();
+        var dictionary = [String : JSON]()
         
         for (key, value) in pairs {
-            dictionary[key] = convert(value);
+            dictionary[key] = convert(value)
         }
         
-        return JSON(dictionary);
+        return JSON(dictionary)
     }
     
 }

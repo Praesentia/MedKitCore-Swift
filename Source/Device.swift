@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -92,12 +92,12 @@ public protocol Device: class {
     /**
      Add observer.
      */
-    func addObserver(_ observer: DeviceObserver);
+    func addObserver(_ observer: DeviceObserver)
 
     /**
      Remove observer.
      */
-    func removeObserver(_ observer: DeviceObserver);
+    func removeObserver(_ observer: DeviceObserver)
     
     // MARK: - Connectivity
     

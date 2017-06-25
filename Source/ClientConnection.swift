@@ -19,12 +19,12 @@
  */
 
 
-import Foundation;
+import Foundation
 
 /**
  Backend
  */
-public typealias Backend = DeviceBackendDelegate & ServiceBackendDelegate & ResourceBackendDelegate;
+public typealias Backend = DeviceBackendDelegate & ServiceBackendDelegate & ResourceBackendDelegate
 
 /**
  Client connection.

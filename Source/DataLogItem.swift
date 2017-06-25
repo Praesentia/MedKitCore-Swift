@@ -19,42 +19,42 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 public class DataLogItem {
     
     public enum Direction {
-        case Send;
-        case Receive;
+        case send
+        case receive
 
         public var string: String {
             switch self {
-            case .Send :
-                return "Send";
+            case .send :
+                return "Send"
                 
-            case .Receive :
-                return "Recv";
+            case .receive :
+                return "Recv"
             }
         }
     }
     
-    public let      sequence       : Int;             //: Sequence number.
-    public let      direction      : Direction;       //: Transmission direction.
-    public let      time           : TimeInterval;    //: Time stamp.
-    public let      data           : Data;            //: Data
-    public lazy var decoder        : Decoder = self.decoderFactory.instantiateDecoder();
+    public let      sequence       : Int             //: Sequence number.
+    public let      direction      : Direction       //: Transmission direction.
+    public let      time           : TimeInterval    //: Time stamp.
+    public let      data           : Data            //: Data
+    public lazy var decoder        : Decoder = self.decoderFactory.instantiateDecoder()
     
     // MARK: - Private
-    private let decoderFactory : DecoderFactory;  //: Decoder factory.
+    private let decoderFactory : DecoderFactory  //: Decoder factory.
     
     public init(sequence: Int, direction: Direction, time: TimeInterval, data: Data, decoderFactory: DecoderFactory = DecoderDefaultFactory.main)
     {
-        self.sequence       = sequence;
-        self.decoderFactory = decoderFactory;
-        self.direction      = direction;
-        self.time           = time;
-        self.data           = data;
+        self.sequence       = sequence
+        self.decoderFactory = decoderFactory
+        self.direction      = direction
+        self.time           = time
+        self.data           = data
     }
     
 }

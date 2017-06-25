@@ -19,20 +19,15 @@
  */
 
 
-import Foundation;
+import Foundation
 
-
-public enum DigestType {
-    case SHA1;
-    case SHA256;
-}
 
 /**
  Digest
  
  A protocol for cryptographic hash functions that generate a message digest.
  */
-public protocol Digest {
+public protocol Digest: class {
     
     /**
      Finializes the digest.
@@ -43,12 +38,12 @@ public protocol Digest {
      - Returns:
         Retuns a byte array representing the digest.
      */
-    func final() -> [UInt8];
+    func final() -> [UInt8]
     
     /**
      Reset state.
      */
-    func reset();
+    func reset()
     
     /**
      Update digest.
@@ -56,7 +51,7 @@ public protocol Digest {
      - Parameters:
         - bytes: A byte array to be appended to the digest.
      */
-    func update(bytes: [UInt8]);
+    func update(bytes: [UInt8])
     
 }
 
@@ -72,7 +67,7 @@ public extension Digest {
      */
     public func update(byte: UInt8)
     {
-        update(bytes: [UInt8](repeating: byte, count: 1));
+        update(bytes: [UInt8](repeating: byte, count: 1))
     }
     
     /**
@@ -83,7 +78,7 @@ public extension Digest {
     public func update(bytes: [UInt8]?)
     {
         if let bytes = bytes {
-            update(bytes: bytes);
+            update(bytes: bytes)
         }
     }
     
@@ -95,7 +90,7 @@ public extension Digest {
     public func update(data: Data?)
     {
         if let data = data {
-            update(bytes: [UInt8](data));
+            update(bytes: [UInt8](data))
         }
     }
     
@@ -107,7 +102,7 @@ public extension Digest {
     public func update(string: String?)
     {
         if let string = string {
-            update(bytes: [UInt8](string.utf8));
+            update(bytes: [UInt8](string.utf8))
         }
     }
     
@@ -119,8 +114,8 @@ public extension Digest {
     public func update(prefixedString string: String?)
     {
         if let string = string {
-            update(byte:  UInt8(string.characters.count));
-            update(bytes: [UInt8](string.utf8));
+            update(byte:  UInt8(string.characters.count))
+            update(bytes: [UInt8](string.utf8))
         }
     }
     
@@ -132,10 +127,10 @@ public extension Digest {
     public func update(uuid: UUID?)
     {
         if let uuid = uuid {
-            var bytes = [UInt8](repeating: 0, count: 16);
+            var bytes = [UInt8](repeating: 0, count: 16)
             
-            (uuid as NSUUID).getBytes(&bytes);
-            update(bytes: bytes);
+            (uuid as NSUUID).getBytes(&bytes)
+            update(bytes: bytes)
         }
     }
     

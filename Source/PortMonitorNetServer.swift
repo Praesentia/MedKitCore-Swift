@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -28,9 +28,9 @@ import Foundation;
 public class PortMonitorNetServer: PortMonitorNetListener {
     
     // MARK: - Private Properties
-    private let connectionFactory : ServerConnectionFactory;
-    private let device            : DeviceFrontend;
-    private let myself            : Principal;
+    private let connectionFactory : ServerConnectionFactory
+    private let device            : DeviceFrontend
+    private let myself            : Principal
     
     // MARK: - Initializers
     
@@ -39,11 +39,11 @@ public class PortMonitorNetServer: PortMonitorNetListener {
      */
     public init(address: SockAddr, connectionFactory: ServerConnectionFactory, device: DeviceFrontend, as myself: Principal)
     {
-        self.connectionFactory = connectionFactory;
-        self.device            = device;
-        self.myself            = myself;
+        self.connectionFactory = connectionFactory
+        self.device            = device
+        self.myself            = myself
         
-        super.init(address: address);
+        super.init(address: address)
     }
     
     // MARK: - Lifecycle
@@ -56,12 +56,12 @@ public class PortMonitorNetServer: PortMonitorNetListener {
      */
     override func publishService(using address: SockAddr) -> ServiceResponder?
     {
-        var serviceResponder: ServiceResponder;
+        var serviceResponder: ServiceResponder
         
-        serviceResponder = ServiceResponder(device: device, protocolType: connectionFactory.protocolType, port: address.port);
-        serviceResponder.publish();
+        serviceResponder = ServiceResponder(device: device, protocolType: connectionFactory.protocolType, port: address.port)
+        serviceResponder.publish()
         
-        return serviceResponder;
+        return serviceResponder
     }
     
     // MARK: - Connection Management
@@ -74,15 +74,15 @@ public class PortMonitorNetServer: PortMonitorNetListener {
      */
     override func instantiateConnection(from endpoint: EndpointNet) -> Connection?
     {
-        let port       = PortNetStream(endpoint: endpoint);
-        let connection = connectionFactory.instantiate(from: port, to: device, as: myself);
+        let port       = PortNetStream(endpoint: endpoint)
+        let connection = connectionFactory.instantiate(from: port, to: device, as: myself)
         
         connection.start() { error in
             if error == nil {
             }
         }
         
-        return connection;
+        return connection
     }
     
 }

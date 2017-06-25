@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -31,23 +31,23 @@ public class PortMonitorNetListener: PortMonitor, ConnectionDelegate, EndpointDe
     
     // MARK: - Internal Types
     enum State {
-        case Closed;
-        case Open;
-        case Shutdown;
+        case closed
+        case open
+        case shutdown
     }
     
     // MARK: - Properties
-    public var      connections = [Connection]();
-    public var      count       : Int { return connections.count; }
-    public weak var delegate    : PortMonitorDelegate?;
-    public var      enabled     : Bool { return state == .Open; }
+    public var      connections = [Connection]()
+    public var      count       : Int { return connections.count }
+    public weak var delegate    : PortMonitorDelegate?
+    public var      enabled     : Bool { return state == .open }
 
     // MARK: - Protected Properties
-    let Backlog           : Int32 = 10;         //: Backlog
-    let address           : SockAddr;           //: Host address used to listen for incoming connections.
-    var serviceResponder  : ServiceResponder?;  //: Use to publish the service.
-    var state             : State = .Closed;
-    var endpoint          : EndpointNet!;       //: Listener
+    let Backlog           : Int32 = 10         //: Backlog
+    let address           : SockAddr           //: Host address used to listen for incoming connections.
+    var serviceResponder  : ServiceResponder?  //: Use to publish the service.
+    var state             : State = .closed
+    var endpoint          : EndpointNet!       //: Listener
     
     // MARK: - Initializers
     
@@ -56,7 +56,7 @@ public class PortMonitorNetListener: PortMonitor, ConnectionDelegate, EndpointDe
      */
     public init(address: SockAddr)
     {
-        self.address = address;
+        self.address = address
     }
     
     // MARK: - Lifecycle
@@ -66,21 +66,21 @@ public class PortMonitorNetListener: PortMonitor, ConnectionDelegate, EndpointDe
      */
     public func shutdown(for reason: Error?)
     {
-        guard(state == .Open) else { return; }
+        guard(state == .open) else { return }
         
-        state = .Shutdown;
+        state = .shutdown
         
-        serviceResponder?.retract();
-        endpoint.close();
-        endpoint = nil;
+        serviceResponder?.retract()
+        endpoint.close()
+        endpoint = nil
         
         if !connections.isEmpty {
             for connection in connections {
-                connection.shutdown(for: reason);
+                connection.shutdown(for: reason)
             }
         }
         else {
-            closed();
+            closed()
         }
     }
     
@@ -89,23 +89,23 @@ public class PortMonitorNetListener: PortMonitor, ConnectionDelegate, EndpointDe
      */
     public func start(completionHandler completion: @escaping (Error?)->Void)
     {
-        let sync = Sync(MedKitError.Failed);
+        let sync = Sync(MedKitError.failed)
 
-        if state == .Closed {
-            sync.incr();
-            sync.fail(nil);
+        if state == .closed {
+            sync.incr()
+            sync.fail(nil)
             
-            endpoint          = EndpointNet();
-            endpoint.delegate = self;
+            endpoint          = EndpointNet()
+            endpoint.delegate = self
             
             if endpoint.listen(address: address, backlog: Backlog) {
-                serviceResponder = publishService(using: endpoint.hostAddress!);
-                endpoint.resumeIn();
-                state = .Open;
-                sync.decr(nil);
+                serviceResponder = publishService(using: endpoint.hostAddress!)
+                endpoint.resumeIn()
+                state = .open
+                sync.decr(nil)
             }
             else {
-                sync.decr(MedKitError.Failed);
+                sync.decr(MedKitError.failed)
             }
         }
         
@@ -120,7 +120,7 @@ public class PortMonitorNetListener: PortMonitor, ConnectionDelegate, EndpointDe
      */
     func publishService(using address: SockAddr) -> ServiceResponder?
     {
-        return nil;
+        return nil
     }
     
     // MARK: - Connection Management
@@ -130,7 +130,7 @@ public class PortMonitorNetListener: PortMonitor, ConnectionDelegate, EndpointDe
      */
     func instantiateConnection(from endpoint: EndpointNet) -> Connection?
     {
-        return nil;
+        return nil
     }
     
     /**
@@ -144,14 +144,14 @@ public class PortMonitorNetListener: PortMonitor, ConnectionDelegate, EndpointDe
         if let client = endpoint.accept() {
             if delegate?.portMonitor(self, shouldAccept: client.peerAddress!) ?? true {
                 if let connection = instantiateConnection(from: client) {
-                    connection.delegate = self;
-                    connections.append(connection);
-                    delegate?.portMonitor(self, didAdd: connection);
+                    connection.delegate = self
+                    connections.append(connection)
+                    delegate?.portMonitor(self, didAdd: connection)
                 }
             }
         }
         
-        endpoint.resumeIn();
+        endpoint.resumeIn()
     }
     
     /**
@@ -159,9 +159,9 @@ public class PortMonitorNetListener: PortMonitor, ConnectionDelegate, EndpointDe
      */
     private func closed()
     {
-        state = .Closed;
+        state = .closed
         if let delegate = self.delegate {
-            DispatchQueue.main.async() { delegate.portMonitorDidClose(self, for: nil); }
+            DispatchQueue.main.async { delegate.portMonitorDidClose(self, for: nil) }
         }
     }
     
@@ -176,13 +176,13 @@ public class PortMonitorNetListener: PortMonitor, ConnectionDelegate, EndpointDe
      */
     public func connectionDidClose(_ connection: Connection, for reason: Error?)
     {
-        if let index = (connections.index { $0 === connection; }) {
+        if let index = (connections.index { $0 === connection }) {
             
-            connections.remove(at: index);
-            delegate?.portMonitor(self, didRemove: connection); // TODO
+            connections.remove(at: index)
+            delegate?.portMonitor(self, didRemove: connection) // TODO
             
-            if state == .Shutdown && connections.isEmpty {
-                closed();
+            if state == .shutdown && connections.isEmpty {
+                closed()
             }
         }
     }
@@ -194,7 +194,7 @@ public class PortMonitorNetListener: PortMonitor, ConnectionDelegate, EndpointDe
      */
     func endpointIn(_ endpoint: Endpoint)
     {
-        accept();
+        accept()
     }
     
 }

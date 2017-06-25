@@ -19,17 +19,17 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
  Mode of operation.
  
- Specifies the mode of operation for various components in protocol stack.
+ Specifies the mode of operation for various components in a protocol stack.
  */
 public enum Mode {
-    case Client;
-    case Server;
+    case client
+    case server
 }
 
 

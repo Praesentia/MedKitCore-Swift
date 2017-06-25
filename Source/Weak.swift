@@ -19,7 +19,7 @@
 */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -29,11 +29,11 @@ import Foundation;
  */
 public class Weak {
     
-    weak var value: AnyObject?;
+    weak var value: AnyObject?
     
     public init(_ value: AnyObject)
     {
-        self.value = value;
+        self.value = value
     }
     
 }

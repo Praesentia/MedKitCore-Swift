@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -39,7 +39,7 @@ open class ServerConnectionBase: ConnectionBase {
      */
     required public init(from port: Port, to device: DeviceFrontend, as principal: Principal)
     {
-        super.init(port: port);
+        super.init(port: port)
     }
     
 }

@@ -19,30 +19,37 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
+ WaveformController factory.
  */
 public class WaveformControllers {
     
     // MARK: - Class Properties
     public static let main = WaveformControllers()
     
+    // MARK: - Private Properties
+    private var factories = [UUID : WaveformControllerFactory]()
+    
     // MARK: - Initializers
     
     private init()
     {
+        addFactory(WaveformControllerSimple.factory, for: SchemaTypeWaveform)
     }
     
-    // MARK: - Waveform Factory
+    // MARK: - Factory
+    
+    public func addFactory(_ factory: WaveformControllerFactory, for schema: UUID)
+    {
+        factories[schema] = factory
+    }
     
     public func instantiateController(for resource: Resource) -> WaveformController?
     {
-        if resource.schema == SchemaTypeWaveform {
-            return WaveformControllerBase(resource: resource)
-        }
-        return nil
+        return factories[resource.schema]?.instantiateController(for: resource)
     }
     
 }

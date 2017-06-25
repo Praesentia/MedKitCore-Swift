@@ -19,26 +19,26 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 class NetServiceExt {
     
     // MARK: - Properties
-    weak var browser : NetServiceBrowser!;
-    var      service : NetService!;
-    var      device  : NetDevice?;
-    var      proto   : Int32 = SOCK_STREAM;
-    var      ports   = [NetPortFactory]();
-    var      type    : DeviceProtocol?;
+    weak var browser : NetServiceBrowser!
+    var      service : NetService!
+    var      device  : NetDevice?
+    var      proto   : Int32 = SOCK_STREAM
+    var      ports   = [NetPortFactory]()
+    var      type    : DeviceProtocol?
     
     /**
      Initialize instance.
      */
     init(_ browser: NetServiceBrowser, _ service: NetService)
     {
-        self.browser = browser;
-        self.service = service;
+        self.browser = browser
+        self.service = service
     }
     
     /**
@@ -46,24 +46,24 @@ class NetServiceExt {
      */
     func updateNetDevice(_ device: NetDevice, type: String?)
     {
-        self.device = device;
+        self.device = device
         
         if let type = type {
-            self.type = DeviceProtocols.main.findProtocol(named: type);
+            self.type = DeviceProtocols.main.findProtocol(named: type)
         }
         else {
-            self.type = nil;
+            self.type = nil
         }
         
         for port in ports {
-            device.addPort(port);
+            device.addPort(port)
         }
     }
     
     func updateAddresses(_ addresses: [SockAddr], from domain: String)
     {
-        pruneAddresses(addresses);
-        addAddresses(addresses, from: domain);
+        pruneAddresses(addresses)
+        addAddresses(addresses, from: domain)
     }
     
     /**
@@ -74,8 +74,8 @@ class NetServiceExt {
      */
     private func addPort(_ port: NetPortFactory)
     {
-        ports.append(port);
-        device?.addPort(port);
+        ports.append(port)
+        device?.addPort(port)
     }
     
     /**
@@ -86,15 +86,15 @@ class NetServiceExt {
      */
     private func removePort(_ port: NetPortFactory)
     {
-        if let index = (ports.index { $0 === port; }) {
-            ports.remove(at: index);
-            device?.removePort(port);
+        if let index = (ports.index { $0 === port }) {
+            ports.remove(at: index)
+            device?.removePort(port)
         }
     }
     
     private func containsPort(with address: SockAddr) -> Bool
     {
-        return (ports.index() { port in port.address == address; }) != nil;
+        return (ports.index() { port in port.address == address }) != nil
     }
     
     /**
@@ -108,8 +108,8 @@ class NetServiceExt {
         for address in addresses {
             if !containsPort(with: address) {
                 if let type = self.type {
-                    let port = NetPortFactory(domain: domain, type: type, address: address);
-                    addPort(port);
+                    let port = NetPortFactory(domain: domain, type: type, address: address)
+                    addPort(port)
                 }
             }
         }
@@ -125,7 +125,7 @@ class NetServiceExt {
     {
         for port in ports {
             if !addresses.contains(port.address) {
-                removePort(port);
+                removePort(port)
             }
         }
     }

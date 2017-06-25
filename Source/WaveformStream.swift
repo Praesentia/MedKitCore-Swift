@@ -19,30 +19,30 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 public class WaveformStream: WaveformSource {
     
     // MARK: - Types
-    public typealias Index = WaveformSource.Index;
+    public typealias Index = WaveformSource.Index
     
     // MARK: - Properties
-    public private(set) var cache      = [Float]()
+    public private(set) var channel      = [Float]()
     public private(set) var history    : TimeInterval = 30
     public private(set) var latency    : TimeInterval = 0
-    public var              min        : Float?       { calcMinMax(); return _min; }
-    public var              max        : Float?       { calcMinMax(); return _max; }
+    public var              min        : Float?       { calcMinMax(); return _min }
+    public var              max        : Float?       { calcMinMax(); return _max }
     public private(set) var offset     : Index = 0
     public private(set) var resolution : Float = 250
     
     // MARK: - Shadowed Properties
-    private var _min       : Float?;
-    private var _max       : Float?;
+    private var _min       : Float?
+    private var _max       : Float?
     
     // MARK: - Private Properties
-    private var capacity   : Int;
-    private var stale      : Bool  = true;
+    private var capacity   : Int
+    private var stale      : Bool  = true
     
     /**
      Initialize instance.
@@ -57,24 +57,24 @@ public class WaveformStream: WaveformSource {
      */
     public func append(data segment: [Float], at index: Int64)
     {
-        updateLatency(for: TimeInterval(index) / TimeInterval(resolution));
+        updateLatency(for: TimeInterval(index) / TimeInterval(resolution))
         
-        if cache.isEmpty {
-            offset = index;
+        if channel.isEmpty {
+            offset = index
         }
         
         if index != end {
-            debugPrint("discontinuity \(index - end)"); // TODO
+            debugPrint("discontinuity \(index - end)") // TODO
         }
         
-        cache += segment;
-        stale  = true;
+        channel += segment
+        stale  = true
         
-        if cache.count > capacity {
-            let n = cache.count - capacity;
+        if channel.count > capacity {
+            let n = channel.count - capacity
             
-            cache.removeFirst(n);
-            offset += Int64(n);
+            channel.removeFirst(n)
+            offset += Int64(n)
         }
     }
     
@@ -83,28 +83,28 @@ public class WaveformStream: WaveformSource {
      */
     private func updateLatency(for time: TimeInterval)
     {
-        let now     = Date.timeIntervalSinceReferenceDate;
-        let latency = now - time;
+        let now     = Date.timeIntervalSinceReferenceDate
+        let latency = now - time
         
-        self.latency = latency;
+        self.latency = latency
     }
     
     private func calcMinMax()
     {
         if stale {
-            _min = nil;
-            _max = nil;
+            _min = nil
+            _max = nil
             
-            for i in 0..<cache.count {
-                if _min == nil || cache[i] < _min! {
-                    _min = cache[i];
+            for i in 0..<channel.count {
+                if _min == nil || channel[i] < _min! {
+                    _min = channel[i]
                 }
-                if _max == nil || cache[i] > _max! {
-                    _max = cache[i];
+                if _max == nil || channel[i] > _max! {
+                    _max = channel[i]
                 }
             }
             
-            stale = false;
+            stale = false
         }
     }
     

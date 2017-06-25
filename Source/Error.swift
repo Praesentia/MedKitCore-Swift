@@ -19,60 +19,63 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
  MedKit Error
  
- Enumerates the MedKit errors.
+ Enumeration of MedKit error codes.
  */
-public enum MedKitError : Int, Error, CustomStringConvertible, LocalizedError {
-    case BadArgs        =  1
-    case BadCredentials =  2
-    case BadMethod      =  3
-    case BadReply       =  4
-    case Duplicate      =  5
-    case Failed         =  6
-    case NotAuthorized  =  7
-    case NotFound       =  8
-    case NotImplemented =  9
-    case NotSignedIn    = 10
-    case NotSupported   = 11
-    case ProtocolError  = 12
-    case ReadOnly       = 13
-    case Rejected       = 14
-    case Suspended      = 15
-    case Unreachable    = 16
-    case WriteOnly      = 17
+public enum MedKitError: Int, Error, CustomStringConvertible, LocalizedError {
+    case badArgs        =  1
+    case badCredentials =  2
+    case badMethod      =  3
+    case badReply       =  4
+    case duplicate      =  5
+    case failed         =  6
+    case notAuthorized  =  7
+    case notFound       =  8
+    case notImplemented =  9
+    case notSignedIn    = 10
+    case notSupported   = 11
+    case protocolError  = 12
+    case readOnly       = 13
+    case rejected       = 14
+    case suspended      = 15
+    case unreachable    = 16
+    case writeOnly      = 17
     
-    public var description      : String  { return "MedKit error \( rawValue ) (\( localizedDescription ))"; }
-    public var errorDescription : String? { return MedKitErrorDescription[rawValue]; }
+    public var description      : String  { return "MedKit error \( rawValue ) (\( localizedDescription ))" }
+    public var errorDescription : String? { return MedKitError.localizedDescriptions[self] }
 }
 
-/**
- MedKit error localized descriptions.
- */
-fileprivate let MedKitErrorDescription = [
-    "None",
-    "Bad arguments",
-    "Bad credentials",
-    "Bad method",
-    "Bad reply",
-    "Duplicate",
-    "Failed",
-    "Not authorized",
-    "Not found",
-    "Not implemented",
-    "Not signed in",
-    "Not supported",
-    "Protocol error",
-    "Read Only",
-    "Rejected",
-    "Suspended",
-    "Device is unreachable",
-    "WriteOnly"
-];
+extension MedKitError {
+
+    /**
+     Localizable description of error codes.
+     */
+    static let localizedDescriptions: [MedKitError : String] = [
+        .badArgs        : NSLocalizedString("Bad arguments",         comment: "MedKit error description."),
+        .badCredentials : NSLocalizedString("Bad credentials",       comment: "MedKit error description."),
+        .badMethod      : NSLocalizedString("Bad method",            comment: "MedKit error description."),
+        .badReply       : NSLocalizedString("Bad reply",             comment: "MedKit error description."),
+        .duplicate      : NSLocalizedString("Duplicate",             comment: "MedKit error description."),
+        .failed         : NSLocalizedString("Failed",                comment: "MedKit error description."),
+        .notAuthorized  : NSLocalizedString("Not authorized",        comment: "MedKit error description."),
+        .notFound       : NSLocalizedString("Not found",             comment: "MedKit error description."),
+        .notImplemented : NSLocalizedString("Not implemented",       comment: "MedKit error description."),
+        .notSignedIn    : NSLocalizedString("Not signed in",         comment: "MedKit error description."),
+        .notSupported   : NSLocalizedString("Not supported",         comment: "MedKit error description."),
+        .protocolError  : NSLocalizedString("Protocol error",        comment: "MedKit error description."),
+        .readOnly       : NSLocalizedString("Read only",             comment: "MedKit error description."),
+        .rejected       : NSLocalizedString("Rejected",              comment: "MedKit error description."),
+        .suspended      : NSLocalizedString("Suspended",             comment: "MedKit error description."),
+        .unreachable    : NSLocalizedString("Device is unreachable", comment: "MedKit error description."),
+        .writeOnly      : NSLocalizedString("Write only",            comment: "MedKit error description.")
+    ]
+    
+}
 
 
 // End of File

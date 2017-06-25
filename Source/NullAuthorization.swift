@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -27,12 +27,12 @@ import Foundation;
  */
 public class NullAuthorization: Authorization {
     
-    public static let shared = NullAuthorization();
+    public static let shared = NullAuthorization()
     
-    public var expires : TimeInterval?     { return nil; }
-    public var profile : JSON              { return getProfile(); }
-    public var string  : String            { return "null"; }
-    public var type    : AuthorizationType { return .Null; }
+    public var expires : TimeInterval?     { return nil }
+    public var profile : JSON              { return getProfile() }
+    public var string  : String            { return "null" }
+    public var type    : AuthorizationType { return .null }
     
     /**
      Initialize instance.
@@ -48,16 +48,16 @@ public class NullAuthorization: Authorization {
      */
     public func authorized(operation: UUID) -> Bool
     {
-        return false;
+        return false
     }
     
     private func getProfile() -> JSON
     {
-        let profile = JSON();
+        let profile = JSON()
         
-        profile[KeyType] = type.string;
+        profile[KeyType] = type.string
         
-        return profile;
+        return profile
     }
     
 }

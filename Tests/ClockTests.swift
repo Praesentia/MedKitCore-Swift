@@ -25,11 +25,11 @@ import XCTest
 
 class ClockTests: XCTestCase {
     
-    static let dateFormatter = ISO8601DateFormatter();
+    static let dateFormatter = ISO8601DateFormatter()
     
-    let EpochPOSIX  = ClockTests.dateFormatter.date(from: "1970-01-01T00:00:00Z")!;
-    let EpochUTC    = ClockTests.dateFormatter.date(from: "1972-01-01T00:00:00Z")!;
-    let EpochMedKit = Time(63072000000000); // microseconds
+    let EpochPOSIX  = ClockTests.dateFormatter.date(from: "1970-01-01T00:00:00Z")!
+    let EpochUTC    = ClockTests.dateFormatter.date(from: "1972-01-01T00:00:00Z")!
+    let EpochMedKit = Time(63072000000000) // microseconds
     
     func testTimeConversions()
     {

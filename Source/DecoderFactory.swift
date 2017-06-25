@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -27,13 +27,13 @@ import Foundation;
  */
 public protocol DecoderFactory {
     
-    func instantiateDecoder() -> Decoder;
+    func instantiateDecoder() -> Decoder
     
 }
 
 public class DecoderDefaultFactory: DecoderFactory {
     
-    public static let main = DecoderDefaultFactory();
+    public static let main = DecoderDefaultFactory()
     
     private init()
     {
@@ -41,7 +41,7 @@ public class DecoderDefaultFactory: DecoderFactory {
     
     public func instantiateDecoder() -> Decoder
     {
-        return DecoderDefault();
+        return DecoderDefault()
     }
     
 }

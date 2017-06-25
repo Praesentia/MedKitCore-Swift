@@ -19,11 +19,11 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
-public let UUIDNSDevice     = UUID(uuidString: "3acf77a4-a632-4a23-805b-be1063ed1f67")!; // final
-public let UUIDNSDeviceType = UUID(uuidString: "1b2ff196-36b4-4492-8ef6-e267c83cd1cd")!; // final
+public let UUIDNSDevice     = UUID(uuidString: "3acf77a4-a632-4a23-805b-be1063ed1f67")! // final
+public let UUIDNSDeviceType = UUID(uuidString: "1b2ff196-36b4-4492-8ef6-e267c83cd1cd")! // final
 
 
 // End of File

@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -30,19 +30,19 @@ import Foundation;
 public class PortNet: Port {
     
     // MARK: - Properties
-    public weak var delegate    : PortDelegate?;
-    public var      hostAddress : SockAddr? { return endpoint?.hostAddress; }
-    public var      peerAddress : SockAddr? { return endpoint?.peerAddress; }
+    public weak var delegate    : PortDelegate?
+    public var      hostAddress : SockAddr? { return endpoint?.hostAddress }
+    public var      peerAddress : SockAddr? { return endpoint?.peerAddress }
     
     // MARK: - Protected Properties
-    var address  : SockAddr;
-    var endpoint : EndpointNet!;
+    var address  : SockAddr
+    var endpoint : EndpointNet!
     
     // MARK: - Initializers
     
     init(address: SockAddr)
     {
-        self.address = address;
+        self.address = address
     }
     
     // MARK: - Lifecycle

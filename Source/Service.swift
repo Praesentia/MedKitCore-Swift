@@ -19,9 +19,12 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
+/**
+ Service
+ */
 public protocol Service: class {
     
     // MARK: - Properties
@@ -57,7 +60,7 @@ public protocol Service: class {
      */
     var type: ServiceType { get }
     
-    // MARK: - Observer Interface
+    // MARK: - Observers
     
     /**
      Add observer.

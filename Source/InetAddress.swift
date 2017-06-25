@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -28,15 +28,15 @@ import Foundation;
 public class InetAddress: Equatable {
     
     // MARK: - Properties
-    public var              family  : Int32            { return Int32(storage.ss_family); }
-    public var              string  : String?          { return getHost(); }
-    public private(set) var storage : sockaddr_storage;
+    public var              family  : Int32            { return Int32(storage.ss_family) }
+    public var              string  : String?          { return getHost() }
+    public private(set) var storage : sockaddr_storage
     
     // MARK: - Equatable
     
     public static func ==(lhs: InetAddress, rhs: InetAddress) -> Bool
     {
-        return equal(lhs.storage, rhs.storage);
+        return equal(lhs.storage, rhs.storage)
     }
     
     /**
@@ -47,7 +47,7 @@ public class InetAddress: Equatable {
      */
     public init(address: sockaddr_storage)
     {
-        storage = address;
+        storage = address
     }
     
     /**
@@ -58,11 +58,11 @@ public class InetAddress: Equatable {
      */
     public init(address: Data)
     {
-        storage = sockaddr_storage();
+        storage = sockaddr_storage()
         
         withUnsafeMutablePointer(to: &storage) {
             $0.withMemoryRebound(to: UInt8.self, capacity: 1) {
-                address.copyBytes(to: $0, count: address.count);
+                address.copyBytes(to: $0, count: address.count)
             }
         }
     }
@@ -73,73 +73,73 @@ public class InetAddress: Equatable {
     {
         switch family {
         case AF_INET :
-            var addr4 = sockaddr_in();
+            var addr4 = sockaddr_in()
             var ipAddressString = [CChar](repeating: 0, count: Int(INET_ADDRSTRLEN))
             
             withUnsafePointer(to: &storage) {
                 $0.withMemoryRebound(to: sockaddr_in.self, capacity: 1) {
-                    addr4 = $0.pointee;
+                    addr4 = $0.pointee
                 }
             }
             
-            inet_ntop(AF_INET, &addr4.sin_addr, &ipAddressString, socklen_t(INET_ADDRSTRLEN));
-            return String(validatingUTF8: ipAddressString);
+            inet_ntop(AF_INET, &addr4.sin_addr, &ipAddressString, socklen_t(INET_ADDRSTRLEN))
+            return String(validatingUTF8: ipAddressString)
             
         case AF_INET6 :
-            var addr6 = sockaddr_in6();
+            var addr6 = sockaddr_in6()
             var ipAddressString = [CChar](repeating: 0, count: Int(INET6_ADDRSTRLEN))
             
             withUnsafePointer(to: &storage) {
                 $0.withMemoryRebound(to: sockaddr_in6.self, capacity: 1) {
-                    addr6 = $0.pointee;
+                    addr6 = $0.pointee
                 }
             }
             
-            inet_ntop(AF_INET6, &addr6.sin6_addr, &ipAddressString, socklen_t(INET6_ADDRSTRLEN));
-            return String(validatingUTF8: ipAddressString);
+            inet_ntop(AF_INET6, &addr6.sin6_addr, &ipAddressString, socklen_t(INET6_ADDRSTRLEN))
+            return String(validatingUTF8: ipAddressString)
             
         default :
-            return nil;
+            return nil
         }
     }
     
     private static func equal(_ lhs: sockaddr_storage, _ rhs: sockaddr_storage) -> Bool
     {
         // TODO: hack
-        var _lhs = lhs;
-        var _rhs = rhs;
+        var _lhs = lhs
+        var _rhs = rhs
         
         if lhs.ss_family == rhs.ss_family {
             switch Int32(lhs.ss_family) {
             case AF_INET :
-                var lhsAddr4 = sockaddr_in();
-                var rhsAddr4 = sockaddr_in();
+                var lhsAddr4 = sockaddr_in()
+                var rhsAddr4 = sockaddr_in()
                 
-                withUnsafePointer(to: &_lhs) { $0.withMemoryRebound(to: sockaddr_in.self, capacity: 1) { lhsAddr4 = $0.pointee; } }
-                withUnsafePointer(to: &_rhs) { $0.withMemoryRebound(to: sockaddr_in.self, capacity: 1) { rhsAddr4 = $0.pointee; } }
+                withUnsafePointer(to: &_lhs) { $0.withMemoryRebound(to: sockaddr_in.self, capacity: 1) { lhsAddr4 = $0.pointee } }
+                withUnsafePointer(to: &_rhs) { $0.withMemoryRebound(to: sockaddr_in.self, capacity: 1) { rhsAddr4 = $0.pointee } }
                 
-                return equal(lhsAddr4, rhsAddr4);
+                return equal(lhsAddr4, rhsAddr4)
                 
             case AF_INET6 :
-                var lhsAddr6 = sockaddr_in6();
-                var rhsAddr6 = sockaddr_in6();
+                var lhsAddr6 = sockaddr_in6()
+                var rhsAddr6 = sockaddr_in6()
                 
-                withUnsafePointer(to: &_lhs) { $0.withMemoryRebound(to: sockaddr_in6.self, capacity: 1) { lhsAddr6 = $0.pointee; } }
-                withUnsafePointer(to: &_rhs) { $0.withMemoryRebound(to: sockaddr_in6.self, capacity: 1) { rhsAddr6 = $0.pointee; } }
+                withUnsafePointer(to: &_lhs) { $0.withMemoryRebound(to: sockaddr_in6.self, capacity: 1) { lhsAddr6 = $0.pointee } }
+                withUnsafePointer(to: &_rhs) { $0.withMemoryRebound(to: sockaddr_in6.self, capacity: 1) { rhsAddr6 = $0.pointee } }
                 
-                return equal(lhsAddr6, rhsAddr6);
+                return equal(lhsAddr6, rhsAddr6)
                 
             default :
-                break;
+                break
             }
         }
         
-        return false;
+        return false
     }
     
     private static func equal(_ lhs: sockaddr_in, _ rhs: sockaddr_in) -> Bool
     {
-        return lhs.sin_addr.s_addr == rhs.sin_addr.s_addr;
+        return lhs.sin_addr.s_addr == rhs.sin_addr.s_addr
     }
     
     private static func equal(_ lhs: sockaddr_in6, _ rhs: sockaddr_in6) -> Bool
@@ -147,9 +147,9 @@ public class InetAddress: Equatable {
         let r = lhs.sin6_addr.__u6_addr.__u6_addr32.0 == rhs.sin6_addr.__u6_addr.__u6_addr32.0 &&
             lhs.sin6_addr.__u6_addr.__u6_addr32.1 == rhs.sin6_addr.__u6_addr.__u6_addr32.1 &&
             lhs.sin6_addr.__u6_addr.__u6_addr32.2 == rhs.sin6_addr.__u6_addr.__u6_addr32.2 &&
-            lhs.sin6_addr.__u6_addr.__u6_addr32.3 == rhs.sin6_addr.__u6_addr.__u6_addr32.3;
+            lhs.sin6_addr.__u6_addr.__u6_addr32.3 == rhs.sin6_addr.__u6_addr.__u6_addr32.3
         
-        return r;
+        return r
     }
     
 }

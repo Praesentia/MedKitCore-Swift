@@ -53,11 +53,11 @@
 		2236EE201EF2A4D6000A80AD /* WaveformSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2236EE1E1EF2A4D1000A80AD /* WaveformSource.swift */; };
 		2236EE221EF2A5F7000A80AD /* WaveformController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2236EE211EF2A5F7000A80AD /* WaveformController.swift */; };
 		2236EE241EF2A623000A80AD /* WaveformControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2236EE231EF2A623000A80AD /* WaveformControllerDelegate.swift */; };
-		2236EE261EF2A689000A80AD /* WaveformControllerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2236EE251EF2A689000A80AD /* WaveformControllerBase.swift */; };
+		2236EE261EF2A689000A80AD /* WaveformControllerSimple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2236EE251EF2A689000A80AD /* WaveformControllerSimple.swift */; };
 		2236EE281EF2A6DE000A80AD /* WaveformControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2236EE271EF2A6DE000A80AD /* WaveformControllers.swift */; };
 		2236EE2A1EF2A7AC000A80AD /* WaveformStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2236EE291EF2A7AC000A80AD /* WaveformStream.swift */; };
 		2236EE2B1EF2A7B2000A80AD /* WaveformController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2236EE211EF2A5F7000A80AD /* WaveformController.swift */; };
-		2236EE2C1EF2A7B2000A80AD /* WaveformControllerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2236EE251EF2A689000A80AD /* WaveformControllerBase.swift */; };
+		2236EE2C1EF2A7B2000A80AD /* WaveformControllerSimple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2236EE251EF2A689000A80AD /* WaveformControllerSimple.swift */; };
 		2236EE2D1EF2A7B2000A80AD /* WaveformControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2236EE231EF2A623000A80AD /* WaveformControllerDelegate.swift */; };
 		2236EE2E1EF2A7B2000A80AD /* WaveformControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2236EE271EF2A6DE000A80AD /* WaveformControllers.swift */; };
 		2236EE2F1EF2A7B2000A80AD /* WaveformStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2236EE291EF2A7AC000A80AD /* WaveformStream.swift */; };
@@ -220,6 +220,10 @@
 		224DD83B1E88471100727706 /* NullCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224DD80C1E88440400727706 /* NullCredentials.swift */; };
 		225A469E1EB3B1CF004EE389 /* SecurityManagerShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A469D1EB3B1CF004EE389 /* SecurityManagerShared.swift */; };
 		225A469F1EB3B280004EE389 /* SecurityManagerShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A469D1EB3B1CF004EE389 /* SecurityManagerShared.swift */; };
+		22669D731EF89DDC00F99C49 /* DigestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22669D721EF89DDC00F99C49 /* DigestType.swift */; };
+		22669D741EF89DDE00F99C49 /* DigestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22669D721EF89DDC00F99C49 /* DigestType.swift */; };
+		22669D7C1EF8A15400F99C49 /* HMAC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22669D7B1EF8A15400F99C49 /* HMAC.swift */; };
+		22669D7D1EF8A17A00F99C49 /* HMAC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22669D7B1EF8A15400F99C49 /* HMAC.swift */; };
 		228B1B9E1EB21E89002F78F1 /* ProtocolStackDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228B1B9D1EB21E89002F78F1 /* ProtocolStackDelegate.swift */; };
 		228B1B9F1EB21EA0002F78F1 /* ProtocolStackDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228B1B9D1EB21E89002F78F1 /* ProtocolStackDelegate.swift */; };
 		228B1BA11EB21EFB002F78F1 /* ResourceObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228B1BA01EB21EFB002F78F1 /* ResourceObserver.swift */; };
@@ -248,6 +252,10 @@
 		228B1BC31EB22491002F78F1 /* PrincipalManagerObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228B1BC11EB2248E002F78F1 /* PrincipalManagerObserver.swift */; };
 		22A79DAD1EF2AEEC0060577B /* WaveformStreamCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A79DAC1EF2AEEC0060577B /* WaveformStreamCache.swift */; };
 		22A79DB41EF2B9560060577B /* WaveformStreamCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A79DAC1EF2AEEC0060577B /* WaveformStreamCache.swift */; };
+		22A79DE51EF44B490060577B /* WaveformControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A79DE41EF44B490060577B /* WaveformControllerFactory.swift */; };
+		22A79DE61EF44C9C0060577B /* WaveformControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A79DE41EF44B490060577B /* WaveformControllerFactory.swift */; };
+		22A79DEB1EF451370060577B /* WaveformControllerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A79DEA1EF451370060577B /* WaveformControllerBase.swift */; };
+		22A79DEC1EF4514D0060577B /* WaveformControllerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A79DEA1EF451370060577B /* WaveformControllerBase.swift */; };
 		22B4E0A31EB4C0DA004B39C7 /* EndpointDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B4E0A21EB4C0DA004B39C7 /* EndpointDelegate.swift */; };
 		22B4E0A41EB4C0DD004B39C7 /* EndpointDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B4E0A21EB4C0DA004B39C7 /* EndpointDelegate.swift */; };
 		22B4E0A61EB4D293004B39C7 /* NetDeviceObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B4E0A51EB4D293004B39C7 /* NetDeviceObserver.swift */; };
@@ -328,7 +336,7 @@
 		2236EE1E1EF2A4D1000A80AD /* WaveformSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WaveformSource.swift; path = Source/WaveformSource.swift; sourceTree = "<group>"; };
 		2236EE211EF2A5F7000A80AD /* WaveformController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WaveformController.swift; path = Source/WaveformController.swift; sourceTree = "<group>"; };
 		2236EE231EF2A623000A80AD /* WaveformControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WaveformControllerDelegate.swift; path = Source/WaveformControllerDelegate.swift; sourceTree = "<group>"; };
-		2236EE251EF2A689000A80AD /* WaveformControllerBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WaveformControllerBase.swift; path = Source/WaveformControllerBase.swift; sourceTree = "<group>"; };
+		2236EE251EF2A689000A80AD /* WaveformControllerSimple.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WaveformControllerSimple.swift; path = Source/WaveformControllerSimple.swift; sourceTree = "<group>"; };
 		2236EE271EF2A6DE000A80AD /* WaveformControllers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WaveformControllers.swift; path = Source/WaveformControllers.swift; sourceTree = "<group>"; };
 		2236EE291EF2A7AC000A80AD /* WaveformStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WaveformStream.swift; path = Source/WaveformStream.swift; sourceTree = "<group>"; };
 		2236EE301EF2AA94000A80AD /* WaveformReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WaveformReader.swift; path = Source/WaveformReader.swift; sourceTree = "<group>"; };
@@ -420,6 +428,8 @@
 		224DD80C1E88440400727706 /* NullCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NullCredentials.swift; path = Source/NullCredentials.swift; sourceTree = "<group>"; };
 		225A46731EB37851004EE389 /* Release Notes.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; name = "Release Notes.rtf"; path = "Documentation/Release Notes.rtf"; sourceTree = "<group>"; };
 		225A469D1EB3B1CF004EE389 /* SecurityManagerShared.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SecurityManagerShared.swift; path = Source/SecurityManagerShared.swift; sourceTree = "<group>"; };
+		22669D721EF89DDC00F99C49 /* DigestType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DigestType.swift; path = Source/DigestType.swift; sourceTree = "<group>"; };
+		22669D7B1EF8A15400F99C49 /* HMAC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HMAC.swift; path = Source/HMAC.swift; sourceTree = "<group>"; };
 		228B1B9D1EB21E89002F78F1 /* ProtocolStackDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProtocolStackDelegate.swift; path = Source/ProtocolStackDelegate.swift; sourceTree = "<group>"; };
 		228B1BA01EB21EFB002F78F1 /* ResourceObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResourceObserver.swift; path = Source/ResourceObserver.swift; sourceTree = "<group>"; };
 		228B1BA31EB21F2D002F78F1 /* ResourceBackend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResourceBackend.swift; path = Source/ResourceBackend.swift; sourceTree = "<group>"; };
@@ -434,6 +444,8 @@
 		228B1BBE1EB222D9002F78F1 /* ConnectionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConnectionDelegate.swift; path = Source/ConnectionDelegate.swift; sourceTree = "<group>"; };
 		228B1BC11EB2248E002F78F1 /* PrincipalManagerObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PrincipalManagerObserver.swift; path = Source/PrincipalManagerObserver.swift; sourceTree = "<group>"; };
 		22A79DAC1EF2AEEC0060577B /* WaveformStreamCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WaveformStreamCache.swift; path = Source/WaveformStreamCache.swift; sourceTree = "<group>"; };
+		22A79DE41EF44B490060577B /* WaveformControllerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WaveformControllerFactory.swift; path = Source/WaveformControllerFactory.swift; sourceTree = "<group>"; };
+		22A79DEA1EF451370060577B /* WaveformControllerBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WaveformControllerBase.swift; path = Source/WaveformControllerBase.swift; sourceTree = "<group>"; };
 		22B4E0A21EB4C0DA004B39C7 /* EndpointDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EndpointDelegate.swift; path = Source/EndpointDelegate.swift; sourceTree = "<group>"; };
 		22B4E0A51EB4D293004B39C7 /* NetDeviceObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetDeviceObserver.swift; path = Source/NetDeviceObserver.swift; sourceTree = "<group>"; };
 		22B4E1811EB68956004B39C7 /* ServiceTypeSchema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceTypeSchema.swift; path = Source/ServiceTypeSchema.swift; sourceTree = "<group>"; };
@@ -500,8 +512,6 @@
 		221902BF1EC341060043BE70 /* Network Proxy */ = {
 			isa = PBXGroup;
 			children = (
-				22DD6CB41E8996D900F1B6D2 /* DeviceProtocol.swift */,
-				2243DDB91E87F52800A188FD /* DeviceProtocols.swift */,
 				22092E7A1EAD200600F0B503 /* DeviceProxyNet.swift */,
 				2243DDC91E87F52800A188FD /* DeviceProxyNetCache.swift */,
 				2243DCCE1E87F18A00A188FD /* NetBackend.swift */,
@@ -544,26 +554,25 @@
 			name = Time;
 			sourceTree = "<group>";
 		};
-		2228D3631E8933CC00F8ED44 /* SecurityManager */ = {
+		2228D3631E8933CC00F8ED44 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
 				2243DCF01E87F18A00A188FD /* SecurityManager.swift */,
 				225A469D1EB3B1CF004EE389 /* SecurityManagerShared.swift */,
 			);
-			name = SecurityManager;
+			name = Manager;
 			sourceTree = "<group>";
 		};
 		2236EE1D1EF2A47D000A80AD /* Waveform */ = {
 			isa = PBXGroup;
 			children = (
 				2236EE211EF2A5F7000A80AD /* WaveformController.swift */,
-				2236EE251EF2A689000A80AD /* WaveformControllerBase.swift */,
+				22A79DEA1EF451370060577B /* WaveformControllerBase.swift */,
 				2236EE231EF2A623000A80AD /* WaveformControllerDelegate.swift */,
+				22A79DE41EF44B490060577B /* WaveformControllerFactory.swift */,
 				2236EE271EF2A6DE000A80AD /* WaveformControllers.swift */,
-				2236EE301EF2AA94000A80AD /* WaveformReader.swift */,
 				2236EE1E1EF2A4D1000A80AD /* WaveformSource.swift */,
-				2236EE291EF2A7AC000A80AD /* WaveformStream.swift */,
-				22A79DAC1EF2AEEC0060577B /* WaveformStreamCache.swift */,
+				22A79DE31EF444B60060577B /* Simple */,
 			);
 			name = Waveform;
 			sourceTree = "<group>";
@@ -644,6 +653,7 @@
 				2243DEB31E87FC3400A188FD /* DataLogger */,
 				2243DD921E87F25300A188FD /* Device */,
 				2243DD9C1E87F2E400A188FD /* Device Browser */,
+				22A79E041EF53F090060577B /* Device Protocols */,
 				2243DEB71E87FDBD00A188FD /* Endpoint */,
 				220BEDCF1E95691C00AFF2CA /* Inet */,
 				2243DED71E8806E300A188FD /* JSON */,
@@ -673,6 +683,7 @@
 				22092E5F1EAD163A00F0B503 /* DeviceBase.swift */,
 				22092E611EAD16BA00F0B503 /* DeviceFrontend.swift */,
 				22092E561EAD155700F0B503 /* DeviceObserver.swift */,
+				2243DEC51E8803C600A188FD /* DeviceType.swift */,
 				2243DDB31E87F52800A188FD /* Backend.swift */,
 				22FF4D901ED7155400C3FB78 /* Proxy */,
 				221902BF1EC341060043BE70 /* Network Proxy */,
@@ -684,14 +695,10 @@
 		2243DD951E87F27900A188FD /* Constants */ = {
 			isa = PBXGroup;
 			children = (
-				2243DEC51E8803C600A188FD /* DeviceType.swift */,
 				2243DDD11E87F52800A188FD /* Error.swift */,
 				2243DDBD1E87F52800A188FD /* Keys.swift */,
 				2243DCD61E87F18A00A188FD /* OperationType.swift */,
-				221904601EC87F630043BE70 /* ResourceType.swift */,
 				221904611EC87F630043BE70 /* SchemaType.swift */,
-				221904621EC87F630043BE70 /* ServiceType.swift */,
-				221904631EC87F630043BE70 /* UnitType.swift */,
 				2243DCFD1E87F18A00A188FD /* UUIDNS.swift */,
 			);
 			name = Constants;
@@ -705,10 +712,11 @@
 				2243DEBA1E87FE2400A188FD /* Certificate */,
 				2243DED41E88067500A188FD /* Credentials */,
 				2243DEB81E87FDFE00A188FD /* Digests */,
+				22669D7E1EF8A17F00F99C49 /* HMAC */,
 				2243DED51E8806BE00A188FD /* Identity */,
 				2239FFA71EE57DCF00D06CF2 /* Keys */,
 				2243DED61E8806CA00A188FD /* Principal */,
-				2228D3631E8933CC00F8ED44 /* SecurityManager */,
+				2228D3631E8933CC00F8ED44 /* Manager */,
 			);
 			name = Security;
 			sourceTree = "<group>";
@@ -724,6 +732,8 @@
 				22DD6D0D1E8C03E200F1B6D2 /* ResourceCache.swift */,
 				22202DDE1EB9FEF500A79644 /* ResourceCacheBase.swift */,
 				228B1BA01EB21EFB002F78F1 /* ResourceObserver.swift */,
+				221904601EC87F630043BE70 /* ResourceType.swift */,
+				221904631EC87F630043BE70 /* UnitType.swift */,
 			);
 			name = Resource;
 			sourceTree = "<group>";
@@ -736,6 +746,7 @@
 				228B1BB21EB220A0002F78F1 /* ServiceBackendDelegate.swift */,
 				228B1BB41EB220CE002F78F1 /* ServiceBase.swift */,
 				228B1BAC1EB22042002F78F1 /* ServiceObserver.swift */,
+				221904621EC87F630043BE70 /* ServiceType.swift */,
 			);
 			name = Service;
 			sourceTree = "<group>";
@@ -869,6 +880,7 @@
 			isa = PBXGroup;
 			children = (
 				2243DDCE1E87F52800A188FD /* Digest.swift */,
+				22669D721EF89DDC00F99C49 /* DigestType.swift */,
 			);
 			name = Digests;
 			sourceTree = "<group>";
@@ -948,6 +960,34 @@
 				225A46731EB37851004EE389 /* Release Notes.rtf */,
 			);
 			name = Documentation;
+			sourceTree = "<group>";
+		};
+		22669D7E1EF8A17F00F99C49 /* HMAC */ = {
+			isa = PBXGroup;
+			children = (
+				22669D7B1EF8A15400F99C49 /* HMAC.swift */,
+			);
+			name = HMAC;
+			sourceTree = "<group>";
+		};
+		22A79DE31EF444B60060577B /* Simple */ = {
+			isa = PBXGroup;
+			children = (
+				2236EE251EF2A689000A80AD /* WaveformControllerSimple.swift */,
+				2236EE301EF2AA94000A80AD /* WaveformReader.swift */,
+				2236EE291EF2A7AC000A80AD /* WaveformStream.swift */,
+				22A79DAC1EF2AEEC0060577B /* WaveformStreamCache.swift */,
+			);
+			name = Simple;
+			sourceTree = "<group>";
+		};
+		22A79E041EF53F090060577B /* Device Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				22DD6CB41E8996D900F1B6D2 /* DeviceProtocol.swift */,
+				2243DDB91E87F52800A188FD /* DeviceProtocols.swift */,
+			);
+			name = "Device Protocols";
 			sourceTree = "<group>";
 		};
 		22B775281EF1C1C3007E8720 /* Camera */ = {
@@ -1172,6 +1212,7 @@
 				228B1BA11EB21EFB002F78F1 /* ResourceObserver.swift in Sources */,
 				2243DDF91E87F52800A188FD /* Certificate.swift in Sources */,
 				2243DE091E87F52800A188FD /* Decoder.swift in Sources */,
+				22669D731EF89DDC00F99C49 /* DigestType.swift in Sources */,
 				225A469E1EB3B1CF004EE389 /* SecurityManagerShared.swift in Sources */,
 				22FF4D921ED715E700C3FB78 /* ClientConnectionFactory.swift in Sources */,
 				2243DE011E87F52800A188FD /* Credentials.swift in Sources */,
@@ -1181,12 +1222,13 @@
 				2243DDF81E87F52800A188FD /* NetServiceExt.swift in Sources */,
 				228B1BAF1EB2206A002F78F1 /* ServiceBackend.swift in Sources */,
 				2243DD261E87F18A00A188FD /* PortMonitorNetServer.swift in Sources */,
+				22A79DE51EF44B490060577B /* WaveformControllerFactory.swift in Sources */,
 				2243DE061E87F52800A188FD /* DataQueue.swift in Sources */,
 				22DD6E591E8EA7CA00F1B6D2 /* DecoderFactory.swift in Sources */,
 				22A79DAD1EF2AEEC0060577B /* WaveformStreamCache.swift in Sources */,
 				2243DEC61E8803C600A188FD /* DeviceType.swift in Sources */,
 				2243DE131E87F52800A188FD /* EndpointNet.swift in Sources */,
-				2236EE261EF2A689000A80AD /* WaveformControllerBase.swift in Sources */,
+				2236EE261EF2A689000A80AD /* WaveformControllerSimple.swift in Sources */,
 				22DD6CB51E8996D900F1B6D2 /* DeviceProtocol.swift in Sources */,
 				22FF4DA11ED9942E00C3FB78 /* ProtocolStackBase.swift in Sources */,
 				228B1BB51EB220CE002F78F1 /* ServiceBase.swift in Sources */,
@@ -1220,6 +1262,7 @@
 				228B1BB31EB220A0002F78F1 /* ServiceBackendDelegate.swift in Sources */,
 				22092F751EAF761200F0B503 /* DeviceBrowserMain.swift in Sources */,
 				220BEDD41E956E8D00AFF2CA /* InetProto.swift in Sources */,
+				22669D7C1EF8A15400F99C49 /* HMAC.swift in Sources */,
 				2243DE251E87F52800A188FD /* Logger.swift in Sources */,
 				2243DD381E87F18A00A188FD /* Service.swift in Sources */,
 				221904661EC87F630043BE70 /* ServiceType.swift in Sources */,
@@ -1250,6 +1293,7 @@
 				2243DE111E87F52800A188FD /* Digest.swift in Sources */,
 				2243DDF61E87F52800A188FD /* Backend.swift in Sources */,
 				2243DDF31E87F52800A188FD /* Authorization.swift in Sources */,
+				22A79DEB1EF451370060577B /* WaveformControllerBase.swift in Sources */,
 				2243DD251E87F18A00A188FD /* PortMonitorNetListener.swift in Sources */,
 				2236EE281EF2A6DE000A80AD /* WaveformControllers.swift in Sources */,
 				2243DE001E87F52800A188FD /* Keys.swift in Sources */,
@@ -1321,6 +1365,7 @@
 				22B7752F1EF1C2DB007E8720 /* CameraControllerDelegate.swift in Sources */,
 				228B1BA21EB21F05002F78F1 /* ResourceObserver.swift in Sources */,
 				22092E641EAD16E100F0B503 /* DeviceBase.swift in Sources */,
+				22669D741EF89DDE00F99C49 /* DigestType.swift in Sources */,
 				2243DD6B1E87F19100A188FD /* PortMonitorNetServer.swift in Sources */,
 				225A469F1EB3B280004EE389 /* SecurityManagerShared.swift in Sources */,
 				22FF4D931ED7165E00C3FB78 /* ClientConnectionFactory.swift in Sources */,
@@ -1347,7 +1392,7 @@
 				2243DD5A1E87F19100A188FD /* NetPortFactory.swift in Sources */,
 				2236EE2F1EF2A7B2000A80AD /* WaveformStream.swift in Sources */,
 				228B1BC31EB22491002F78F1 /* PrincipalManagerObserver.swift in Sources */,
-				2236EE2C1EF2A7B2000A80AD /* WaveformControllerBase.swift in Sources */,
+				2236EE2C1EF2A7B2000A80AD /* WaveformControllerSimple.swift in Sources */,
 				2243DE5D1E87F73000A188FD /* DeviceBrowser.swift in Sources */,
 				2243DD551E87F19100A188FD /* MISTV1Schema.swift in Sources */,
 				2243DD581E87F19100A188FD /* NetBackend.swift in Sources */,
@@ -1370,6 +1415,7 @@
 				2243DD6C1E87F19100A188FD /* PortNet.swift in Sources */,
 				2243DE371E87F6ED00A188FD /* ClientConnection.swift in Sources */,
 				2243DD681E87F19100A188FD /* PortTap.swift in Sources */,
+				22669D7D1EF8A17A00F99C49 /* HMAC.swift in Sources */,
 				22092E7C1EAD201700F0B503 /* DeviceProxyNet.swift in Sources */,
 				2243DE5A1E87F73000A188FD /* DataTap.swift in Sources */,
 				2236EE321EF2AA99000A80AD /* WaveformReader.swift in Sources */,
@@ -1400,6 +1446,7 @@
 				2243DE701E87F73B00A188FD /* Check.swift in Sources */,
 				2243DD6A1E87F19100A188FD /* PortMonitorNetListener.swift in Sources */,
 				2243DD701E87F19100A188FD /* ProtocolStack.swift in Sources */,
+				22A79DEC1EF4514D0060577B /* WaveformControllerBase.swift in Sources */,
 				2236EE2E1EF2A7B2000A80AD /* WaveformControllers.swift in Sources */,
 				2243DE711E87F73B00A188FD /* Clock.swift in Sources */,
 				224DD83B1E88471100727706 /* NullCredentials.swift in Sources */,
@@ -1409,6 +1456,7 @@
 				22FF4D9C1ED8481A00C3FB78 /* ClientConnectionBase.swift in Sources */,
 				2243DD7A1E87F19100A188FD /* SecurityManager.swift in Sources */,
 				22092F891EAF7A4E00F0B503 /* DeviceBrowserObserver.swift in Sources */,
+				22A79DE61EF44C9C0060577B /* WaveformControllerFactory.swift in Sources */,
 				228B1BB01EB22070002F78F1 /* ServiceObserver.swift in Sources */,
 				22B4E0A41EB4C0DD004B39C7 /* EndpointDelegate.swift in Sources */,
 				22FF4D961ED71B7300C3FB78 /* ConnectionBase.swift in Sources */,
@@ -1499,7 +1547,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 31;
+				CURRENT_PROJECT_VERSION = 32;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -1552,7 +1600,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 31;
+				CURRENT_PROJECT_VERSION = 32;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1580,11 +1628,11 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
-				CURRENT_PROJECT_VERSION = 31;
+				CURRENT_PROJECT_VERSION = 32;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 31;
+				DYLIB_CURRENT_VERSION = 32;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "MedKitCore iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1603,11 +1651,11 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
-				CURRENT_PROJECT_VERSION = 31;
+				CURRENT_PROJECT_VERSION = 32;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 31;
+				DYLIB_CURRENT_VERSION = 32;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "MedKitCore iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1651,11 +1699,11 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 31;
+				CURRENT_PROJECT_VERSION = 32;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 31;
+				DYLIB_CURRENT_VERSION = 32;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "MedKitCore macOS/Info.plist";
@@ -1675,11 +1723,11 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 31;
+				CURRENT_PROJECT_VERSION = 32;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 31;
+				DYLIB_CURRENT_VERSION = 32;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "MedKitCore macOS/Info.plist";

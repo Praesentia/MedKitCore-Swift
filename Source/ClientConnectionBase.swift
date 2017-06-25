@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -31,7 +31,7 @@ open class ClientConnectionBase: ConnectionBase, ClientConnection {
     open var backend: Backend! { return _backend }
     
     // MARK: - Shadowed
-    public var _backend: Backend?;
+    public var _backend: Backend?
     
     // MARK: - Initializers
     
@@ -44,7 +44,7 @@ open class ClientConnectionBase: ConnectionBase, ClientConnection {
      */
     required public init(to port: Port, for device: DeviceBackend, as principal: Principal?)
     {
-        super.init(port: port);
+        super.init(port: port)
     }
     
 }

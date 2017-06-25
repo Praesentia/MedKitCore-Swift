@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -30,7 +30,7 @@ import Foundation;
  63,072,000 seconds.  The offset permits time values to be seconds compatible
  with Unix time.
  */
-public typealias Time = Int64;
+public typealias Time = Int64
 
 
 // End of File

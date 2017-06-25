@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -28,56 +28,56 @@ class PortNetStream: PortNet, EndpointDelegate {
     
     // MARK: - Private
     private enum State {
-        case Closed;
-        case Connecting;
+        case closed
+        case Connecting
         case Open
     }
 
-    private var state    = State.Closed;
-    private var oqueue   = [UInt8]();
-    private var buffer   = Data(repeating: 0, count: 4096);
+    private var state    = State.closed
+    private var oqueue   = [UInt8]()
+    private var buffer   = Data(repeating: 0, count: 4096)
     
     // MARK: - Initializers
     
     override init(address: SockAddr)
     {
-        assert(address.proto == .tcp);
+        assert(address.proto == .tcp)
         
-        super.init(address: address);
+        super.init(address: address)
     }
     
     init(endpoint: EndpointNet)
     {
-        assert(endpoint.hostAddress!.proto == .tcp);
+        assert(endpoint.hostAddress!.proto == .tcp)
         
-        super.init(address: endpoint.hostAddress!);
+        super.init(address: endpoint.hostAddress!)
         
-        self.endpoint = endpoint;
-        endpoint.delegate = self;
+        self.endpoint = endpoint
+        endpoint.delegate = self
     }
     
     // MARK: - Lifecycle
     
     override public func shutdown(for reason: Error?)
     {
-        close(for: reason);
+        close(for: reason)
     }
     
     override public func start()
     {
-        guard(state == .Closed) else { return; }
+        guard(state == .closed) else { return }
         
         if endpoint == nil {
-            endpoint = EndpointNet();
-            endpoint.delegate = self;
+            endpoint = EndpointNet()
+            endpoint.delegate = self
             
-            state = .Connecting;
+            state = .Connecting
             if !endpoint.connect(address: address) {
-                close(for: nil);
+                close(for: nil)
             }
         }
         else {
-            initialized(with: nil);
+            initialized(with: nil)
         }
     }
     
@@ -88,38 +88,38 @@ class PortNetStream: PortNet, EndpointDelegate {
      */
     override public func send(_ data: Data)
     {
-        guard(state == .Open) else { return; }
+        guard(state == .Open) else { return }
         
-        oqueue += data;
-        send();
+        oqueue += data
+        send()
     }
     
     // MARK: - Internal
     
     private func close(for reason: Error?)
     {
-        guard(state != .Closed) else { return; }
+        guard(state != .closed) else { return }
         
-        endpoint.close();
-        state = .Closed;
+        endpoint.close()
+        state = .closed
         
         if let delegate = self.delegate {
-            DispatchQueue.main.async() { delegate.portDidClose(self, for: reason); }
+            DispatchQueue.main.async { delegate.portDidClose(self, for: reason) }
         }
     }
     
     private func initialized(with error: Error?)
     {
         if error == nil {
-            state = .Open;
-            endpoint.resumeIn();
+            state = .Open
+            endpoint.resumeIn()
         }
         else {
-            state = .Closed;
-            endpoint.close();
+            state = .closed
+            endpoint.close()
         }
     
-        delegate?.portDidInitialize(self, with: error);
+        delegate?.portDidInitialize(self, with: error)
     }
     
     /**
@@ -127,26 +127,26 @@ class PortNetStream: PortNet, EndpointDelegate {
      */
     private func receive()
     {
-        var count: Int;
+        var count: Int
         
-        count = endpoint.receive(&buffer);
+        count = endpoint.receive(&buffer)
         while count > 0 {
-            delegate?.port(self, didReceive: buffer.subdata(in: 0..<count));
-            count = endpoint.receive(&buffer);
+            delegate?.port(self, didReceive: buffer.subdata(in: 0..<count))
+            count = endpoint.receive(&buffer)
         }
 
         switch count {
-        case Endpoint.Closed :
-            close(for: nil);
+        case Endpoint.closed :
+            close(for: nil)
             
-        case Endpoint.Failed :
-            close(for: nil);
+        case Endpoint.failed :
+            close(for: nil)
             
-        case Endpoint.WouldBlock :
-            endpoint.resumeIn();
+        case Endpoint.wouldBlock :
+            endpoint.resumeIn()
 
         default :
-            close(for: nil);
+            close(for: nil)
         }
     }
     
@@ -155,25 +155,25 @@ class PortNetStream: PortNet, EndpointDelegate {
      */
     private func send()
     {
-        var count = Int();
+        var count = Int()
         
         while !oqueue.isEmpty {
             
-            count = endpoint.send(Data(oqueue));
+            count = endpoint.send(Data(oqueue))
             if count <= 0 {
-                break;
+                break
             }
             
-            oqueue.removeFirst(count);
+            oqueue.removeFirst(count)
         }
         
         if !oqueue.isEmpty {
             switch count {
-            case Endpoint.WouldBlock :
-                endpoint.resumeOut();
+            case Endpoint.wouldBlock :
+                endpoint.resumeOut()
                 
             default :
-                shutdown(for: nil);
+                shutdown(for: nil)
             }
         }
     }
@@ -182,17 +182,17 @@ class PortNetStream: PortNet, EndpointDelegate {
     
     func endpointDidConnect(_ endpoint: Endpoint, with error: Error?)
     {
-        initialized(with: error);
+        initialized(with: error)
     }
     
     func endpointIn(_ endpoint: Endpoint)
     {
-        receive();
+        receive()
     }
     
     func endpointOut(_ endpoint: Endpoint)
     {
-        send();
+        send()
     }
     
 }

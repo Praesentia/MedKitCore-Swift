@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 /**
  Authorization protocol.
@@ -31,7 +31,7 @@ public protocol Authorization: class {
     var string  : String            { get }
     var type    : AuthorizationType { get } //: Identifies the type of authorization credentials.
     
-    func authorized(operation: UUID) -> Bool;
+    func authorized(operation: UUID) -> Bool
     
 }
 
@@ -40,9 +40,9 @@ public extension Authorization {
     func expired(at time: TimeInterval) -> Bool
     {
         if let expires = self.expires {
-            return time >= expires;
+            return time >= expires
         }
-        return false;
+        return false
     }
     
 }

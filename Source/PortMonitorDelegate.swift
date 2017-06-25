@@ -19,7 +19,7 @@
  */
 
 
-import Foundation;
+import Foundation
 
 
 /**
@@ -29,13 +29,13 @@ public protocol PortMonitorDelegate: class {
     
     // MARK: - Lifecycle
     
-    func portMonitorDidClose(_ portMonitor: PortMonitor, for reason: Error?);
+    func portMonitorDidClose(_ portMonitor: PortMonitor, for reason: Error?)
     
     // MARK: - Connection Management
     
-    func portMonitor(_ portMonitor: PortMonitor, didAdd connection: Connection);
-    func portMonitor(_ portMonitor: PortMonitor, didRemove connection: Connection);
-    func portMonitor(_ portMonitor: PortMonitor, shouldAccept address: SockAddr) -> Bool;
+    func portMonitor(_ portMonitor: PortMonitor, didAdd connection: Connection)
+    func portMonitor(_ portMonitor: PortMonitor, didRemove connection: Connection)
+    func portMonitor(_ portMonitor: PortMonitor, shouldAccept address: SockAddr) -> Bool
     
 }
 
@@ -55,7 +55,7 @@ public extension PortMonitorDelegate {
     
     func portMonitor(_ portMonitor: PortMonitor, shouldAccept address: SockAddr) -> Bool
     {
-        return true;
+        return true
     }
     
 }
