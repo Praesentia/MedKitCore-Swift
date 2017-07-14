@@ -42,7 +42,7 @@ public class JSONConverter {
             }
             return array
         
-        case .Bool :
+        case .Boolean :
             return json.bool!
 
         case .Number :
@@ -70,17 +70,17 @@ public class JSONConverter {
     class func convert(_ value: Any) -> JSON
     {
         switch value {
+        case let v as JSON :
+            return v
+            
         case let v as [Any]:
             return convertArray(v)
             
-        case let v as Double:
-            return JSON(v)
+        case is Double :
+            return JSON(value as! Double)
             
-        case let v as Int:
-            return JSON(v)
-        
-        case let v as Bool:
-            return JSON(v)
+        case is Bool: // TODO: doesn't work, matches double first
+            return JSON(value as! Bool)
             
         case is NSNull:
             return JSON()

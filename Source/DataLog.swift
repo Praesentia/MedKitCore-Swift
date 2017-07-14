@@ -74,7 +74,7 @@ public class DataLog: DataTap {
     
     // MARK: - PortTapDataTap
     
-    public func dataTap(_ sender: Any, willSend data: Data, decoderFactory: DecoderFactory)
+    public func dataTap(_ sender: Any, willSend data: Data, decoderFactory: DataDecoderFactory)
     {
         let item = DataLogItem(sequence: sequence, direction: .send, time: Date.timeIntervalSinceReferenceDate, data: data, decoderFactory: decoderFactory)
         
@@ -82,7 +82,7 @@ public class DataLog: DataTap {
         appendItem(item)
     }
     
-    public func dataTap(_ sender: Any, didReceive data: Data, decoderFactory: DecoderFactory)
+    public func dataTap(_ sender: Any, didReceive data: Data, decoderFactory: DataDecoderFactory)
     {
         let item = DataLogItem(sequence: sequence, direction: .receive, time: Date.timeIntervalSinceReferenceDate, data: data, decoderFactory: decoderFactory)
         

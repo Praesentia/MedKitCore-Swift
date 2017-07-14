@@ -153,8 +153,9 @@ class EndpointNet: Endpoint {
         var status : Int32 = -1
         
         if instantiate(address: address) {
+            var storage = address.storage
             
-            withUnsafePointer(to: &address.storage) { ptr in
+            withUnsafePointer(to: &storage) { ptr in
                 ptr.withMemoryRebound(to: sockaddr.self, capacity: 1) { destination in
 
                     status = Foundation.connect(socket, destination, address.len)
@@ -307,9 +308,10 @@ class EndpointNet: Endpoint {
      */
     private func bind(address: SockAddr) -> Bool
     {
-        var status: Int32 = -1
+        var status  : Int32 = -1
+        var storage = address.storage
         
-        withUnsafePointer(to: &address.storage) { ptr in
+        withUnsafePointer(to: &storage) { ptr in
             ptr.withMemoryRebound(to: sockaddr.self, capacity: 1) { local in
                 status = Foundation.bind(socket, local, address.len)
             }
@@ -424,14 +426,14 @@ class EndpointNet: Endpoint {
         var host: SockAddr?
         
         if socket != InvalidSocket {
-            let temp = SockAddr(proto: proto)
+            var storage = sockaddr_storage()
             
-            withUnsafeMutablePointer(to: &temp.storage) { ptr in
+            withUnsafeMutablePointer(to: &storage) { ptr in
                 ptr.withMemoryRebound(to: sockaddr.self, capacity: 1) { address in
-                    var len = temp.len
+                    var len = storage.length
                     
                     if getsockname(socket, address, &len) == 0 {
-                        host = temp
+                        host = SockAddr(proto: proto, address: storage)
                     }
                 }
             }
@@ -448,14 +450,14 @@ class EndpointNet: Endpoint {
         var peer: SockAddr?
         
         if socket != InvalidSocket {
-            let temp = SockAddr(proto: proto)
+            var storage = sockaddr_storage()
             
-            withUnsafeMutablePointer(to: &temp.storage) { ptr in
+            withUnsafeMutablePointer(to: &storage) { ptr in
                 ptr.withMemoryRebound(to: sockaddr.self, capacity: 1) { address in
-                    var len = temp.len
+                    var len = storage.length
                     
                     if getsockname(socket, address, &len) == 0 {
-                        peer = temp
+                        peer = SockAddr(proto: proto, address: storage)
                     }
                 }
             }

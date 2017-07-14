@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2017 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
+ 
  -----------------------------------------------------------------------------
  */
 
@@ -22,14 +23,26 @@
 import Foundation
 
 
-public enum DigestType {
-    case md2
-    case md5
-    case sha1
-    case sha256
-    case sha384
-    case sha512
+extension sockaddr_storage {
+    
+    var length: socklen_t { return getLength() }
+    
+    private func getLength() -> socklen_t
+    {
+        switch Int32(ss_family) {
+        case AF_INET :
+            return socklen_t(MemoryLayout<sockaddr_in>.size)
+            
+        case AF_INET6 :
+            return socklen_t(MemoryLayout<sockaddr_in6>.size)
+            
+        default :
+            return socklen_t(MemoryLayout<sockaddr_storage>.size)
+        }
+    }
+    
 }
 
 
 // End of File
+

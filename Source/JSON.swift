@@ -26,7 +26,7 @@ import Foundation
 /**
  JSON
  
- - Remarks:
+ - Remark:
     Work in progress and rather crude.  I'd rather see something standardized
     as part of the Swift language.
  */
@@ -38,7 +38,7 @@ public class JSON {
     public enum JSONType {
         case any
         case Array
-        case Bool
+        case Boolean
         case Number
         case int
         case Null
@@ -49,7 +49,7 @@ public class JSON {
     // MARK: - Properties
     public var type   : JSONType         { return _type      }
     public var array  : [JSON]?          { return _array     }
-    public var bool   : Bool?            { return _bool      }
+    public var bool   : Bool?            { return toBool()   }
     public var double : Double?          { return toDouble() }
     public var int    : Int?             { return toInt()    }
     public var number : Double?          { return toDouble() }
@@ -86,7 +86,7 @@ public class JSON {
      */
     public init(_ value: Bool)
     {
-        _type = .Bool
+        _type = .Boolean
         _bool = value
     }
     
@@ -179,6 +179,16 @@ public class JSON {
     }
     */
     
+    public subscript(key: String) -> Any
+    {
+        get {
+            return JSONConverter.externalize(json: self[key])!
+        }
+        set(value) {
+            self[key] = JSONConverter.convert(value)
+        }
+    }
+    
     public subscript(key: String) -> JSON
     {
         get {
@@ -210,7 +220,7 @@ public class JSON {
     {
         get {
             cast(to: .Object)
-            return _object[key]!._bool!
+            return _object[key]!.toBool()!
         }
         set(value) {
             cast(to: .Object)
@@ -221,7 +231,7 @@ public class JSON {
     public subscript(key: String) -> Bool?
     {
         get {
-            return (type == .Object) ? _object[key]?._bool : nil
+            return (type == .Object) ? _object[key]?.toBool() : nil
         }
         set(value) {
             cast(to: .Object)
@@ -405,7 +415,7 @@ public class JSON {
             case .Array:
                 _array  = [JSON]()
             
-            case .Bool:
+            case .Boolean:
                 _bool   = Bool()
                 
             case .Number:
@@ -454,7 +464,7 @@ public class JSON {
         case .Array:
             _array  = nil
             
-        case .Bool:
+        case .Boolean:
             _bool   = nil
             
         case .Number:
@@ -474,6 +484,26 @@ public class JSON {
         }
         
         _type = .any
+    }
+    
+    private func toBool() -> Bool?
+    {
+        switch type {
+        case .Boolean:
+            return _bool
+            
+        case .int:
+            if let value = _int {
+                return Bool(value != 0)
+            }
+            return nil
+            
+        case .Number:
+            return Bool(_double != 0)
+            
+        default:
+            return nil
+        }
     }
     
     private func toDouble() -> Double?

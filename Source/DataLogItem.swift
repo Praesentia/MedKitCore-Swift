@@ -43,12 +43,12 @@ public class DataLogItem {
     public let      direction      : Direction       //: Transmission direction.
     public let      time           : TimeInterval    //: Time stamp.
     public let      data           : Data            //: Data
-    public lazy var decoder        : Decoder = self.decoderFactory.instantiateDecoder()
+    public lazy var decoder        : DataDecoder = self.decoderFactory.instantiateDecoder()
     
     // MARK: - Private
-    private let decoderFactory : DecoderFactory  //: Decoder factory.
+    private let decoderFactory : DataDecoderFactory  //: DataDecoder factory.
     
-    public init(sequence: Int, direction: Direction, time: TimeInterval, data: Data, decoderFactory: DecoderFactory = DecoderDefaultFactory.main)
+    public init(sequence: Int, direction: Direction, time: TimeInterval, data: Data, decoderFactory: DataDecoderFactory = DataDecoderDefaultFactory.main)
     {
         self.sequence       = sequence
         self.decoderFactory = decoderFactory

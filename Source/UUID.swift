@@ -64,7 +64,7 @@ public extension UUID {
      
      A lowercase version of uuidString.
      
-     - Remarks:
+     - Remark:
         RFC 4122 specifies lowercase.
      */
     var uuidstring: String

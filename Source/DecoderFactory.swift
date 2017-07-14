@@ -23,25 +23,25 @@ import Foundation
 
 
 /**
- Decoder factory protocol.
+ DataDecoder factory protocol.
  */
-public protocol DecoderFactory {
+public protocol DataDecoderFactory {
     
-    func instantiateDecoder() -> Decoder
+    func instantiateDecoder() -> DataDecoder
     
 }
 
-public class DecoderDefaultFactory: DecoderFactory {
+public class DataDecoderDefaultFactory: DataDecoderFactory {
     
-    public static let main = DecoderDefaultFactory()
+    public static let main = DataDecoderDefaultFactory()
     
     private init()
     {
     }
     
-    public func instantiateDecoder() -> Decoder
+    public func instantiateDecoder() -> DataDecoder
     {
-        return DecoderDefault()
+        return DataDecoderDefault()
     }
     
 }

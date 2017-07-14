@@ -1,3 +1,4 @@
+# MedKit
 
 ## Synopsis
 
@@ -5,9 +6,25 @@ MedKit is an open source framework facilitating secure, bi-directional
 communication with medical devices.
 
 MedKitCore is one of a number of MedKit modules which include: MedKit,
-MedKitDomain, MedKitMIP and MedKitSecurity.  MedKitCore is a foundational
+MedKitDomain, MedKitMIP, MedKitSecurity and SecurityKit.  MedKitCore is a foundational
 module defining most of the public protocols and much of the functionality
 involving device interactions.
+
+## Prerequisites
+
+### iOS
+
+* iOS 10.3 or higher
+* Xcode 9.0 beta 2 (9M137d) or higher
+
+### macOS
+
+* macOS 10.12 or higher
+* Xcode 9.0 beta 2 (9M137d) or higher
+
+## Dependencies
+
+* SecurityKit
 
 ## Installation
 

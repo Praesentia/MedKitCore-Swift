@@ -25,7 +25,7 @@ import Foundation
 /**
  Data queue.
  
- - Remarks: Fairly simplistic implementation.
+ - Remark: Fairly simplistic implementation.
  */
 public class DataQueue {
     

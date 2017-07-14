@@ -36,7 +36,7 @@ public class PortTap: Port, PortDelegate {
     
     // MARK: - Private Properties
     private let port           : Port
-    private let decoderFactory : DecoderFactory
+    private let decoderFactory : DataDecoderFactory
     
     // MARK: - Initializers
     
@@ -47,7 +47,7 @@ public class PortTap: Port, PortDelegate {
         - port:
         - decoderFactory:
      */
-    public init(_ port: Port, decoderFactory: DecoderFactory)
+    public init(_ port: Port, decoderFactory: DataDecoderFactory)
     {
         self.port           = port
         self.decoderFactory = decoderFactory

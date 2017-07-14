@@ -37,7 +37,7 @@ public protocol ConnectionDelegate: class {
         - reason:     Nil indicates a normal shutdown.  Otherwise, the error
                       responsible for the connection being closed.
      
-     - Remarks:
+     - Remark:
         This method is dispatched asynchronously in order to insure that it is
         delivered last.
      */

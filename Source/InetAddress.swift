@@ -28,9 +28,9 @@ import Foundation
 public class InetAddress: Equatable {
     
     // MARK: - Properties
-    public var              family  : Int32            { return Int32(storage.ss_family) }
-    public var              string  : String?          { return getHost() }
-    public private(set) var storage : sockaddr_storage
+    public var family  : Int32            { return Int32(storage.ss_family) }
+    public var string  : String?          { return getHost() }
+    public let storage : sockaddr_storage
     
     // MARK: - Equatable
     
@@ -58,13 +58,15 @@ public class InetAddress: Equatable {
      */
     public init(address: Data)
     {
-        storage = sockaddr_storage()
+        var storage = sockaddr_storage()
         
         withUnsafeMutablePointer(to: &storage) {
             $0.withMemoryRebound(to: UInt8.self, capacity: 1) {
                 address.copyBytes(to: $0, count: address.count)
             }
         }
+        
+        self.storage = storage
     }
     
     // MARK: -
@@ -73,8 +75,9 @@ public class InetAddress: Equatable {
     {
         switch family {
         case AF_INET :
-            var addr4 = sockaddr_in()
+            var addr4           = sockaddr_in()
             var ipAddressString = [CChar](repeating: 0, count: Int(INET_ADDRSTRLEN))
+            var storage         = self.storage
             
             withUnsafePointer(to: &storage) {
                 $0.withMemoryRebound(to: sockaddr_in.self, capacity: 1) {
@@ -86,8 +89,9 @@ public class InetAddress: Equatable {
             return String(validatingUTF8: ipAddressString)
             
         case AF_INET6 :
-            var addr6 = sockaddr_in6()
+            var addr6           = sockaddr_in6()
             var ipAddressString = [CChar](repeating: 0, count: Int(INET6_ADDRSTRLEN))
+            var storage         = self.storage
             
             withUnsafePointer(to: &storage) {
                 $0.withMemoryRebound(to: sockaddr_in6.self, capacity: 1) {

@@ -35,7 +35,7 @@ public class Logger {
     {
         if let dataTap = self.dataTap {
             let data = message.data(using: .utf8)!
-            dataTap.dataTap(self, willSend: data, decoderFactory: DecoderDefaultFactory.main)
+            dataTap.dataTap(self, willSend: data, decoderFactory: DataDecoderDefaultFactory.main)
         }
     }
     

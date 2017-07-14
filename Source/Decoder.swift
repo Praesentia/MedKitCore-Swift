@@ -22,18 +22,17 @@
 import Foundation
 
 
-public protocol Decoder: class {
+public protocol DataDecoder: class {
     
     func type(data: Data) -> String?
     func string(data: Data) -> String?
     
 }
 
-
 /**
  Data decoder.
  */
-open class DecoderDefault: Decoder {
+open class DataDecoderDefault: DataDecoder {
     
     public init()
     {

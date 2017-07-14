@@ -30,12 +30,12 @@ import Foundation
 public class SockAddr: Equatable {
     
     // MARK: - Properties
-    public let               proto   : InetProto
-    public var               address : InetAddress      { return InetAddress(address: storage) }
-    public var               port    : UInt16           { return getPort() }
-    public var               len     : socklen_t        { return getLength() }
-    public var               string  : String?          { return toString() }
-    public internal(set) var storage = sockaddr_storage()
+    public let proto   : InetProto
+    public var address : InetAddress      { return InetAddress(address: storage) }
+    public var port    : UInt16           { return getPort() }
+    public var len     : socklen_t        { return storage.length }
+    public var string  : String?          { return toString() }
+    public let storage : sockaddr_storage
     
     // MARK: - Equatable
     
@@ -54,8 +54,12 @@ public class SockAddr: Equatable {
      */
     public init(proto: InetProto)
     {
-        self.proto        = proto
+        var storage = sockaddr_storage()
+        
         storage.ss_family = sa_family_t(AF_INET)
+        
+        self.proto   = proto
+        self.storage = storage
     }
     
     /**
@@ -67,8 +71,8 @@ public class SockAddr: Equatable {
      */
     public init(proto: InetProto, address: sockaddr_storage)
     {
-        self.proto = proto
-        storage    = address
+        self.proto   = proto
+        self.storage = address
     }
     
     /**
@@ -80,36 +84,26 @@ public class SockAddr: Equatable {
      */
     public init(proto: InetProto, address: Data)
     {
-        self.proto = proto
+        var storage = sockaddr_storage()
         
         withUnsafeMutablePointer(to: &storage) {
             $0.withMemoryRebound(to: UInt8.self, capacity: 1) {
                 address.copyBytes(to: $0, count: address.count)
             }
         }
+        
+        self.proto   = proto
+        self.storage = storage
     }
     
     // MARK: -
-    
-    private func getLength() -> socklen_t
-    {
-        switch address.family {
-        case AF_INET :
-            return socklen_t(MemoryLayout<sockaddr_in>.size)
-            
-        case AF_INET6 :
-            return socklen_t(MemoryLayout<sockaddr_in6>.size)
-            
-        default :
-            return socklen_t(MemoryLayout<sockaddr_storage>.size)
-        }
-    }
     
     private func getPort() -> UInt16
     {
         switch address.family {
         case AF_INET :
-            var addr4 = sockaddr_in()
+            var addr4   = sockaddr_in()
+            var storage = self.storage
             
             withUnsafePointer(to: &storage) {
                 $0.withMemoryRebound(to: sockaddr_in.self, capacity: 1) {
@@ -120,7 +114,8 @@ public class SockAddr: Equatable {
             return CFSwapInt16HostToBig(addr4.sin_port)
             
         case AF_INET6 :
-            var addr6 = sockaddr_in6()
+            var addr6   = sockaddr_in6()
+            var storage = self.storage
             
             withUnsafePointer(to: &storage) {
                 $0.withMemoryRebound(to: sockaddr_in6.self, capacity: 1) {
