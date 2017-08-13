@@ -38,7 +38,7 @@ open class ServerConnectionBase: ConnectionBase {
         - device:    The device being connected to.
         - principal: The principal associated with the device.
      */
-    required public init(from port: Port, to device: DeviceFrontend, as principal: Principal)
+    required public init(from port: Port, to device: DeviceFrontend, using principalManager: PrincipalManager)
     {
         super.init(port: port)
     }

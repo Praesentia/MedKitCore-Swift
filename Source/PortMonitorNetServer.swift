@@ -31,18 +31,18 @@ public class PortMonitorNetServer: PortMonitorNetListener {
     // MARK: - Private Properties
     private let connectionFactory : ServerConnectionFactory
     private let device            : DeviceFrontend
-    private let myself            : Principal
+    private let principalManager  : PrincipalManager
     
     // MARK: - Initializers
     
     /**
      Initialize instance.
      */
-    public init(address: SockAddr, connectionFactory: ServerConnectionFactory, device: DeviceFrontend, as myself: Principal)
+    public init(address: SockAddr, connectionFactory: ServerConnectionFactory, device: DeviceFrontend, using principalManager: PrincipalManager)
     {
         self.connectionFactory = connectionFactory
         self.device            = device
-        self.myself            = myself
+        self.principalManager  = principalManager
         
         super.init(address: address)
     }
@@ -75,11 +75,13 @@ public class PortMonitorNetServer: PortMonitorNetListener {
      */
     override func instantiateConnection(from endpoint: EndpointNet) -> Connection?
     {
-        let port       = PortNetStream(endpoint: endpoint)
-        let connection = connectionFactory.instantiate(from: port, to: device, as: myself)
+        var connection: Connection!;
+        let port      = PortNetStream(endpoint: endpoint)
         
+        connection = connectionFactory.instantiate(from: port, to: device, using: principalManager)
         connection.start() { error in
             if error == nil {
+                // TODO
             }
         }
         

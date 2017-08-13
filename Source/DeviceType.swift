@@ -84,7 +84,7 @@ extension DeviceType {
      */
     class func identifier(from name: String) -> UUID
     {
-        let digest = SecurityManagerShared.main.digest(using: .sha1)
+        let digest = SecurityManagerShared.main.digest(ofType: .sha1)
         
         digest.update(uuid: UUIDNSDeviceType)
         digest.update(string: name.lowercased())

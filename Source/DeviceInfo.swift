@@ -83,7 +83,7 @@ public class DeviceInfo {
      */
     private func generateIdentifier() -> UUID
     {
-        let digest = SecurityManagerShared.main.digest(using: .sha1)
+        let digest = SecurityManagerShared.main.digest(ofType: .sha1)
         
         digest.update(uuid:           UUIDNSDevice)
         digest.update(prefixedString: manufacturer)

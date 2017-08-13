@@ -38,7 +38,7 @@ public protocol ServerConnectionFactory {
         - device: The device for which the connection is being made.
         - principal: The principal for the device.
      */
-    func instantiate(from port: Port, to device: DeviceFrontend, as principal: Principal) -> ServerConnectionBase
+    func instantiate(from port: Port, to device: DeviceFrontend, using principalManager: PrincipalManager) -> ServerConnectionBase
     
 }
 
@@ -54,9 +54,9 @@ public class ServerConnectionFactoryTemplate<T: ServerConnectionBase>: ServerCon
         self.protocolType = protocolType
     }
     
-    public func instantiate(from port: Port, to device: DeviceFrontend, as principal: Principal) -> ServerConnectionBase
+    public func instantiate(from port: Port, to device: DeviceFrontend, using principalManager: PrincipalManager) -> ServerConnectionBase
     {
-        return T(from: port, to: device, as: principal)
+        return T(from: port, to: device, using: principalManager)
     }
     
 }

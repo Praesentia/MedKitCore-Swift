@@ -66,12 +66,12 @@ public class NetPortFactory: PortFactory {
         Returns a reference to the new connection if successful.  A return
         value of nil indicates failure.
      */
-    public func instantiateConnection(to device: DeviceBackend, as principal: Principal?) -> ClientConnection?
+    public func instantiateConnection(to device: DeviceBackend, using principalManager: PrincipalManager) -> ClientConnection?
     {
         var connection: ClientConnection?
         
         if let port = instantiatePort() {
-            connection = type.clientFactory.instantiate(to: port, for: device, as: principal)
+            connection = type.clientFactory.instantiate(to: port, for: device, using: principalManager)
         }
         
         return connection
