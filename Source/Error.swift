@@ -46,7 +46,7 @@ public enum MedKitError: Int, Error, CustomStringConvertible, LocalizedError {
     case unreachable    = 16
     case writeOnly      = 17
     
-    public var description      : String  { return "MedKit error \( rawValue ) (\( localizedDescription ))" }
+    public var description      : String  { return "MedKitError Code=\( rawValue ) \"(\( localizedDescription ))\"" }
     public var errorDescription : String? { return MedKitError.localizedDescriptions[self] }
 }
 

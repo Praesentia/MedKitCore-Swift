@@ -23,16 +23,14 @@ import Foundation
 
 
 /**
- Secure streaming port.
- 
- Placeholder.
+ Secure port factory.
  */
-public protocol PortSecure: Port {
+public protocol PortSecureFactory {
     
-    // MARK: - Properties
-    weak var policy: PortSecurePolicy? { get set }
-    
+    func instantiate(port: Port, mode: ProtocolMode) -> PortSecure
+
 }
 
 
 // End of File
+

@@ -23,15 +23,13 @@ import Foundation
 
 
 /**
- Secure streaming port.
+ Protocol mode of operation.
  
- Placeholder.
+ Specifies the mode of operation for various components in a protocol stack.
  */
-public protocol PortSecure: Port {
-    
-    // MARK: - Properties
-    weak var policy: PortSecurePolicy? { get set }
-    
+public enum ProtocolMode {
+    case client // Client-side mode of operation.
+    case server // Server-side mode of operation.
 }
 
 
