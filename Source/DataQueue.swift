@@ -30,7 +30,10 @@ import Foundation
 public class DataQueue {
     
     // MARK: - Properties
-    public  var count : UInt64 { return UInt64(queue.count) }
+    public var count   : UInt64 { return UInt64(queue.count) }
+    public var isEmpty : Bool   { return queue.isEmpty }
+    
+    // MARK: - Private Properties
     private var queue = [UInt8]()
     
     // MARK: - Initializers
@@ -45,7 +48,12 @@ public class DataQueue {
     {
         queue += data
     }
-    
+
+    public func clear()
+    {
+        queue.removeAll()
+    }
+
     // MARK: - Access
     
     public func peek(count: Int) -> [UInt8]

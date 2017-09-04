@@ -26,9 +26,19 @@ import SecurityKit
 /**
  Secure port policy delegate.
  
- Placeholder.∫
+ Placeholder.
  */
 public protocol PortSecurePolicy: class {
+    
+    /**
+     Get credentials.
+     */
+    func portCredentials(_ port: PortSecure) -> Credentials?
+    
+    /**
+     Get peer name.
+     */
+    func portPeerName(_ port: PortSecure) -> String?
     
     /**
      Should authenticate peer.
