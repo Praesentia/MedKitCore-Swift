@@ -20,6 +20,7 @@
 
 
 import Foundation
+import SecurityKit
 
 
 /**
@@ -30,6 +31,20 @@ import Foundation
 public enum ProtocolMode {
     case client // Client-side mode of operation.
     case server // Server-side mode of operation.
+}
+
+public extension ProtocolMode {
+
+    var tlsMode: TLSMode {
+        switch self {
+        case .client :
+            return .client
+
+        case .server :
+            return .server
+        }
+    }
+
 }
 
 

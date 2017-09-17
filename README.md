@@ -6,7 +6,7 @@ MedKit is an open source framework facilitating secure, bi-directional
 communication with medical devices.
 
 MedKitCore is one of a number of MedKit modules which include: MedKit,
-MedKitDomain, MedKitMIP, MedKitSecurity and SecurityKit.  MedKitCore is a foundational
+MedKitDomain, MedKitMIP, SecurityKitAOS and SecurityKit.  MedKitCore is a foundational
 module defining most of the public protocols and much of the functionality
 involving device interactions.
 
