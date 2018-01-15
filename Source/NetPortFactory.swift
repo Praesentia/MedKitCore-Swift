@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ public class NetPortFactory: PortFactory {
     public let address   : SockAddr
     public var priority  : Int    { return type.priority }
     public var reachable : Bool   { return true }
-    public let type      : DeviceProtocol
+    public let type      : ProtocolPlugin
     
     // MARK: - Initializers
     
@@ -45,7 +45,7 @@ public class NetPortFactory: PortFactory {
         - type:    The device protocol descriptor.
         - address: The server port address.
      */
-    init(domain: String, type: DeviceProtocol, address: SockAddr)
+    init(domain: String, type: ProtocolPlugin, address: SockAddr)
     {
         self.domain  = domain
         self.type    = type

@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2017 Jon Griffeth.  All rights reserved.
+ Copyright 2017-2018 Jon Griffeth.  All rights reserved.
  -----------------------------------------------------------------------------
  */
 
@@ -11,19 +11,19 @@ import Foundation
 
 
 public extension Date {
+
+    static public let birthdateFormatter = DateFormatter(dateFormat: "yyyy-MM-dd", timeZone: TimeZone.current)
     
-    static private let BirthdateFormat = "yyyy-MM-dd"
-    static private let dateFormatter   = DateFormatter()
-    
-    var rfc3339: String {
-        Date.dateFormatter.dateFormat = Date.BirthdateFormat
-        return Date.dateFormatter.string(from: self)
-    }
-    
-    static func rfc3339(_ string: String) -> Date?
+    var rfc3339: String { return Date.birthdateFormatter.string(from: self) }
+
+    init(rfc3339: String) throws
     {
-        Date.dateFormatter.dateFormat = Date.BirthdateFormat
-        return Date.dateFormatter.date(from: string)
+        if let date = Date.birthdateFormatter.date(from: rfc3339) {
+            self = date
+        }
+        else {
+            throw MedKitError.failed
+        }
     }
     
 }

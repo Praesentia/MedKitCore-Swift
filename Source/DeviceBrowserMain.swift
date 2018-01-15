@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -66,7 +66,7 @@ public class DeviceBrowserMain: DeviceBrowser, ServiceBrowserDelegate, NetDevice
     public func resume()
     {
         browser.resume()
-        observers.withEach { $0.deviceBrowserDidUpdate(self) }
+        observers.forEach { $0.deviceBrowserDidUpdate(self) }
     }
     
     public func suspend()
@@ -142,7 +142,7 @@ public class DeviceBrowserMain: DeviceBrowser, ServiceBrowserDelegate, NetDevice
                 device.addPort(port)
             }
             
-            observers.withEach { $0.deviceBrowser(self, didAdd: device) }
+            observers.forEach { $0.deviceBrowser(self, didAdd: device) }
         }
     }
     
@@ -156,7 +156,7 @@ public class DeviceBrowserMain: DeviceBrowser, ServiceBrowserDelegate, NetDevice
         if let device = removeDevice(withIdentifier: netDevice.info.identifier) {
             device.removeAllPorts()
             device.close(for: MedKitError.suspended) // TODO: fix reason
-            observers.withEach { $0.deviceBrowser(self, didRemove: device) }
+            observers.forEach { $0.deviceBrowser(self, didRemove: device) }
         }
     }
     

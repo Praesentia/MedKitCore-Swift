@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -105,9 +105,9 @@ public class ServiceResponder: NSObject, NetServiceDelegate {
         
         txt["dn"] = deviceInfo.name.data(using: .utf8)
         txt["dt"] = deviceInfo.type.name.data(using: .utf8)
-        txt["mf"] = deviceInfo.manufacturer.data(using: .utf8)
-        txt["md"] = deviceInfo.model.data(using: .utf8)
-        txt["sn"] = deviceInfo.serialNumber.data(using: .utf8)
+        txt["mf"] = deviceInfo.identity.manufacturer.data(using: .utf8)
+        txt["md"] = deviceInfo.identity.model.data(using: .utf8)
+        txt["sn"] = deviceInfo.identity.serialNumber.data(using: .utf8)
         txt["pr"] = protocolType.data(using: .utf8)
         txt["vn"] = ServiceVersion.data(using: .utf8)
         

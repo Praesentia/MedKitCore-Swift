@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ open class ServerConnectionBase: ConnectionBase {
         - device:    The device being connected to.
         - principal: The principal associated with the device.
      */
-    required public init(from port: Port, to device: DeviceFrontend, using principalManager: PrincipalManager)
+    public required init(from port: Port, to device: DeviceFrontend, using principalManager: PrincipalManager)
     {
         super.init(port: port)
     }

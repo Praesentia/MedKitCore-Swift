@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -25,8 +25,7 @@ import Foundation
 /**
  Resource protocol.
  
- Resources are essentually a form of microservice, with the current design
- managing a single JSON value.
+ Resources are essentually a form of microservice.
  
  # Notifications
  Resources may support notifications, which are automatically enabled whenever
@@ -42,13 +41,6 @@ public protocol Resource: class {
     var access: Access { get }
     
     /**
-     A cached copy of the resource value.   The cache is normally nil, except
-     when notifications are enabled.  With notifications enabled, the cache is
-     automatically populated and kept up to date.
-     */
-    var cache: ResourceCache? { get }
-    
-    /**
      Uniquely identfies the resource.
      */
     var identifier: UUID { get }
@@ -62,17 +54,11 @@ public protocol Resource: class {
      True if notifications are current enabled in the client, otherwise false.
      */
     var notificationEnabled: Bool { get }
-
-    /**
-     Provides a JSON representation of the resource metadata, i.e. the resource
-     value is not included.
-     */
-    var profile: JSON { get }
     
     /**
-     Identifies the schema of the resource value.
+     Identifies the resource protocol.
      */
-    var schema: UUID { get }
+    var proto: ResourceProtocolType { get }
     
     /**
      The owning service.
@@ -80,9 +66,9 @@ public protocol Resource: class {
     weak var service: Service? { get }
     
     /**
-     Identifies the type of resource.
+     Identifies the subject of the resource.
      */
-    var type: ResourceType { get }
+    var subject: ResourceSubject { get }
     
     // MARK: - Observer Interface
     
@@ -107,36 +93,15 @@ public protocol Resource: class {
         - observer: The observer to be removed.
      */
     func removeObserver(_ observer: ResourceObserver, completionHandler completion: @escaping (Error?) -> Void)
+
+    func call(message: AnyCodable, completionHandler completion: @escaping (AnyCodable?, Error?) -> Void)
     
-    // MARK: - Value Management
-    
-    /**
-     Read value.
-     
-     Reads the current resource value, which is subsequently returned to the
-     completion handler.
-     
-     If notifications are enabled, the method simply returns the current cached
-     value.
-     
-     - Parameters:
-        - completion: A completion handler.
-            - cache:
-            - error:
-     */
-    func readValue(completionHandler completion: @escaping (ResourceCache?, Error?) -> Void)
-    
-    /**
-     Writes value.
-     
-     - Parameters:
-        - value: The value to be written.
-        - completion: A completion handler.
-            - cache:
-            - error:
-     */
-    func writeValue(_ value: JSON?, completionHandler completion: @escaping (ResourceCache?, Error?) -> Void)
-    
+}
+
+public extension Resource {
+
+    var profile: ResourceProfile { return ResourceProfile(for: self) }
+
 }
 
 

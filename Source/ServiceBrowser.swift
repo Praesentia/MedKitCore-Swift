@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -140,7 +140,7 @@ class ServiceBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
      */
     private func internDevice(fromTXT txt: [String : String]) -> NetDevice
     {
-        let info   = DeviceInfo(fromTXT: txt)
+        let info   = DeviceInfo(fromTXT: txt, version: .v1)
         var device : NetDevice! = devices.find(where: { $0.info.identifier == info.identifier })
 
         if device == nil {
@@ -229,7 +229,7 @@ class ServiceBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
             if let txt = parseTXT(fromTXTRecord: record) {
                 let device = internDevice(fromTXT: txt)
                 
-                service.updateNetDevice(device, type: txt["pr"])
+                service.updateNetDevice(device, type: ProtocolType(fromText: txt["pr"]))
             }
         }
     }

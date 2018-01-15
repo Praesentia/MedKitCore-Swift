@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -28,13 +28,19 @@ import Foundation
 public protocol ResourceBackendDelegate: class {
     
     var isOpen: Bool { get }
-    
-    func resourceEnableNotification(_ resource : ResourceBackend, completionHandler completion : @escaping (ResourceCache?, Error?) -> Void)
-    func resourceDisableNotification(_ resource : ResourceBackend, completionHandler completion : @escaping (Error?) -> Void)
-    func resourceReadValue(_ resource : ResourceBackend, completionHandler completion : @escaping (ResourceCache?, Error?) -> Void)
-    func resourceWriteValue(_ resource : ResourceBackend, _ value: JSON?, completionHandler completion : @escaping (ResourceCache?, Error?) -> Void)
-    
+
+    func resourceEnableNotification(_ resource : ResourceBackend, enable: Bool, completionHandler completion : @escaping (Error?) -> Void)
+    func resource(_ resource : ResourceBackend, didCallWith message: AnyCodable, completionHandler completion : @escaping (AnyCodable?, Error?) -> Void)
+    func resource(_ resource: ResourceBackend, didNotifyWith notification: AnyCodable)
+
 }
+
+public extension ResourceBackendDelegate
+{
+    public var isOpen : Bool { return true }
+
+}
+
 
 
 // End of File

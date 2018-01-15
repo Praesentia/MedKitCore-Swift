@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ class NetServiceExt {
     var      device  : NetDevice?
     var      proto   : Int32 = SOCK_STREAM
     var      ports   = [NetPortFactory]()
-    var      type    : DeviceProtocol?
+    var      type    : ProtocolPlugin?
     
     /**
      Initialize instance.
@@ -44,12 +44,12 @@ class NetServiceExt {
     /**
      Update network device.
      */
-    func updateNetDevice(_ device: NetDevice, type: String?)
+    func updateNetDevice(_ device: NetDevice, type: ProtocolType?)
     {
         self.device = device
         
         if let type = type {
-            self.type = DeviceProtocols.main.findProtocol(named: type)
+            self.type = ProtocolPluginManager.shared.findProtocol(forType: type)
         }
         else {
             self.type = nil

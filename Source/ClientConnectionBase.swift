@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ open class ClientConnectionBase: ConnectionBase, ClientConnection {
         - port:      A port used to establish the connection to the server.
         - principal: The principal used to identify the client to the server.
      */
-    required public init(to port: Port, for device: DeviceBackend, using principalManager: PrincipalManager)
+    public required init(to port: Port, for device: DeviceBackend, using principalManager: PrincipalManager)
     {
         super.init(port: port)
     }

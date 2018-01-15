@@ -1,8 +1,8 @@
 /*
  -----------------------------------------------------------------------------
- This source file is part of MedKitCore.
+ This source file is part of MedSim Device Simulator.
  
- Copyright 2017 Jon Griffeth
+ Copyright 2017-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -22,34 +22,30 @@
 import Foundation
 
 
+public protocol DataDecoder: class {
+    
+    func type(data: Data) -> String?
+    func string(data: Data) -> String?
+    
+}
+
 /**
- WaveformController factory.
+ Data decoder.
  */
-public class WaveformControllers {
+open class DataDecoderDefault: DataDecoder {
     
-    // MARK: - Class Properties
-    public static let main = WaveformControllers()
-    
-    // MARK: - Private Properties
-    private var factories = [UUID : WaveformControllerFactory]()
-    
-    // MARK: - Initializers
-    
-    private init()
+    public init()
     {
-        addFactory(WaveformControllerSimple.factory, for: SchemaTypeWaveform)
     }
     
-    // MARK: - Factory
-    
-    public func addFactory(_ factory: WaveformControllerFactory, for schema: UUID)
+    open func type(data: Data) -> String?
     {
-        factories[schema] = factory
+        return "Other"
     }
     
-    public func instantiateController(for resource: Resource) -> WaveformController?
+    open func string(data: Data) -> String?
     {
-        return factories[resource.schema]?.instantiateController(for: resource)
+        return String(data: data, encoding: .utf8)
     }
     
 }

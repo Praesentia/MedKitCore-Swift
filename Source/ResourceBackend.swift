@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -35,10 +35,19 @@ public protocol ResourceBackend: class {
     var notifications  : Bool                     { get }
     var serviceBackend : ServiceBackend!          { get }
     
-    // MARK: - Mutators
-    func update(changes: JSON, at time: TimeInterval)
-    func update(value: JSON?, at time: TimeInterval)
-    func update(from cache: ResourceCache)
+    // MARK: - Client-side decoder
+    func notify(_ notification: AnyCodable)
+
+}
+
+public extension ResourceBackend {
+
+    public func notify(_ notification: Encodable)
+    {
+        let any = try! AnyCodable(notification)
+        notify(any)
+    }
+
 }
 
 

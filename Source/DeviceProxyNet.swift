@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -51,7 +51,7 @@ public class DeviceProxyNet: DeviceBase, DeviceProxy {
     /**
      Initialize instance from profile.
      */
-    override public init(_ parent: DeviceBase?, from profile: JSON)
+    override public init(_ parent: DeviceBase?, from profile: DeviceProfile)
     {
         super.init(parent, from: profile)
         netBackend = NetBackend(device: self)
@@ -122,10 +122,10 @@ public class DeviceProxyNet: DeviceBase, DeviceProxy {
         let reachable = netBackend.reachable
         
         netBackend.ports.addPort(port)
-        observers.withEach { $0.device(self, didAdd: port) }
+        observers.forEach { $0.device(self, didAdd: port) }
         
         if !reachable && netBackend.reachable {
-            observers.withEach { $0.deviceDidUpdateReachability(self) }
+            observers.forEach { $0.deviceDidUpdateReachability(self) }
         }
     }
     
@@ -137,10 +137,10 @@ public class DeviceProxyNet: DeviceBase, DeviceProxy {
         let reachable = netBackend.reachable
         
         netBackend.ports.removePort(port)
-        observers.withEach { $0.device(self, didRemove: port) }
+        observers.forEach { $0.device(self, didRemove: port) }
         
         if reachable && !netBackend.reachable {
-            observers.withEach { $0.deviceDidUpdateReachability(self) }
+            observers.forEach { $0.deviceDidUpdateReachability(self) }
         }
     }
     
@@ -153,7 +153,7 @@ public class DeviceProxyNet: DeviceBase, DeviceProxy {
         
         netBackend.ports.removeAllPorts()
         if reachable {
-            observers.withEach { $0.deviceDidUpdateReachability(self) }
+            observers.forEach { $0.deviceDidUpdateReachability(self) }
         }
     }
     

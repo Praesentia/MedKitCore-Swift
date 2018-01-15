@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -33,6 +33,8 @@ public protocol Device: class {
      Uniquely identifies the device.
      */
     var identifier: UUID { get }
+
+    var identity: DeviceIdentity { get }
     
     var isOpen: Bool { get }
     
@@ -55,12 +57,6 @@ public protocol Device: class {
      A reference to the bridging device, if any.
      */
     weak var parent: Device? { get }
-    
-    /**
-     A JSON representation of the device metadata, i.e. resource values are not
-     included.
-     */
-    var profile: JSON { get }
     
     /**
      True if the device is reachable, otherwise false.
@@ -122,6 +118,12 @@ public protocol Device: class {
      */
     func updateName(_ name: String, completionHandler completion: @escaping (Error?) -> Void)
     
+}
+
+public extension Device {
+
+    var profile: DeviceProfile { return DeviceProfile(for: self) }
+
 }
 
 

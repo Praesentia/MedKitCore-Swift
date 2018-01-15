@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -29,21 +29,21 @@ import SecurityKit
  Base class for device instances.
  */
 public class DeviceBase: DeviceFrontend, DeviceBackend {
-    
+
     // MARK: - Properties
     public private(set) var acl            = ACL()
-    public private(set) var identifier     : UUID
-    public var              isOpen         : Bool      { return backend?.isOpen ?? false }
+    public var              identifier     : UUID           { return identity.identifier }
+    public let              identity       : DeviceIdentity
+    public var              isOpen         : Bool           { return backend?.isOpen ?? false }
     public private(set) var name           : String
-    public private(set) var manufacturer   : String
-    public private(set) var model          : String
-    public weak var         parent         : Device?   { return _parent }
-    public var              profile        : JSON      { return getProfile() }
-    public var              reachable      : Bool      { return true }
-    public private(set) var serialNumber   : String
+    public var              manufacturer   : String         { return identity.manufacturer }
+    public var              model          : String         { return identity.model }
+    public weak var         parent         : Device?        { return _parent }
+    public var              reachable      : Bool           { return true }
+    public var              serialNumber   : String         { return identity.serialNumber }
     public private(set) var type           : DeviceType
-    public var              bridgedDevices : [Device]  { return _bridgedDevices }
-    public var              services       : [Service] { return _services }
+    public var              bridgedDevices : [Device]       { return _bridgedDevices }
+    public var              services       : [Service]      { return _services }
     
     // DeviceBackend
     public var       backend               : DeviceBackendDelegate!
@@ -66,12 +66,9 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
      */
     public init(from deviceInfo: DeviceInfo)
     {
-        identifier   = deviceInfo.identifier
-        manufacturer = deviceInfo.manufacturer
-        model        = deviceInfo.model
-        name         = deviceInfo.name
-        serialNumber = deviceInfo.serialNumber
-        type         = deviceInfo.type
+        identity = deviceInfo.identity
+        name     = deviceInfo.name
+        type     = deviceInfo.type
         
         backend = BackendDefault.main
     }
@@ -79,29 +76,16 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
     /**
      Initialize instance from profile.
      */
-    public init(_ parent: DeviceBase?, from profile: JSON)
+    public init(_ parent: DeviceBase?, from profile: DeviceProfile)
     {
         backend = (parent != nil) ? parent!.defaultBackend : BackendDefault.main
         
-        _parent      = parent
-        identifier   = profile[KeyIdentifier].uuid!
-        manufacturer = profile[KeyManufacturer].string!
-        model        = profile[KeyModel].string!
-        name         = profile[KeyName].string!
-        serialNumber = profile[KeySerialNumber].string!
-        type         = DeviceType(named: profile[KeyType].string!)
-        
-        if let bridgedDevices = profile[KeyBridgedDevices].array {
-            for profile in bridgedDevices {
-                _bridgedDevices.append(DeviceBase(self, from: profile))
-            }
-        }
-        
-        if let services = profile[KeyServices].array {
-            for profile in services {
-                _services.append(ServiceBase(self, from: profile))
-            }
-        }
+        _parent         = parent
+        identity        = profile.identity
+        name            = profile.name
+        type            = profile.type
+        _bridgedDevices = profile.bridgedDevices.map { DeviceBase(self, from: $0) }
+        _services       = profile.services.map { ServiceBase(self, from: $0) }
     }
     
     // MARK: - Observer Interface
@@ -155,7 +139,7 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
     
     public func connected()
     {
-        observers.withEach { $0.deviceOpened(self) }
+        observers.forEach { $0.deviceOpened(self) }
         
         for service in _services {
             service.connected()
@@ -176,7 +160,7 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
             service.disconnected()
         }
         
-        observers.withEach { $0.deviceDidClose(self, for: reason) }
+        observers.forEach { $0.deviceDidClose(self, for: reason) }
     }
     
     // MARK: - Mutators
@@ -187,27 +171,6 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
     public func updateName(_ name: String, completionHandler completion: @escaping (Error?) -> Void)
     {
         backend.device(self, updateName: name, completionHandler: completion)
-    }
-    
-    
-    // MARK: - Profile
-    
-    /**
-     Get device profile.
-     */
-    private func getProfile() -> JSON
-    {
-        let profile = JSON()
-        
-        profile[KeyIdentifier]   = JSON(identifier)
-        profile[KeyName]         = JSON(name)
-        profile[KeyManufacturer] = JSON(manufacturer)
-        profile[KeyModel]        = JSON(model)
-        profile[KeySerialNumber] = JSON(serialNumber)
-        profile[KeyType]         = JSON(type.name)
-        profile[KeyServices]     = services.map { $0.profile }
-        
-        return profile
     }
     
     // MARK: - DeviceBackend protocol
@@ -243,14 +206,14 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
     /**
      Add bridged device.
      */
-    public func addBridgedDevice(from profile: JSON, notify: Bool) -> DeviceBackend
+    public func addBridgedDevice(from profile: DeviceProfile, notify: Bool) -> DeviceBackend
     {
         let bridgedDevice = DeviceBase(self, from: profile)
         
         _bridgedDevices.append(bridgedDevice)
         
         if notify {
-            observers.withEach { $0.device(self, didAdd: bridgedDevice) }
+            observers.forEach { $0.device(self, didAdd: bridgedDevice) }
         }
         
         return bridgedDevice
@@ -267,7 +230,7 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
             _bridgedDevices.remove(at: index)
             
             if notify {
-                observers.withEach { $0.device(self, didRemove: device) }
+                observers.forEach { $0.device(self, didRemove: device) }
             }
         }
     }
@@ -280,21 +243,21 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
         _services.append(service)
         
         if notify {
-            observers.withEach { $0.device(self, didAdd: service) }
+            observers.forEach { $0.device(self, didAdd: service) }
         }
     }
     
     /**
      Add service.
      */
-    public func addService(from profile: JSON, notify: Bool) -> ServiceBackend
+    public func addService(from profile: ServiceProfile, notify: Bool) -> ServiceBackend
     {
         let service = ServiceBase(self, from: profile)
         
         _services.append(service)
         
         if notify {
-            observers.withEach { $0.device(self, didAdd: service) }
+            observers.forEach { $0.device(self, didAdd: service) }
         }
         
         return service
@@ -311,7 +274,7 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
             _services.remove(at: index)
             
             if notify {
-                observers.withEach { $0.device(self, didRemove: service) }
+                observers.forEach { $0.device(self, didRemove: service) }
             }
         }
     }
@@ -321,38 +284,25 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
     /**
      Update from profile.
      */
-    public func update(from profile: JSON)
+    public func update(from profile: DeviceProfile)
     {
-        // TODO: these shouldn't change
-        identifier   = profile[KeyIdentifier].uuid!
-        manufacturer = profile[KeyManufacturer].string!
-        model        = profile[KeyModel].string!
-        serialNumber = profile[KeySerialNumber].string!
-        type         = DeviceType(named: profile[KeyType].string!)
-        
         // update name
-        if let name = profile[KeyName].string {
-            if self.name != name {
-                self.name = name
-                observers.withEach { $0.deviceDidUpdateName(self) }
-            }
+        if self.name != profile.name {
+            self.name = profile.name
+            observers.forEach { $0.deviceDidUpdateName(self) }
         }
         
-        // update bridged devices
-        if let bridgedDevices = profile[KeyBridgedDevices].array {
-            for profile in bridgedDevices {
-                if getBridgedDevice(withIdentifier: profile[KeyIdentifier].uuid!) == nil {
-                    _ = addBridgedDevice(from: profile, notify: true)
-                }
+        // update bridged devices{
+        for profile in profile.bridgedDevices {
+            if getBridgedDevice(withIdentifier: profile.identifier) == nil {
+                _ = addBridgedDevice(from: profile, notify: true)
             }
         }
         
         // update services
-        if let services = profile[KeyServices].array {
-            for profile in services {
-                if getService(withIdentifier: profile[KeyIdentifier].uuid!) == nil {
-                    _ = addService(from: profile, notify: true)
-                }
+        for profile in profile.services {
+            if getService(withIdentifier: profile.identifier) == nil {
+                _ = addService(from: profile, notify: true)
             }
         }
     }
@@ -365,7 +315,7 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
         self.name = name
         
         if notify {
-            observers.withEach { $0.deviceDidUpdateName(self) }
+            observers.forEach { $0.deviceDidUpdateName(self) }
         }
     }
     

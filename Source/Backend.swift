@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ class BackendDefault: Backend {
     
     let isOpen = true
 
-    // MARK: - DeviceObserver
+    // MARK: - DeviceBackendDelegate
     
     func deviceClose(_ device: DeviceBackend, for reason: Error?, completionHandler completion: @escaping (Error?) -> Void)
     {
@@ -48,33 +48,36 @@ class BackendDefault: Backend {
         DispatchQueue.main.async { completion(MedKitError.notSupported) }
     }
     
-    // MARK: - ServiceObserver
+    // MARK: - ServiceBackendDelegate
     
     func service(_ service: ServiceBackend, updateName name: String, completionHandler completion: @escaping (Error?) -> Void)
     {
         DispatchQueue.main.async { completion(MedKitError.notSupported) }
     }
     
-    // MARK: - ResourceObserver
-    
-    func resourceEnableNotification(_ resource: ResourceBackend, completionHandler completion: @escaping (ResourceCache?, Error?) -> Void)
+    // MARK: - ResourceBackendDelegate
+
+    func resourceAsync(_ resource: ResourceBackend, message: AnyCodable)
+    {
+    }
+
+    func resourceSync(_ resource: ResourceBackend, message: AnyCodable, completionHandler completion: @escaping (AnyCodable?, Error?) -> Void)
     {
         DispatchQueue.main.async { completion(nil, MedKitError.notSupported) }
     }
-    
-    func resourceDisableNotification(_ resource: ResourceBackend, completionHandler completion: @escaping (Error?) -> Void)
+
+    func resourceEnableNotification(_ resource: ResourceBackend, enable: Bool, completionHandler completion: @escaping (Error?) -> Void)
     {
         DispatchQueue.main.async { completion(MedKitError.notSupported) }
     }
     
-    func resourceReadValue(_ resource: ResourceBackend, completionHandler completion: @escaping (ResourceCache?, Error?) -> Void)
+    func resource(_ resource: ResourceBackend, didCallWith message: AnyCodable, completionHandler completion: @escaping (AnyCodable?, Error?) -> Void)
     {
         DispatchQueue.main.async { completion(nil, MedKitError.notSupported) }
     }
-    
-    func resourceWriteValue(_ resource: ResourceBackend, _ value: JSON?, completionHandler completion: @escaping (ResourceCache?, Error?) -> Void)
+
+    func resource(_ resource: ResourceBackend, didNotifyWith notification: AnyCodable)
     {
-        DispatchQueue.main.async { completion(nil, MedKitError.notSupported) }
     }
     
 }

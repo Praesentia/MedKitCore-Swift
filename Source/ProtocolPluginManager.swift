@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -22,46 +22,33 @@
 import Foundation
 
 
-public class WaveformStreamCache {
+public class ProtocolPluginManager {
     
-    public static let main = WaveformStreamCache()
+    // MARK: - Class Properties
+    public static let shared = ProtocolPluginManager()
     
-    private struct Entry {
-        unowned let reader: WaveformReader
-        
-        init(_ reader: WaveformReader)
-        {
-            self.reader = reader
-        }
-    }
+    // MARK: - Properties
+    public var plugins : [ProtocolPlugin] { return _plugins.map { $0.1 } }
+
+    // MARK: - Shadowed
+    private var _plugins = [String : ProtocolPlugin]()
     
-    private var channel = [UUID : Entry]()
+    // MARK: - Initializers
     
-    /**
-     Initialize instance.
-     */
     private init()
     {
     }
     
-    /**
-     Find or instantiate a waveform reader for resource.
-     */
-    public func findReader(for resource: Resource) -> WaveformReader?
+    // MARK: - Protocol Management
+    
+    public func findProtocol(forType type: ProtocolType) -> ProtocolPlugin?
     {
-        var reader = channel[resource.identifier]?.reader
-        
-        if reader == nil {
-            reader = WaveformReader(from: resource)
-            channel[resource.identifier] = Entry(reader!)
-        }
-        
-        return reader
+        return _plugins[type.identifier]
     }
     
-    public func removeReader(with identifier: UUID)
+    public func registerProtocol(_ plugin: ProtocolPlugin)
     {
-        channel[identifier] = nil
+        _plugins[plugin.type.identifier] = plugin
     }
     
 }

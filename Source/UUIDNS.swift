@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -22,8 +22,8 @@
 import Foundation
 
 
-public let UUIDNSDevice     = UUID(uuidString: "3acf77a4-a632-4a23-805b-be1063ed1f67")! // final
-public let UUIDNSDeviceType = UUID(uuidString: "1b2ff196-36b4-4492-8ef6-e267c83cd1cd")! // final
+public let UUIDNSDevice     = UUID(uuidString: "3acf77a4-a632-4a23-805b-be1063ed1f67")!
+public let UUIDNSDeviceType = UUID(uuidString: "1b2ff196-36b4-4492-8ef6-e267c83cd1cd")!
 
 
 // End of File

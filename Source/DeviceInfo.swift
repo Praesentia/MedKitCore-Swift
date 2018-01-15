@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -26,73 +26,92 @@ import SecurityKit
 /**
  Device metadata.
  */
-public class DeviceInfo {
+public struct DeviceInfo: Codable {
+
+    public var identifier   : UUID { return identity.identifier }
+    public var identity     : DeviceIdentity
+    public var name         : String
+    public var type         : DeviceType
     
-    // MARK: - Properties
-    public lazy var         identifier   : UUID = { return self.generateIdentifier() }()
-    public private(set) var manufacturer : String
-    public private(set) var name         : String
-    public private(set) var model        : String
-    public private(set) var serialNumber : String
-    public private(set) var type         : DeviceType
-    
-    // MARK: - Private Constants
-    private static let TXTKeyManufacturer = "mf"
-    private static let TXTKeyModel        = "md"
-    private static let TXTKeyName         = "dn"
-    private static let TXTKeySerialNumber = "sn"
-    private static let TXTKeyType         = "dt"
-    
+    // MARK: - Private
+    private enum CodingKeys: CodingKey {
+        case identity
+        case name
+        case type
+    }
+
+    private static let txtKeyName = "dn"
+    private static let txtKeyType = "dt"
+
     // MARK: - Initializers
-    
+
+    public init()
+    {
+        identity = DeviceIdentity()
+        name     = ""
+        type     = DeviceType(named: "")
+    }
+
     /**
      Initialize instance from profile.
-     
+
      - Parameters:
         - profile:
      */
-    public init(from profile: JSON)
+    public init(from device: Device)
     {
-        manufacturer = profile[KeyManufacturer].string!
-        model        = profile[KeyModel].string!
-        name         = profile[KeyName].string!
-        serialNumber = profile[KeySerialNumber].string!
-        type         = DeviceType(named: profile[KeyType].string!)
+        identity = DeviceIdentity(from: device)
+        name     = device.name
+        type     = device.type
     }
-    
+
+    /**
+     Initialize instance from profile.
+
+     - Parameters:
+        - profile:
+     */
+    public init(from profile: DeviceProfile)
+    {
+        identity = profile.identity
+        name     = profile.name
+        type     = profile.type
+    }
+
     /**
      Initialize instance from TXT dictionary.
-     
+
      - Parameters:
         - txt: Dictionary of key/value pairs derived from an associated TXT
-               record, conforming to the MIST service type, version 1.
+               record.
      */
-    init(fromTXT txt: [String : String])
+    init(fromTXT txt: [String : String], version: TXTVersion)
     {
-        manufacturer = txt[DeviceInfo.TXTKeyManufacturer]!
-        model        = txt[DeviceInfo.TXTKeyModel]!
-        name         = txt[DeviceInfo.TXTKeyName]!
-        serialNumber = txt[DeviceInfo.TXTKeySerialNumber]!
-        type         = DeviceType(named: txt[DeviceInfo.TXTKeyType]!)
+        identity = DeviceIdentity(fromTXT: txt, version: version)
+        name     = txt[DeviceInfo.txtKeyName]!
+        type     = DeviceType(named: txt[DeviceInfo.txtKeyType]!)
     }
-    
-    // MARK: - Identifier
-    
-    /**
-     Generate a type 5 UUID for the device.
-     */
-    private func generateIdentifier() -> UUID
+
+    // MARK: - Codable
+
+    public init(from decoder: Decoder) throws
     {
-        let digest = SecurityManagerShared.main.digest(ofType: .sha1)
-        
-        digest.update(uuid:           UUIDNSDevice)
-        digest.update(prefixedString: manufacturer)
-        digest.update(prefixedString: model)
-        digest.update(prefixedString: serialNumber)
-        
-        return UUID(fromSHA1: digest.final())
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        identity = try container.decode(DeviceIdentity.self, forKey: .identity)
+        name     = try container.decode(String.self,         forKey: .name)
+        type     = try container.decode(DeviceType.self,     forKey: .type)
     }
-    
+
+    public func encode(to encoder: Encoder) throws
+    {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(identity, forKey: .identity)
+        try container.encode(name,     forKey: .name)
+        try container.encode(type,     forKey: .type)
+    }
+
 }
 
 

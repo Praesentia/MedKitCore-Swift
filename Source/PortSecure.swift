@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -25,29 +25,31 @@ import SecurityKit
 
 /**
  Secure streaming port.
+
+ Provides TLS encryption for the data stream.
  */
 public class PortSecure: Port, PortDelegate, TLSDataStream {
 
     // MARK: - Properties
     public weak var delegate : PortDelegate?
-    public var      tls      : TLS
+    public let      context  : TLS
 
     // MARK: - Private Properties
     private var buffer  = Data(repeating: 0, count: 8192)
     private let input   = DataQueue()
     private let mode    : ProtocolMode
-    private let port    : MedKitCore.Port
+    private let port    : Port
 
     // MARK: - Initializers
 
     public init(port: Port, mode: ProtocolMode)
     {
-        self.port  = port
-        self.mode  = mode
-        self.tls   = TLSFactoryShared.main.instantiate(mode: mode.tlsMode)
+        self.port    = port
+        self.mode    = mode
+        self.context = TLSFactoryShared.main.instantiate(mode: mode.tlsMode)
 
-        port.delegate = self
-        tls.stream    = self
+        port.delegate  = self
+        context.stream = self
     }
 
     // MARK: - Lifecycle
@@ -66,10 +68,10 @@ public class PortSecure: Port, PortDelegate, TLSDataStream {
 
     public func send(_ data: Data)
     {
-        if tls.state == .connected {
+        if context.state == .connected {
             var dataLength = Int(0)
 
-            let error = tls.write(data, &dataLength)
+            let error = context.write(data, &dataLength)
             if error != nil {
                 close(for: error)
             }
@@ -92,7 +94,7 @@ public class PortSecure: Port, PortDelegate, TLSDataStream {
      */
     private func close(for reason: Error?)
     {
-        let _ = tls.close()
+        let _ = context.shutdown()
         input.clear()
         shutdown(for: reason)
     }
@@ -101,17 +103,36 @@ public class PortSecure: Port, PortDelegate, TLSDataStream {
      Handshake
 
      - Precondition:
-         tls != nil
-         tls.state == .idle || tls.state == .handshake
+         context != nil
+         context.state == .idle || context.state == .handshake
+     */
+    private func initialize()
+    {
+        let error = context.start() as? SecurityKitError
+
+        if error == nil {
+            delegate?.portDidInitialize(self, with: nil)
+        }
+        else {
+            if error! != .wouldBlock {
+                aborted(for: error)
+            }
+        }
+    }
+
+    /**
+     Handshake
+
+     - Precondition:
+         context != nil
+         context.state == .idle || context.state == .handshake
      */
     private func handshake()
     {
         var ok = true
 
         while ok {
-            let error = tls.handshake() as? SecurityKitError
-
-            print("Handshake \(error)")
+            let error = context.handshake() as? SecurityKitError
 
             if error == nil {
                 ok = false
@@ -131,10 +152,10 @@ public class PortSecure: Port, PortDelegate, TLSDataStream {
     }
 
     /**
-     Read data from tls.
+     Read data from context.
 
      - Precondition:
-         tls.state == .connected
+         context.state == .connected
      */
     private func read()
     {
@@ -142,7 +163,7 @@ public class PortSecure: Port, PortDelegate, TLSDataStream {
 
         while ok {
             var dataLength = buffer.count
-            let error     = tls.read(&buffer, &dataLength)
+            let error      = context.read(&buffer, &dataLength)
 
             if error == nil {
                 delegate?.port(self, didReceive: buffer.subdata(in: 0..<dataLength))
@@ -160,43 +181,35 @@ public class PortSecure: Port, PortDelegate, TLSDataStream {
         }
     }
 
-    // MARK: - TLSStream
+    // MARK: - TLSDataStream
 
     /**
-     Read
+     Read data.
+
+     - Parameters:
+         - context:    The TLS context from which the calling being made.
+         - dataLength: The maximum number of bytes to be read.
      */
-    public func tlsRead(_ tls: TLS, _ data: UnsafeMutableRawBufferPointer, _ dataLength: inout Int) -> Error?
+    public func tlsRead(_ context: TLS, _ count: Int) -> (data: Data?, error: Error?)
     {
-        var error: Error? = SecurityKitError.wouldBlock
+        var data  : Data?
+        var error : Error? = SecurityKitError.wouldBlock
 
-        if !input.isEmpty {
-            let count = min(input.count, UInt64(dataLength))
-            let bytes = input.read(count: Int(count))
-
-            for i in 0..<bytes.count {
-                data[i] = bytes[i]
-            }
-
-            if bytes.count == dataLength {
-                error = nil
-            }
-            dataLength = bytes.count
-        }
-        else {
-            dataLength = 0
+        if input.count >= count {
+            data  = Data(input.read(count: count))
+            error = nil
         }
 
-        return error
+        return (data, error)
     }
 
     /**
-     Write
+     Write data.
      */
-    public func tlsWrite(_ tls: TLS, _ data: Data, _ dataLength: inout Int) -> Error?
+    public func tlsWrite(_ context: TLS, _ data: Data) -> (count: Int?, error: Error?)
     {
         port.send(data)
-        dataLength = data.count
-        return nil
+        return (data.count, nil)
     }
 
     // MARK: - PortDelegate
@@ -204,9 +217,9 @@ public class PortSecure: Port, PortDelegate, TLSDataStream {
     /**
      Port did close.
      */
-    public func portDidClose(_ port: MedKitCore.Port, for reason: Error?)
+    public func portDidClose(_ port: Port, for reason: Error?)
     {
-        let _ = tls.close()
+        let _ = context.shutdown()
         input.clear()
         delegate?.portDidClose(self, for: reason)
     }
@@ -214,10 +227,10 @@ public class PortSecure: Port, PortDelegate, TLSDataStream {
     /**
      Port did initialize.
      */
-    public func portDidInitialize(_ port: MedKitCore.Port, with error: Error?)
+    public func portDidInitialize(_ port: Port, with error: Error?)
     {
         if error == nil {
-            handshake()
+            initialize()
         }
         else {
             delegate?.portDidInitialize(self, with: error)
@@ -227,25 +240,25 @@ public class PortSecure: Port, PortDelegate, TLSDataStream {
     /**
      Port did receive data.
      */
-    public func port(_ port: MedKitCore.Port, didReceive data: Data)
+    public func port(_ port: Port, didReceive data: Data)
     {
         input.append(data)
 
-        switch tls.state {
-        case .idle :       // not expected here, but otherwise benign
-            break
+        switch context.state {
+        case .aborted :    // not expected here, but otherwise fatal
+            aborted(for: SecurityKitError.failed)
+
+        case .closed :     // spurious input
+            input.clear()
+
+        case .connected :  // normal read state
+            read()
 
         case .handshake :  // handshake in progress
             handshake()
 
-        case .aborted :    // TODO: when is this seen?
-            aborted(for: nil)
-
-        case .connected : // normal read state
-            read()
-
-        case .closed :    // spurious input
-            input.clear()
+        case .idle :       // not expected here, but otherwise benign
+            break
         }
     }
 

@@ -1,15 +1,15 @@
 /*
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
- 
- Copyright 2017 Jon Griffeth
- 
+
+ Copyright 2016-2018 Jon Griffeth
+
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
- 
+
  http://www.apache.org/licenses/LICENSE-2.0
- 
+
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,25 +23,37 @@ import Foundation
 
 
 /**
+ PortMonitor delegate protocol.
  */
-public class CameraControllers {
-    
-    public static let main = CameraControllers()
-    
-    private init()
+public protocol PortMonitorObserver: class {
+
+    // MARK: - Lifecycle
+
+    func portMonitorDidClose(_ portMonitor: PortMonitor, for reason: Error?)
+
+    // MARK: - Connection Management
+
+    func portMonitor(_ portMonitor: PortMonitor, didAdd connection: Connection)
+    func portMonitor(_ portMonitor: PortMonitor, didRemove connection: Connection)
+
+}
+
+public extension PortMonitorObserver {
+
+    func portMonitorDidClose(_ portMonitor: PortMonitor, for reason: Error?)
     {
     }
 
-    public func instantiateController(for resource: Resource) -> CameraController?
+    func portMonitor(_ portMonitor: PortMonitor, didAdd connection: Connection)
     {
-        if resource.type.identifier == ResourceTypeCamera {
-            return CameraControllerBase(resource: resource)
-        }
-        
-        return nil
     }
-    
+
+    func portMonitor(_ portMonitor: PortMonitor, didRemove connection: Connection)
+    {
+    }
+
 }
 
 
 // End of File
+

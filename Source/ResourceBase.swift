@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -26,17 +26,15 @@ import Foundation
  Resource
  */
 public class ResourceBase: Resource, ResourceBackend {
-    
+
     // MARK: - Properties
-    public let              access               : Access
-    public var              cache                : ResourceCache? { return _cache }
-    public private(set) var identifier           : UUID
-    public private(set) var notifications        : Bool = false
-    public private(set) var notificationEnabled  : Bool = false
-    public var              profile              : JSON           { return getProfile() }
-    public private(set) var schema               : UUID
-    public weak var         service              : Service?       { return _service }
-    public private(set) var type                 : ResourceType
+    public let              access              : Access
+    public private(set) var identifier          : UUID
+    public private(set) var notifications       : Bool = false
+    public private(set) var notificationEnabled : Bool = false
+    public private(set) var proto               : ResourceProtocolType
+    public weak var         service             : Service?        { return _service }
+    public private(set) var subject             : ResourceSubject
     
     // ResourceBackend
     public var defaultBackend : Backend                   { return serviceBackend.defaultBackend }
@@ -44,24 +42,23 @@ public class ResourceBase: Resource, ResourceBackend {
     public var backend        : ResourceBackendDelegate!
     
     // MARK: - Shadowed
-    private var _cache   : ResourceCacheBase!
     private var _service : ServiceBase?
     
     // MARK: - Private
-    private var observers = ObserverManager<ResourceObserver>()
+    private var observers = [ResourceObserver]()
     
     // MARK: - Initializers
     
-    public init(_ service: ServiceBase, from profile: JSON)
+    public init(_ service: ServiceBase, from profile: ResourceProfile)
     {
         backend = service.defaultBackend
-        
+
         _service      = service
-        access        = Access(string: profile[KeyAccess].string!)!
-        identifier    = profile[KeyIdentifier].uuid!
-        notifications = profile[KeyNotifications].bool!
-        schema        = profile[KeySchema].uuid!
-        type          = ResourceType(with: profile[KeyType].uuid!)
+        access        = profile.access
+        identifier    = profile.identifier
+        notifications = profile.notifications
+        proto         = profile.proto
+        subject       = profile.subject
     }
     
     // MARK: - Observer Interface
@@ -70,14 +67,14 @@ public class ResourceBase: Resource, ResourceBackend {
     {
         let sync = Sync()
         
-        if !observers.contains(observer) {
-            observers.add(observer)
+        if observers.index(where: { $0 === observer }) == nil {
+            observers.append(observer)
             
             if observers.count == 1 && backend.isOpen {
                 sync.incr()
-                backend.resourceEnableNotification(self) { cache, error in
-                    if error == nil, let cache = cache {
-                        self.notificationEnabled(cache: ResourceCacheBase(from: cache))
+                backend.resourceEnableNotification(self, enable: true) { error in
+                    if error == nil {
+                        self.notificationEnabled = true
                     }
                     sync.decr(error)
                 }
@@ -94,14 +91,14 @@ public class ResourceBase: Resource, ResourceBackend {
     {
         let sync = Sync()
         
-        if observers.contains(observer) {
-            observers.remove(observer)
+        if let index = observers.index(where: { $0 === observer }) {
+            observers.remove(at: index)
             
             if observers.count == 0 {
                 sync.incr()
-                backend.resourceDisableNotification(self) { error in
+                backend.resourceEnableNotification(self, enable: false) { error in
                     if error == nil {
-                        self.notificationDisabled()
+                        self.notificationEnabled = false
                     }
                     sync.decr(error)
                 }
@@ -119,9 +116,9 @@ public class ResourceBase: Resource, ResourceBackend {
     func connected()
     {
         if observers.count > 0 {
-            backend.resourceEnableNotification(self) { cache, error in
-                if error == nil, let cache = cache {
-                    self.notificationEnabled(cache: ResourceCacheBase(from: cache))
+            backend.resourceEnableNotification(self, enable: true) { error in
+                if error == nil {
+                    // TODO self.notificationEnabled(cache: ResourceCacheBase(from: cache))
                 }
             }
         }
@@ -130,126 +127,31 @@ public class ResourceBase: Resource, ResourceBackend {
     func disconnected()
     {
         if observers.count > 0 && notificationEnabled {
-            notificationDisabled()
+            notificationEnabled = false
         }
     }
     
-    // MARK: - Value Interface
-    
+    // MARK: - Protocol Interface
+
     /**
-     Read value.
+     Call
      
      - Parameters:
-     - completion:
+        - completion:
      */
-    public func readValue(completionHandler completion: @escaping (ResourceCache?, Error?) -> Void)
+    public func call(message: AnyCodable, completionHandler completion: @escaping (AnyCodable?, Error?) -> Void)
     {
-        if let cache = self.cache {
-            DispatchQueue.main.async { completion(cache, nil) }
-        }
-        else {
-            backend.resourceReadValue(self, completionHandler: completion)
-        }
-    }
-    
-    public func writeValue(_ value: JSON?, completionHandler completion: @escaping (ResourceCache?, Error?) -> Void)
-    {
-        backend.resourceWriteValue(self, value, completionHandler: completion)
-    }
-    
-    // MARK: - Profile
-    
-    /**
-     Get profile.
-     */
-    private func getProfile() -> JSON
-    {
-        let profile = JSON()
-        
-        profile[KeyAccess]        = access.string
-        profile[KeyIdentifier]    = identifier
-        profile[KeyNotifications] = notifications
-        profile[KeySchema]        = schema
-        profile[KeyType]          = type.identifier
-        
-        return profile
-    }
-    
-    // MARK: - Notification
-    
-    /**
-     Notification enabled.
-     */
-    private func notificationEnabled(cache: ResourceCacheBase)
-    {
-        notificationEnabled = true
-        _cache              = cache
-        
-        observers.withEach { $0.resourceDidUpdateNotificationEnabled(self) }
-        observers.withEach { $0.resourceDidUpdate(self) }
-    }
-    
-    /**
-     Notification disabled.
-     */
-    private func notificationDisabled()
-    {
-        notificationEnabled = false
-        _cache              = nil
-    
-        observers.withEach { $0.resourceDidUpdateNotificationEnabled(self) }
+        backend.resource(self, didCallWith: message, completionHandler: completion)
     }
     
     // MARK: - ResourceBackend
-    
-    /**
-     Update resource.
-     
-     - Parameters:
-        - changes:
-        - time:
-     */
-    public func update(changes: JSON, at time: TimeInterval)
-    {
-        if notificationEnabled {
-            assert(_cache != nil)
 
-            _cache.update(changes: changes, at: time)
-            observers.withEach { $0.resourceDidUpdate(self) }
-        }
-    }
-    
     /**
-     Update resource.
-     
-     - Parameters:
-        - value:
-        - time:
+     Decode asynchronous call.
      */
-    public func update(value: JSON?, at time: TimeInterval)
+    public func notify(_ notification: AnyCodable)
     {
-        if notificationEnabled {
-            assert(_cache != nil)
-
-            _cache.update(value: value, at: time)
-            observers.withEach { $0.resourceDidUpdate(self) }
-        }
-    }
-    
-    /**
-     Update resource.
-     
-     - Parameters:
-        - cache:
-     */
-    public func update(from cache: ResourceCache)
-    {
-        if notificationEnabled {
-            assert(_cache != nil)
-
-            _cache.update(from: cache)
-            observers.withEach { $0.resourceDidUpdate(self) }
-        }
+        observers.forEach { $0.resource(self, didNotifyWith: notification) }
     }
     
 }

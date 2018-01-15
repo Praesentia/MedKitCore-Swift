@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -45,12 +45,6 @@ public protocol Service: class {
     var name: String { get }
     
     /**
-     JSON representation of the service metadata, i.e. resource values are not
-     included.
-     */
-    var profile: JSON { get }
-    
-    /**
      Collection of resources.
      */
     var resources: [Resource] { get }
@@ -83,6 +77,12 @@ public protocol Service: class {
      */
     func updateName(_ name: String, completionHandler completion: @escaping (Error?) -> Void)
     
+}
+
+public extension Service {
+
+    var profile: ServiceProfile { return ServiceProfile(for: self) }
+
 }
 
 

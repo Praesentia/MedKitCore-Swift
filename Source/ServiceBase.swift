@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -30,18 +30,17 @@ import Foundation
 public class ServiceBase: Service, ServiceBackend {
     
     // MARK: - Properties
-    public weak var              device     : Device?     { return _device }
-    public private(set) var      identifier : UUID
-    public private(set) var      name       : String
-    public var                   profile    : JSON        { return getProfile() }
-    public var                   resources  : [Resource]  { return _resources }
-    public private(set) var      type       : ServiceType
+    public weak var         device     : Device?        { return _device }
+    public private(set) var identifier : UUID
+    public private(set) var name       : String
+    public var              resources  : [Resource]     { return _resources }
+    public private(set) var type       : ServiceType
     
     // MARK: - Properties - ServiceBackend
-    public var deviceBackend    : DeviceBackend!           { return _device }
-    public var defaultBackend   : Backend                  { return deviceBackend.defaultBackend }
+    public var deviceBackend    : DeviceBackend!            { return _device }
+    public var defaultBackend   : Backend                   { return deviceBackend.defaultBackend }
     public var backend          : ServiceBackendDelegate!
-    public var resourceBackends : [ResourceBackend]        { return _resources }
+    public var resourceBackends : [ResourceBackend]         { return _resources }
     
     // MARK: - Shadowed
     private var _device    : DeviceBase?
@@ -55,20 +54,15 @@ public class ServiceBase: Service, ServiceBackend {
     /**
      Initialize instance from profile.
      */
-    public init(_ device: DeviceBase, from profile: JSON)
+    public init(_ device: DeviceBase, from profile: ServiceProfile)
     {
         backend = device.defaultBackend
         
         _device    = device
-        identifier = profile[KeyIdentifier].uuid!
-        name       = profile[KeyName].string!
-        type       = ServiceType(with: profile[KeyType].uuid!)
-        
-        if let resources = profile[KeyResources].array {
-            for profile in resources {
-                _resources.append(ResourceBase(self, from: profile))
-            }
-        }
+        identifier = profile.identifier
+        name       = profile.name
+        type       = profile.type
+        _resources = profile.resources.map { ResourceBase(self, from: $0) }
     }
     
     // MARK: - Observer Interface
@@ -99,21 +93,6 @@ public class ServiceBase: Service, ServiceBackend {
     
     // MARK: - Profile
     
-    /**
-     Get profile.
-     */
-    private func getProfile() -> JSON
-    {
-        let profile = JSON()
-        
-        profile[KeyIdentifier] = JSON(identifier)
-        profile[KeyName]       = JSON(name)
-        profile[KeyType]       = JSON(type.identifier)
-        profile[KeyResources]  = resources.map { $0.profile }
-        
-        return profile
-    }
-    
     func connected()
     {
         for resource in _resources {
@@ -138,7 +117,7 @@ public class ServiceBase: Service, ServiceBackend {
         self.name = name
         
         if notify {
-            observers.withEach { $0.serviceDidUpdateName(self) }
+            observers.forEach { $0.serviceDidUpdateName(self) }
         }
     }
     
@@ -158,7 +137,7 @@ public class ServiceBase: Service, ServiceBackend {
         _resources.append(resource)
         
         if notify {
-            observers.withEach { $0.service(self, didAdd: resource) }
+            observers.forEach { $0.service(self, didAdd: resource) }
         }
     }
     
@@ -170,7 +149,7 @@ public class ServiceBase: Service, ServiceBackend {
             _resources.remove(at: index)
             
             if notify {
-                observers.withEach { $0.service(self, didRemove: resource) }
+                observers.forEach { $0.service(self, didRemove: resource) }
             }
         }
     }

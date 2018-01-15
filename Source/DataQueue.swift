@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -30,8 +30,8 @@ import Foundation
 public class DataQueue {
     
     // MARK: - Properties
-    public var count   : UInt64 { return UInt64(queue.count) }
-    public var isEmpty : Bool   { return queue.isEmpty }
+    public var count   : Int  { return queue.count }
+    public var isEmpty : Bool { return queue.isEmpty }
     
     // MARK: - Private Properties
     private var queue = [UInt8]()
@@ -61,11 +61,6 @@ public class DataQueue {
         return Array<UInt8>(queue[0..<count])
     }
     
-    public func peek(count: UInt64) -> [UInt8]
-    {
-        return Array<UInt8>(queue[0..<Int(count)])
-    }
-    
     public func read(count: Int) -> [UInt8]
     {
         let data = Array<UInt8>(queue[0..<count])
@@ -73,20 +68,15 @@ public class DataQueue {
         queue.removeFirst(Int(count))
         return data
     }
-    
-    public func read(count: UInt64) -> [UInt8]
-    {
-        return read(count: Int(count))
-    }
 
     // MARK: - Search
     
-    public func scan(for sequence: [UInt8]) -> UInt64?
+    public func scan(for sequence: [UInt8]) -> Int?
     {
         if queue.count >= sequence.count {
             for i in 0...(queue.count - sequence.count) {
                 if match(queue, i, sequence) {
-                    return UInt64(i + sequence.count)
+                    return i + sequence.count
                 }
             }
         }

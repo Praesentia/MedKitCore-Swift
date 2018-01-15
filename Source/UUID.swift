@@ -2,7 +2,7 @@
 -----------------------------------------------------------------------------
 This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -49,9 +49,9 @@ public extension UUID {
         - digest: The output from the SHA1 hash algorithm.  Only the first 16
             bytes are used.
      */
-    init(fromSHA1 digest: [UInt8])
+    init(fromSHA1 digest: Data)
     {
-        var data = Array<UInt8>(digest[0..<UUID_LENGTH])
+        var data = Array<UInt8>([UInt8](digest)[0..<UUID_LENGTH])
         
         data[6] = data[6] & 0x0f | 0x50
         data[8] = data[8] & 0x3f | 0x80

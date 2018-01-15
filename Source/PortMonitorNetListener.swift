@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -41,11 +41,12 @@ public class PortMonitorNetListener: PortMonitor, ConnectionDelegate, EndpointDe
     public var      count       : Int { return connections.count }
     public weak var delegate    : PortMonitorDelegate?
     public var      enabled     : Bool { return state == .open }
+    public let      address     : SockAddr //: Host address used to listen for incoming connections.
+    public var      hostAddress : SockAddr? { return endpoint?.hostAddress }
 
     // MARK: - Protected Properties
     let Backlog           : Int32 = 10         //: Backlog
-    let address           : SockAddr           //: Host address used to listen for incoming connections.
-    var serviceResponder  : ServiceResponder?  //: Use to publish the service.
+    var serviceResponder  : ServiceResponder?  //: Used to publish the service.
     var state             : State = .closed
     var endpoint          : EndpointNet!       //: Listener
     

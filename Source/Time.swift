@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -23,14 +23,33 @@ import Foundation
 
 
 /**
- MedKit time value.
+ MedKkit time value.
  
  MedKit time values are signed 64bit values representing the number of
  microseconds that have elapsed since UTC 1972-01-01T00:00:00 plus an offset of
  63,072,000 seconds.  The offset permits time values to be seconds compatible
- with Unix time.
+ with POSIX time.
  */
 public typealias Time = Int64
+
+public extension Time {
+
+    // MARK: - Constants
+    public static let resolution: Int64 = 1000000 //: microseconds
+
+    // MARK: - Class Properties
+    public static var current: Time { return Time(timeInterval: Date.timeIntervalSinceReferenceDate) }
+
+    // MARK: - Properties
+    public var timeInterval: TimeInterval { return TimeInterval(self) / TimeInterval(Time.resolution) - Date.timeIntervalBetween1970AndReferenceDate }
+
+    // MARK: - Initializers
+    public init(timeInterval: TimeInterval)
+    {
+        self = Int64((timeInterval + Date.timeIntervalBetween1970AndReferenceDate) * TimeInterval(Time.resolution))
+    }
+
+}
 
 
 // End of File

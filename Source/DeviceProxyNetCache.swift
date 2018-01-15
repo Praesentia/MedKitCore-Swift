@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -101,17 +101,6 @@ public class DeviceProxyNetCache {
         }
         
         return device
-    }
-    
-    /**
-     Find device from profile.
-     
-     - Parameters:
-        - profile: Device profile.
-     */
-    public func findDevice(from profile: JSON) -> DeviceProxy
-    {
-        return findDevice(with: DeviceInfo(from: profile))
     }
     
 }

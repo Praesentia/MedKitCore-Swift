@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import Foundation
  
  Enumeration of MedKit error codes.
  */
-public enum MedKitError: Int, Error, CustomStringConvertible, LocalizedError {
+public enum MedKitError: Int, Error, Codable, CustomStringConvertible, LocalizedError {
     case badArgs        =  1
     case badCredentials =  2
     case badMethod      =  3
@@ -46,8 +46,10 @@ public enum MedKitError: Int, Error, CustomStringConvertible, LocalizedError {
     case unreachable    = 16
     case writeOnly      = 17
     
-    public var description      : String  { return "MedKitError Code=\( rawValue ) \"(\( localizedDescription ))\"" }
-    public var errorDescription : String? { return MedKitError.localizedDescriptions[self] }
+    public var description          : String  { return "MedKitError Code=\( rawValue )" }
+    public var errorDescription     : String? { return MedKitError.localizedDescriptions[self] }
+    public var localizedDescription : String? { return MedKitError.localizedDescriptions[self] }
+
 }
 
 extension MedKitError {

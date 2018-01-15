@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2017 Jon Griffeth.  All rights reserved.
+ Copyright 2017-2018 Jon Griffeth.  All rights reserved.
  -----------------------------------------------------------------------------
  */
 

@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -31,8 +31,8 @@ import SecurityKit
 class NetBackend: Backend, ConnectionDelegate {
     
     // MARK: - Properties
-    private(set) var isOpen    : Bool = false
-    var              ports     = NetPorts()
+    var              isOpen    : Bool { return connection != nil }
+    let              ports     = NetPorts()
     var              reachable : Bool { return ports.reachable }
     
     // MARK: - Private
@@ -96,7 +96,6 @@ class NetBackend: Backend, ConnectionDelegate {
             connect(to: device, using: PrincipalManager.main) { error in
                 if error == nil {
                     self.connection.backend.deviceOpen(device) { error in
-                        self.isOpen = true
                         self.device.connected()
                         self.syncOpen.complete(error)
                     }
@@ -120,19 +119,10 @@ class NetBackend: Backend, ConnectionDelegate {
      */
     func connectionDidClose(_ connection: Connection, for reason: Error?)
     {
-        // TODO: backend nil?
-        self.connection.backend?.deviceClose(device, for: reason) { error in
-            
-            // TODO
-            if error == nil {
-                self.device.backend = self
-                self.isOpen         = false
-                self.device.disconnected(for: reason)
-            }
-            
-            self.connection = nil
-            self.syncClose.complete(nil)
-        }
+        self.connection     = nil
+        self.device.backend = self
+        self.device.disconnected(for: reason)
+        self.syncClose.complete(nil)
     }
     
     // MARK: - DeviceBackendDelegate
@@ -205,47 +195,30 @@ class NetBackend: Backend, ConnectionDelegate {
     /**
      Enable notification.
      */
-    func resourceEnableNotification(_ resource: ResourceBackend, completionHandler completion: @escaping (ResourceCache?, Error?) -> Void)
+    func resourceEnableNotification(_ resource: ResourceBackend, enable: Bool, completionHandler completion: @escaping (Error?) -> Void)
     {
         let device = resource.serviceBackend.deviceBackend!
         
         open(device) { error in
             if error == nil {
-                self.connection.backend.resourceEnableNotification(resource, completionHandler: completion)
-            }
-            else {
-                completion(nil, error)
-            }
-        }
-    }
-    
-    /**
-     Disable notification.
-     */
-    func resourceDisableNotification(_ resource: ResourceBackend, completionHandler completion: @escaping (Error?) -> Void)
-    {
-        let device = resource.serviceBackend.deviceBackend!
-        
-        open(device) { error in
-            if error == nil {
-                self.connection.backend.resourceDisableNotification(resource, completionHandler: completion)
+                self.connection.backend.resourceEnableNotification(resource, enable: enable, completionHandler: completion)
             }
             else {
                 completion(error)
             }
         }
     }
-    
+
     /**
      Read value.
      */
-    func resourceReadValue(_ resource: ResourceBackend, completionHandler completion: @escaping (ResourceCache?, Error?) -> Void)
+    func resource(_ resource: ResourceBackend, didCallWith message: AnyCodable, completionHandler completion: @escaping (AnyCodable?, Error?) -> Void)
     {
         let device = resource.serviceBackend.deviceBackend!
-        
+
         open(device) { error in
             if error == nil {
-                self.connection.backend.resourceReadValue(resource, completionHandler: completion)
+                self.connection.backend.resource(resource, didCallWith: message, completionHandler: completion)
             }
             else {
                 completion(nil, error)
@@ -253,22 +226,17 @@ class NetBackend: Backend, ConnectionDelegate {
         }
     }
     
-    /**
-     Write value.
-     */
-    func resourceWriteValue(_ resource: ResourceBackend, _ value: JSON?, completionHandler completion: @escaping (ResourceCache?, Error?) -> Void)
+    func resource(_ resource: ResourceBackend, didNotifyWith notification: AnyCodable)
     {
         let device = resource.serviceBackend.deviceBackend!
-        
+
         open(device) { error in
             if error == nil {
-                self.connection.backend.resourceWriteValue(resource, value, completionHandler: completion)
-            }
-            else {
-                completion(nil, error)
+                self.connection.backend.resource(resource, didNotifyWith: notification)
             }
         }
     }
+
     
 }
 

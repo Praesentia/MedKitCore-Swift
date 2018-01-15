@@ -2,7 +2,7 @@
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
  
- Copyright 2016-2017 Jon Griffeth
+ Copyright 2016-2018 Jon Griffeth
  
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -43,18 +43,18 @@ public protocol DeviceBackend: class {
     func disconnected(for reason: Error?)
     
     // MARK: - Mutators
-    func update(from profile: JSON)
+    func update(from profile: DeviceProfile)
     func updateName(_ name: String, notify: Bool)
     
     // MARK: - Bridged Device Interface
     func getBridgedDevice(withIdentifier identifier: UUID) -> DeviceBase?
-    func addBridgedDevice(from profile: JSON, notify: Bool) -> DeviceBackend
+    func addBridgedDevice(from profile: DeviceProfile, notify: Bool) -> DeviceBackend
     func removeBridgedDevice(_ bridgedDevice: DeviceBackend, notify: Bool)
     
     // MARK: - Service Interface
     func getService(withIdentifier identifier: UUID) -> ServiceBackend?
     func addService(_ service: ServiceBase, notify: Bool)
-    func addService(from profile: JSON, notify: Bool) -> ServiceBackend
+    func addService(from profile: ServiceProfile, notify: Bool) -> ServiceBackend
     func removeService(withIdentifier identifier: UUID, notify: Bool)
     
 }
