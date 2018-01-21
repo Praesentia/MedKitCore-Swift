@@ -99,5 +99,16 @@ public class DeviceType: Codable {
     
 }
 
+extension DeviceType: Equatable, Hashable {
+
+    public var hashValue: Int { return identifier.hashValue }
+
+    public static func ==(lhs: DeviceType, rhs: DeviceType) -> Bool
+    {
+        return lhs.identifier == rhs.identifier
+    }
+
+}
+
 
 // End of File

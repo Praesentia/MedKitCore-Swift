@@ -47,6 +47,13 @@ public class AnyCodable: Codable {
         self.value = try AnyEncoder().encode(encodable).value
     }
 
+    // MARK: - Decoding
+
+    public func decode<T: Decodable>(_ type: T.Type) throws -> T
+    {
+        return try AnyDecoder().decode(T.self, from: self)
+    }
+
     // MARK: - Codable
 
     required public init(from decoder: Decoder) throws

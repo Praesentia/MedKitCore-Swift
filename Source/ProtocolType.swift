@@ -96,5 +96,16 @@ public class ProtocolType: Codable {
 
 }
 
+extension ProtocolType: Equatable, Hashable {
+
+    public var hashValue: Int { return identifier.hashValue }
+
+    public static func ==(lhs: ProtocolType, rhs: ProtocolType) -> Bool
+    {
+        return lhs.identifier == rhs.identifier
+    }
+
+}
+
 
 // End of File

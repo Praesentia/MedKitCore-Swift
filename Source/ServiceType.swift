@@ -73,5 +73,16 @@ public class ServiceType: Codable {
     
 }
 
+extension ServiceType: Equatable, Hashable {
+
+    public var hashValue: Int { return identifier.hashValue }
+
+    public static func ==(lhs: ServiceType, rhs: ServiceType) -> Bool
+    {
+        return lhs.identifier == rhs.identifier
+    }
+
+}
+
 
 // End of File

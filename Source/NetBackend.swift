@@ -226,18 +226,6 @@ class NetBackend: Backend, ConnectionDelegate {
         }
     }
     
-    func resource(_ resource: ResourceBackend, didNotifyWith notification: AnyCodable)
-    {
-        let device = resource.serviceBackend.deviceBackend!
-
-        open(device) { error in
-            if error == nil {
-                self.connection.backend.resource(resource, didNotifyWith: notification)
-            }
-        }
-    }
-
-    
 }
 
 

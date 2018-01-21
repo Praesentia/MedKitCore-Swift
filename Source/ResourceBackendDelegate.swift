@@ -31,7 +31,6 @@ public protocol ResourceBackendDelegate: class {
 
     func resourceEnableNotification(_ resource : ResourceBackend, enable: Bool, completionHandler completion : @escaping (Error?) -> Void)
     func resource(_ resource : ResourceBackend, didCallWith message: AnyCodable, completionHandler completion : @escaping (AnyCodable?, Error?) -> Void)
-    func resource(_ resource: ResourceBackend, didNotifyWith notification: AnyCodable)
 
 }
 

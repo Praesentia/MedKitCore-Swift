@@ -102,6 +102,17 @@ public extension Resource {
 
     var profile: ResourceProfile { return ResourceProfile(for: self) }
 
+    func call(message: Encodable, completionHandler completion: @escaping (AnyCodable?, Error?) -> Void)
+    {
+        do {
+            let any = try AnyCodable(message)
+            call(message: any, completionHandler: completion)
+        }
+        catch {
+            completion(nil, error)
+        }
+    }
+
 }
 
 

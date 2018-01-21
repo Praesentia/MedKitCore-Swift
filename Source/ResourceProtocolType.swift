@@ -73,5 +73,16 @@ public class ResourceProtocolType: Codable {
 
 }
 
+extension ResourceProtocolType: Equatable, Hashable {
+
+    public var hashValue: Int { return identifier.hashValue }
+
+    public static func ==(lhs: ResourceProtocolType, rhs: ResourceProtocolType) -> Bool
+    {
+        return lhs.identifier == rhs.identifier
+    }
+
+}
+
 
 // End of File

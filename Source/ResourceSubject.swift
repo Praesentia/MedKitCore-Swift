@@ -73,5 +73,16 @@ public class ResourceSubject: Codable {
     
 }
 
+extension ResourceSubject: Equatable, Hashable {
+
+    public var hashValue: Int { return identifier.hashValue }
+
+    public static func ==(lhs: ResourceSubject, rhs: ResourceSubject) -> Bool
+    {
+        return lhs.identifier == rhs.identifier
+    }
+
+}
+
 
 // End of File

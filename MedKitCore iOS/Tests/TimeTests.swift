@@ -23,23 +23,23 @@ import XCTest
 @testable import MedKitCore
 
 
-class ClockTests: XCTestCase {
+class TimeTests: XCTestCase {
     
     static let dateFormatter = ISO8601DateFormatter()
     
-    let EpochPOSIX  = ClockTests.dateFormatter.date(from: "1970-01-01T00:00:00Z")!
-    let EpochUTC    = ClockTests.dateFormatter.date(from: "1972-01-01T00:00:00Z")!
+    let EpochPOSIX  = TimeTests.dateFormatter.date(from: "1970-01-01T00:00:00Z")!
+    let EpochUTC    = TimeTests.dateFormatter.date(from: "1972-01-01T00:00:00Z")!
     let EpochMedKit = Time(63072000000000) // microseconds
     
     func testTimeConversions()
     {
         // TimeInterval to Time
-        XCTAssertTrue(Clock.convert(time: EpochPOSIX.timeIntervalSinceReferenceDate) == 0)
-        XCTAssertTrue(Clock.convert(time: EpochUTC.timeIntervalSinceReferenceDate)   == EpochMedKit)
+        XCTAssertTrue(Time(timeInterval: EpochPOSIX.timeIntervalSinceReferenceDate) == 0)
+        XCTAssertTrue(Time(timeInterval: EpochUTC.timeIntervalSinceReferenceDate)   == EpochMedKit)
         
         // Time to TimeInterval
-        XCTAssertTrue(Clock.convert(time: 0)           == EpochPOSIX.timeIntervalSinceReferenceDate)
-        XCTAssertTrue(Clock.convert(time: EpochMedKit) == EpochUTC.timeIntervalSinceReferenceDate)
+        XCTAssertTrue(Time(0).timeInterval     == EpochPOSIX.timeIntervalSinceReferenceDate)
+        XCTAssertTrue(EpochMedKit.timeInterval == EpochUTC.timeIntervalSinceReferenceDate)
     }
     
 }

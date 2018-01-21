@@ -23,7 +23,9 @@ import Foundation
 
 
 /**
- Resource
+ Resource Base Class
+
+ Serves as a base class for most Resource implementations.
  */
 public class ResourceBase: Resource, ResourceBackend {
 
@@ -33,7 +35,7 @@ public class ResourceBase: Resource, ResourceBackend {
     public private(set) var notifications       : Bool = false
     public private(set) var notificationEnabled : Bool = false
     public private(set) var proto               : ResourceProtocolType
-    public weak var         service             : Service?        { return _service }
+    public weak var         service             : Service? { return _service }
     public private(set) var subject             : ResourceSubject
     
     // ResourceBackend
@@ -72,10 +74,7 @@ public class ResourceBase: Resource, ResourceBackend {
             
             if observers.count == 1 && backend.isOpen {
                 sync.incr()
-                backend.resourceEnableNotification(self, enable: true) { error in
-                    if error == nil {
-                        self.notificationEnabled = true
-                    }
+                self.enableNotification(true) { error in
                     sync.decr(error)
                 }
             }
@@ -96,10 +95,7 @@ public class ResourceBase: Resource, ResourceBackend {
             
             if observers.count == 0 {
                 sync.incr()
-                backend.resourceEnableNotification(self, enable: false) { error in
-                    if error == nil {
-                        self.notificationEnabled = false
-                    }
+                self.enableNotification(false) { error in
                     sync.decr(error)
                 }
             }
@@ -110,17 +106,30 @@ public class ResourceBase: Resource, ResourceBackend {
         
         sync.close(completionHandler: completion)
     }
+
+    func enableNotification(_ enable: Bool, completionHandler completion: @escaping (Error?) -> Void)
+    {
+        let sync = Sync()
+
+        if enable != notificationEnabled {
+            sync.incr()
+            backend.resourceEnableNotification(self, enable: enable) { error in
+                if error == nil {
+                    self.notificationEnabled = enable
+                }
+                sync.decr(error)
+            }
+        }
+
+        sync.close(completionHandler: completion)
+    }
     
     // MARK: -
-    
+
     func connected()
     {
         if observers.count > 0 {
-            backend.resourceEnableNotification(self, enable: true) { error in
-                if error == nil {
-                    // TODO self.notificationEnabled(cache: ResourceCacheBase(from: cache))
-                }
-            }
+            enableNotification(true) { _ in }
         }
     }
     
@@ -131,7 +140,7 @@ public class ResourceBase: Resource, ResourceBackend {
         }
     }
     
-    // MARK: - Protocol Interface
+    // MARK: - Resource
 
     /**
      Call
@@ -147,7 +156,7 @@ public class ResourceBase: Resource, ResourceBackend {
     // MARK: - ResourceBackend
 
     /**
-     Decode asynchronous call.
+     Receive notification.
      */
     public func notify(_ notification: AnyCodable)
     {

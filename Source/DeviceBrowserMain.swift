@@ -37,7 +37,7 @@ public class DeviceBrowserMain: DeviceBrowser, ServiceBrowserDelegate, NetDevice
     
     // MARK: - Private
     private let browser   = ServiceBrowser()
-    private var observers = ObserverManager<DeviceBrowserObserver>() //: Observers
+    private var observers = [DeviceBrowserObserver]() //: Observers
     
     // MARK: - Initializers
     
@@ -53,12 +53,14 @@ public class DeviceBrowserMain: DeviceBrowser, ServiceBrowserDelegate, NetDevice
     
     public func addObserver(_ observer: DeviceBrowserObserver)
     {
-        observers.add(observer)
+        observers.append(observer)
     }
     
     public func removeObserver(_ observer: DeviceBrowserObserver)
     {
-        observers.remove(observer)
+        if let index = observers.index(where: { $0 === observer }) {
+            observers.remove(at: index)
+        }
     }
     
     // MARK: - Suspend.Resume

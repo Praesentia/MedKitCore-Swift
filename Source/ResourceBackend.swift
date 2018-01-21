@@ -28,14 +28,15 @@ import Foundation
 public protocol ResourceBackend: class {
     
     // MARK: - Properties
-    var access         : Access                   { get }
-    var backend        : ResourceBackendDelegate! { get set }
-    var defaultBackend : Backend                  { get }
-    var identifier     : UUID                     { get }
-    var notifications  : Bool                     { get }
-    var serviceBackend : ServiceBackend!          { get }
+    var access              : Access                   { get }
+    var backend             : ResourceBackendDelegate! { get set }
+    var defaultBackend      : Backend                  { get }
+    var identifier          : UUID                     { get }
+    var notifications       : Bool                     { get }
+    var notificationEnabled : Bool                     { get }
+    var serviceBackend      : ServiceBackend!          { get }
     
-    // MARK: - Client-side decoder
+    // MARK: - Notifications
     func notify(_ notification: AnyCodable)
 
 }

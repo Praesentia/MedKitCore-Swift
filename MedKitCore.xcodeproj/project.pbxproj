@@ -35,12 +35,12 @@
 		220CDF2C1EE96785006ECEBA /* PortSecure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220CDF2A1EE96725006ECEBA /* PortSecure.swift */; };
 		221903761EC739B00043BE70 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221903751EC739B00043BE70 /* Time.swift */; };
 		221903771EC739BB0043BE70 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221903751EC739B00043BE70 /* Time.swift */; };
-		2219037D1EC741AD0043BE70 /* ClockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2219037C1EC741AD0043BE70 /* ClockTests.swift */; };
-		2219037E1EC741B10043BE70 /* ClockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2219037C1EC741AD0043BE70 /* ClockTests.swift */; };
-		221904641EC87F630043BE70 /* ResourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221904601EC87F630043BE70 /* ResourceType.swift */; };
+		2219037D1EC741AD0043BE70 /* TimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2219037C1EC741AD0043BE70 /* TimeTests.swift */; };
+		2219037E1EC741B10043BE70 /* TimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2219037C1EC741AD0043BE70 /* TimeTests.swift */; };
+		221904641EC87F630043BE70 /* ResourceSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221904601EC87F630043BE70 /* ResourceSubject.swift */; };
 		221904661EC87F630043BE70 /* ServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221904621EC87F630043BE70 /* ServiceType.swift */; };
 		221904681EC880160043BE70 /* ServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221904621EC87F630043BE70 /* ServiceType.swift */; };
-		2219046B1EC880200043BE70 /* ResourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221904601EC87F630043BE70 /* ResourceType.swift */; };
+		2219046B1EC880200043BE70 /* ResourceSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221904601EC87F630043BE70 /* ResourceSubject.swift */; };
 		22202DEA1EBC9F5800A79644 /* DeviceBrowserShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22202DE91EBC9F5800A79644 /* DeviceBrowserShared.swift */; };
 		22202DEB1EBC9F5A00A79644 /* DeviceBrowserShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22202DE91EBC9F5800A79644 /* DeviceBrowserShared.swift */; };
 		22343A8F20024D220075B62A /* AnyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22343A8E20024D220075B62A /* AnyContainer.swift */; };
@@ -56,7 +56,6 @@
 		2243DD151E87F18A00A188FD /* NetPortFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DCD01E87F18A00A188FD /* NetPortFactory.swift */; };
 		2243DD161E87F18A00A188FD /* NetPorts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DCD11E87F18A00A188FD /* NetPorts.swift */; };
 		2243DD171E87F18A00A188FD /* NSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DCD21E87F18A00A188FD /* NSError.swift */; };
-		2243DD1A1E87F18A00A188FD /* ObserverManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DCD51E87F18A00A188FD /* ObserverManager.swift */; };
 		2243DD211E87F18A00A188FD /* Port.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DCDC1E87F18A00A188FD /* Port.swift */; };
 		2243DD221E87F18A00A188FD /* PortFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DCDD1E87F18A00A188FD /* PortFactory.swift */; };
 		2243DD231E87F18A00A188FD /* PortTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DCDE1E87F18A00A188FD /* PortTap.swift */; };
@@ -84,7 +83,6 @@
 		2243DD5A1E87F19100A188FD /* NetPortFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DCD01E87F18A00A188FD /* NetPortFactory.swift */; };
 		2243DD5B1E87F19100A188FD /* NetPorts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DCD11E87F18A00A188FD /* NetPorts.swift */; };
 		2243DD5C1E87F19100A188FD /* NSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DCD21E87F18A00A188FD /* NSError.swift */; };
-		2243DD5F1E87F19100A188FD /* ObserverManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DCD51E87F18A00A188FD /* ObserverManager.swift */; };
 		2243DD661E87F19100A188FD /* Port.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DCDC1E87F18A00A188FD /* Port.swift */; };
 		2243DD671E87F19100A188FD /* PortFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DCDD1E87F18A00A188FD /* PortFactory.swift */; };
 		2243DD681E87F19100A188FD /* PortTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243DCDE1E87F18A00A188FD /* PortTap.swift */; };
@@ -205,8 +203,6 @@
 		22B4E0A71EB4D29A004B39C7 /* NetDeviceObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B4E0A51EB4D293004B39C7 /* NetDeviceObserver.swift */; };
 		22B4E1821EB68956004B39C7 /* ServiceTypeSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B4E1811EB68956004B39C7 /* ServiceTypeSchema.swift */; };
 		22B4E1831EB6899D004B39C7 /* ServiceTypeSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B4E1811EB68956004B39C7 /* ServiceTypeSchema.swift */; };
-		22C40AB91FD444B0006DCC75 /* UnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C40AB81FD444B0006DCC75 /* UnitType.swift */; };
-		22C40ABA1FD4456A006DCC75 /* UnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C40AB81FD444B0006DCC75 /* UnitType.swift */; };
 		22C711CF1FE6E1F70064B5F4 /* DeviceIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C711CE1FE6E1F70064B5F4 /* DeviceIdentity.swift */; };
 		22C711D01FE6E1F70064B5F4 /* DeviceIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C711CE1FE6E1F70064B5F4 /* DeviceIdentity.swift */; };
 		22C711D41FE6EC560064B5F4 /* PortMonitorObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C711D31FE6EC560064B5F4 /* PortMonitorObserver.swift */; };
@@ -309,8 +305,8 @@
 		220BEDD51E956E9B00AFF2CA /* InetAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InetAddress.swift; path = Source/InetAddress.swift; sourceTree = SOURCE_ROOT; };
 		220CDF2A1EE96725006ECEBA /* PortSecure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PortSecure.swift; path = Source/PortSecure.swift; sourceTree = SOURCE_ROOT; };
 		221903751EC739B00043BE70 /* Time.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Time.swift; path = Source/Time.swift; sourceTree = SOURCE_ROOT; };
-		2219037C1EC741AD0043BE70 /* ClockTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClockTests.swift; path = Tests/ClockTests.swift; sourceTree = SOURCE_ROOT; };
-		221904601EC87F630043BE70 /* ResourceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResourceType.swift; path = Source/ResourceType.swift; sourceTree = SOURCE_ROOT; };
+		2219037C1EC741AD0043BE70 /* TimeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimeTests.swift; path = Tests/TimeTests.swift; sourceTree = SOURCE_ROOT; };
+		221904601EC87F630043BE70 /* ResourceSubject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResourceSubject.swift; path = Source/ResourceSubject.swift; sourceTree = SOURCE_ROOT; };
 		221904621EC87F630043BE70 /* ServiceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceType.swift; path = Source/ServiceType.swift; sourceTree = SOURCE_ROOT; };
 		22202DE91EBC9F5800A79644 /* DeviceBrowserShared.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceBrowserShared.swift; path = Source/DeviceBrowserShared.swift; sourceTree = SOURCE_ROOT; };
 		2226BAC31F144925002C0E20 /* SecurityKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SecurityKit.xcodeproj; path = ../SecurityKit/SecurityKit.xcodeproj; sourceTree = "<group>"; };
@@ -332,7 +328,6 @@
 		2243DCD01E87F18A00A188FD /* NetPortFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetPortFactory.swift; path = Source/NetPortFactory.swift; sourceTree = SOURCE_ROOT; };
 		2243DCD11E87F18A00A188FD /* NetPorts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetPorts.swift; path = Source/NetPorts.swift; sourceTree = SOURCE_ROOT; };
 		2243DCD21E87F18A00A188FD /* NSError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NSError.swift; path = Source/NSError.swift; sourceTree = SOURCE_ROOT; };
-		2243DCD51E87F18A00A188FD /* ObserverManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ObserverManager.swift; path = Source/ObserverManager.swift; sourceTree = SOURCE_ROOT; };
 		2243DCDC1E87F18A00A188FD /* Port.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Port.swift; path = Source/Port.swift; sourceTree = SOURCE_ROOT; };
 		2243DCDD1E87F18A00A188FD /* PortFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PortFactory.swift; path = Source/PortFactory.swift; sourceTree = SOURCE_ROOT; };
 		2243DCDE1E87F18A00A188FD /* PortTap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PortTap.swift; path = Source/PortTap.swift; sourceTree = SOURCE_ROOT; };
@@ -404,7 +399,6 @@
 		22B4E0A21EB4C0DA004B39C7 /* EndpointDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EndpointDelegate.swift; path = Source/EndpointDelegate.swift; sourceTree = SOURCE_ROOT; };
 		22B4E0A51EB4D293004B39C7 /* NetDeviceObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetDeviceObserver.swift; path = Source/NetDeviceObserver.swift; sourceTree = SOURCE_ROOT; };
 		22B4E1811EB68956004B39C7 /* ServiceTypeSchema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceTypeSchema.swift; path = Source/ServiceTypeSchema.swift; sourceTree = SOURCE_ROOT; };
-		22C40AB81FD444B0006DCC75 /* UnitType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnitType.swift; sourceTree = "<group>"; };
 		22C711CE1FE6E1F70064B5F4 /* DeviceIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DeviceIdentity.swift; path = Source/DeviceIdentity.swift; sourceTree = "<group>"; };
 		22C711D31FE6EC560064B5F4 /* PortMonitorObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PortMonitorObserver.swift; path = Source/PortMonitorObserver.swift; sourceTree = "<group>"; };
 		22DD6CB41E8996D900F1B6D2 /* ProtocolPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProtocolPlugin.swift; path = Source/ProtocolPlugin.swift; sourceTree = SOURCE_ROOT; };
@@ -475,14 +469,6 @@
 			name = "Network Proxy";
 			sourceTree = "<group>";
 		};
-		221903711EC72B480043BE70 /* Observers */ = {
-			isa = PBXGroup;
-			children = (
-				2243DCD51E87F18A00A188FD /* ObserverManager.swift */,
-			);
-			name = Observers;
-			sourceTree = SOURCE_ROOT;
-		};
 		2219037A1EC73FDF0043BE70 /* Time */ = {
 			isa = PBXGroup;
 			children = (
@@ -497,13 +483,14 @@
 				2219037F1EC741CE0043BE70 /* Time */,
 				22FF2A021F68029500E0FE8A /* Extensions */,
 			);
-			path = Tests;
+			name = Tests;
+			path = "MedKitCore iOS/Tests";
 			sourceTree = SOURCE_ROOT;
 		};
 		2219037F1EC741CE0043BE70 /* Time */ = {
 			isa = PBXGroup;
 			children = (
-				2219037C1EC741AD0043BE70 /* ClockTests.swift */,
+				2219037C1EC741AD0043BE70 /* TimeTests.swift */,
 			);
 			name = Time;
 			sourceTree = SOURCE_ROOT;
@@ -525,7 +512,6 @@
 				2226BAC31F144925002C0E20 /* SecurityKit.xcodeproj */,
 				225A46721EB377E1004EE389 /* Documentation */,
 				2243DCAC1E872C0700A188FD /* Source */,
-				2219037B1EC741970043BE70 /* Tests */,
 				2243DC7A1E872BDB00A188FD /* MedKitCore iOS */,
 				2243DC851E872BDB00A188FD /* MedKitCore iOSTests */,
 				2243DC961E872BF100A188FD /* MedKitCore macOS */,
@@ -548,6 +534,7 @@
 		2243DC7A1E872BDB00A188FD /* MedKitCore iOS */ = {
 			isa = PBXGroup;
 			children = (
+				2219037B1EC741970043BE70 /* Tests */,
 				2243DC7B1E872BDB00A188FD /* MedKitCore.h */,
 				2243DC7C1E872BDB00A188FD /* Info.plist */,
 			);
@@ -582,7 +569,7 @@
 		2243DCAC1E872C0700A188FD /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				2244CCC31FB8BD8F00216EB6 /* Codable */,
+				2244CCC31FB8BD8F00216EB6 /* AnyCodable */,
 				2243DD951E87F27900A188FD /* Constants */,
 				2243DDA51E87F44600A188FD /* Connection */,
 				2243DEB31E87FC3400A188FD /* DataLogger */,
@@ -590,7 +577,6 @@
 				2243DD9C1E87F2E400A188FD /* Device Browser */,
 				2243DEB71E87FDBD00A188FD /* Endpoint */,
 				220BEDCF1E95691C00AFF2CA /* Inet */,
-				221903711EC72B480043BE70 /* Observers */,
 				2243DDA11E87F36700A188FD /* Port */,
 				2243DEB41E87FD0900A188FD /* Port Monitor */,
 				22A79E041EF53F090060577B /* Protocols */,
@@ -600,7 +586,6 @@
 				2243DD9B1E87F2CA00A188FD /* Service Browser */,
 				22DD6CE11E8A79F500F1B6D2 /* Service Responder */,
 				2219037A1EC73FDF0043BE70 /* Time */,
-				22C40AB71FD4448F006DCC75 /* Units */,
 				2243DDA21E87F37C00A188FD /* Tools */,
 				2243DDA01E87F32800A188FD /* Extensions */,
 			);
@@ -647,7 +632,7 @@
 				228B1BA01EB21EFB002F78F1 /* ResourceObserver.swift */,
 				2244CCD31FB8E3FF00216EB6 /* ResourceProfile.swift */,
 				2252AD2F1FF917B100165153 /* ResourceProtocolType.swift */,
-				221904601EC87F630043BE70 /* ResourceType.swift */,
+				221904601EC87F630043BE70 /* ResourceSubject.swift */,
 			);
 			name = Resource;
 			sourceTree = SOURCE_ROOT;
@@ -792,7 +777,7 @@
 			name = Endpoint;
 			sourceTree = SOURCE_ROOT;
 		};
-		2244CCC31FB8BD8F00216EB6 /* Codable */ = {
+		2244CCC31FB8BD8F00216EB6 /* AnyCodable */ = {
 			isa = PBXGroup;
 			children = (
 				2244CCC51FB8BD9C00216EB6 /* AnyCodable.swift */,
@@ -803,7 +788,7 @@
 				22E8E8E11FDEA09A00FB937F /* ConcreteEncodable.swift */,
 				2244CD481FBB112400216EB6 /* KeyedDecodingContainer.swift */,
 			);
-			name = Codable;
+			name = AnyCodable;
 			sourceTree = "<group>";
 		};
 		225A46721EB377E1004EE389 /* Documentation */ = {
@@ -825,14 +810,6 @@
 			);
 			name = Protocols;
 			sourceTree = SOURCE_ROOT;
-		};
-		22C40AB71FD4448F006DCC75 /* Units */ = {
-			isa = PBXGroup;
-			children = (
-				22C40AB81FD444B0006DCC75 /* UnitType.swift */,
-			);
-			name = Units;
-			sourceTree = "<group>";
 		};
 		22DD6CE11E8A79F500F1B6D2 /* Service Responder */ = {
 			isa = PBXGroup;
@@ -1120,8 +1097,7 @@
 				2243DD131E87F18A00A188FD /* NetBackend.swift in Sources */,
 				2262EFCB1FF527A300EEC84E /* AnyCodableCodingKeys.swift in Sources */,
 				2243DDFB1E87F52800A188FD /* ClientConnection.swift in Sources */,
-				221904641EC87F630043BE70 /* ResourceType.swift in Sources */,
-				2243DD1A1E87F18A00A188FD /* ObserverManager.swift in Sources */,
+				221904641EC87F630043BE70 /* ResourceSubject.swift in Sources */,
 				2243DD211E87F18A00A188FD /* Port.swift in Sources */,
 				2244CD491FBB112400216EB6 /* KeyedDecodingContainer.swift in Sources */,
 				228B1BB31EB220A0002F78F1 /* ServiceBackendDelegate.swift in Sources */,
@@ -1155,7 +1131,6 @@
 				22B4E0A31EB4C0DA004B39C7 /* EndpointDelegate.swift in Sources */,
 				22FF4D951ED71B6F00C3FB78 /* ConnectionBase.swift in Sources */,
 				228B1BAD1EB22042002F78F1 /* ServiceObserver.swift in Sources */,
-				22C40AB91FD444B0006DCC75 /* UnitType.swift in Sources */,
 				2243DE081E87F52800A188FD /* Date.swift in Sources */,
 				2243DE0F1E87F52800A188FD /* DeviceProxy.swift in Sources */,
 				2244CCD41FB8E3FF00216EB6 /* ResourceProfile.swift in Sources */,
@@ -1193,7 +1168,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2219037E1EC741B10043BE70 /* ClockTests.swift in Sources */,
+				2219037E1EC741B10043BE70 /* TimeTests.swift in Sources */,
 				22FF2A061F6802B400E0FE8A /* Bundle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1211,7 +1186,7 @@
 				22343A9020024D220075B62A /* AnyContainer.swift in Sources */,
 				22FF4D931ED7165E00C3FB78 /* ClientConnectionFactory.swift in Sources */,
 				2243DE611E87F73000A188FD /* DeviceProxy.swift in Sources */,
-				2219046B1EC880200043BE70 /* ResourceType.swift in Sources */,
+				2219046B1EC880200043BE70 /* ResourceSubject.swift in Sources */,
 				2243DE571E87F73000A188FD /* DataLog.swift in Sources */,
 				2202109E1F163B0B007329A7 /* sockaddr_storage.swift in Sources */,
 				228B1BB11EB22074002F78F1 /* ServiceBackend.swift in Sources */,
@@ -1237,7 +1212,6 @@
 				2243DD551E87F19100A188FD /* MISTV1Schema.swift in Sources */,
 				2243DD581E87F19100A188FD /* NetBackend.swift in Sources */,
 				228B1B9F1EB21EA0002F78F1 /* ProtocolStackDelegate.swift in Sources */,
-				2243DD5F1E87F19100A188FD /* ObserverManager.swift in Sources */,
 				2243DD661E87F19100A188FD /* Port.swift in Sources */,
 				2243DE641E87F73000A188FD /* Endpoint.swift in Sources */,
 				2243DD7D1E87F19100A188FD /* Service.swift in Sources */,
@@ -1277,7 +1251,6 @@
 				22FF4D9C1ED8481A00C3FB78 /* ClientConnectionBase.swift in Sources */,
 				22092F891EAF7A4E00F0B503 /* DeviceBrowserObserver.swift in Sources */,
 				228B1BB01EB22070002F78F1 /* ServiceObserver.swift in Sources */,
-				22C40ABA1FD4456A006DCC75 /* UnitType.swift in Sources */,
 				22B4E0A41EB4C0DD004B39C7 /* EndpointDelegate.swift in Sources */,
 				22FF4D961ED71B7300C3FB78 /* ConnectionBase.swift in Sources */,
 				2244CCD51FB8E3FF00216EB6 /* ResourceProfile.swift in Sources */,
@@ -1317,7 +1290,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2219037D1EC741AD0043BE70 /* ClockTests.swift in Sources */,
+				2219037D1EC741AD0043BE70 /* TimeTests.swift in Sources */,
 				22FF2A071F6802B400E0FE8A /* Bundle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1377,7 +1350,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 49;
+				CURRENT_PROJECT_VERSION = 50;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -1437,7 +1410,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 49;
+				CURRENT_PROJECT_VERSION = 50;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1466,11 +1439,11 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
-				CURRENT_PROJECT_VERSION = 49;
+				CURRENT_PROJECT_VERSION = 50;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 49;
+				DYLIB_CURRENT_VERSION = 50;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "MedKitCore iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1490,11 +1463,11 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
-				CURRENT_PROJECT_VERSION = 49;
+				CURRENT_PROJECT_VERSION = 50;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 49;
+				DYLIB_CURRENT_VERSION = 50;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "MedKitCore iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1541,11 +1514,11 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 49;
+				CURRENT_PROJECT_VERSION = 50;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 49;
+				DYLIB_CURRENT_VERSION = 50;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "MedKitCore macOS/Info.plist";
@@ -1566,11 +1539,11 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 49;
+				CURRENT_PROJECT_VERSION = 50;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 49;
+				DYLIB_CURRENT_VERSION = 50;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "MedKitCore macOS/Info.plist";

@@ -57,7 +57,7 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
     private var      _services       = [ServiceBase]()
     
     // MARK: - Protected
-    var observers = ObserverManager<DeviceObserver>()
+    var observers = [DeviceObserver]()
     
     // MARK: - Initializers
     
@@ -95,7 +95,7 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
      */
     public func addObserver(_ observer: DeviceObserver)
     {
-        observers.add(observer)
+        observers.append(observer)
     }
     
     /**
@@ -103,7 +103,9 @@ public class DeviceBase: DeviceFrontend, DeviceBackend {
      */
     public func removeObserver(_ observer: DeviceObserver)
     {
-        observers.remove(observer)
+        if let index = observers.index(where: { $0 === observer }) {
+            observers.remove(at: index)
+        }
     }
     
     // MARK: - Connectivity

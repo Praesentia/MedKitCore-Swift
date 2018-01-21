@@ -47,7 +47,7 @@ public class ServiceBase: Service, ServiceBackend {
     private var _resources = [ResourceBase]()
     
     // MARK: - Private
-    private var  observers  = ObserverManager<ServiceObserver>()
+    private var  observers = [ServiceObserver]()
     
     // MARK: - Initializers
     
@@ -69,12 +69,14 @@ public class ServiceBase: Service, ServiceBackend {
     
     public func addObserver(_ observer: ServiceObserver)
     {
-        observers.add(observer)
+        observers.append(observer)
     }
     
     public func removeObserver(_ observer: ServiceObserver)
     {
-        observers.remove(observer)
+        if let index = observers.index(where: { $0 === observer }) {
+            observers.remove(at: index)
+        }
     }
     
     // MARK: - Mutators
