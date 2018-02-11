@@ -181,10 +181,6 @@
 		2262EFCC1FF527A300EEC84E /* AnyCodableCodingKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2262EFCA1FF527A300EEC84E /* AnyCodableCodingKeys.swift */; };
 		226A5975202E599C00DF8EE9 /* DeviceTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226A5974202E599C00DF8EE9 /* DeviceTypeTests.swift */; };
 		226A5976202E599C00DF8EE9 /* DeviceTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226A5974202E599C00DF8EE9 /* DeviceTypeTests.swift */; };
-		226A597D202F0A0200DF8EE9 /* MISTVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226A597C202F0A0200DF8EE9 /* MISTVersion.swift */; };
-		226A597E202F0A0200DF8EE9 /* MISTVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226A597C202F0A0200DF8EE9 /* MISTVersion.swift */; };
-		226A5981202F166000DF8EE9 /* MISTV1Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226A5980202F166000DF8EE9 /* MISTV1Info.swift */; };
-		226A5982202F166000DF8EE9 /* MISTV1Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226A5980202F166000DF8EE9 /* MISTV1Info.swift */; };
 		226A5984202F1C0700DF8EE9 /* TXTEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226A5983202F1C0700DF8EE9 /* TXTEncoder.swift */; };
 		226A5985202F1C0700DF8EE9 /* TXTEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226A5983202F1C0700DF8EE9 /* TXTEncoder.swift */; };
 		226A5987202F1C1A00DF8EE9 /* TXTEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226A5986202F1C1A00DF8EE9 /* TXTEncodable.swift */; };
@@ -197,6 +193,16 @@
 		226A5991202F1E6700DF8EE9 /* TXTDecodingStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226A598F202F1E6700DF8EE9 /* TXTDecodingStorage.swift */; };
 		226B8A1B1FF674510023C54E /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226B8A1A1FF674510023C54E /* DeviceInfo.swift */; };
 		226B8A1C1FF674570023C54E /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226B8A1A1FF674510023C54E /* DeviceInfo.swift */; };
+		227229B62030810F00CF26DD /* MISTVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2275899C20307E28007AECBE /* MISTVersion.swift */; };
+		227229B92030811200CF26DD /* MISTV1Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2275899E20307E28007AECBE /* MISTV1Info.swift */; };
+		227229BA2030811800CF26DD /* NetServiceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227589F220308084007AECBE /* NetServiceInfo.swift */; };
+		227229BB2030811C00CF26DD /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227589CB20307FB0007AECBE /* Data.swift */; };
+		227229BC2030813100CF26DD /* NetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227589CA20307FB0007AECBE /* NetService.swift */; };
+		227589A120307E28007AECBE /* MISTVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2275899C20307E28007AECBE /* MISTVersion.swift */; };
+		227589A320307E28007AECBE /* MISTV1Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2275899E20307E28007AECBE /* MISTV1Info.swift */; };
+		227589CC20307FB0007AECBE /* NetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227589CA20307FB0007AECBE /* NetService.swift */; };
+		227589CD20307FB0007AECBE /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227589CB20307FB0007AECBE /* Data.swift */; };
+		227589F320308084007AECBE /* NetServiceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227589F220308084007AECBE /* NetServiceInfo.swift */; };
 		228B1B9E1EB21E89002F78F1 /* ProtocolStackDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228B1B9D1EB21E89002F78F1 /* ProtocolStackDelegate.swift */; };
 		228B1B9F1EB21EA0002F78F1 /* ProtocolStackDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228B1B9D1EB21E89002F78F1 /* ProtocolStackDelegate.swift */; };
 		228B1BA11EB21EFB002F78F1 /* ResourceObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228B1BA01EB21EFB002F78F1 /* ResourceObserver.swift */; };
@@ -221,10 +227,6 @@
 		228B1BBD1EB221B8002F78F1 /* ServiceBrowserDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228B1BBB1EB22199002F78F1 /* ServiceBrowserDelegate.swift */; };
 		228B1BBF1EB222D9002F78F1 /* ConnectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228B1BBE1EB222D9002F78F1 /* ConnectionDelegate.swift */; };
 		228B1BC01EB222EA002F78F1 /* ConnectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228B1BBE1EB222D9002F78F1 /* ConnectionDelegate.swift */; };
-		228F3FEB202F3C4D00FB96B3 /* NetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228F3FEA202F3C4D00FB96B3 /* NetService.swift */; };
-		228F3FEC202F3C4D00FB96B3 /* NetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228F3FEA202F3C4D00FB96B3 /* NetService.swift */; };
-		228F3FEE202F3DB700FB96B3 /* NetServiceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228F3FED202F3DB700FB96B3 /* NetServiceInfo.swift */; };
-		228F3FEF202F3DB700FB96B3 /* NetServiceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228F3FED202F3DB700FB96B3 /* NetServiceInfo.swift */; };
 		228F3FF1202F416900FB96B3 /* TXTEncodingStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228F3FF0202F416900FB96B3 /* TXTEncodingStorage.swift */; };
 		228F3FF2202F416900FB96B3 /* TXTEncodingStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228F3FF0202F416900FB96B3 /* TXTEncodingStorage.swift */; };
 		22B4E0A31EB4C0DA004B39C7 /* EndpointDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B4E0A21EB4C0DA004B39C7 /* EndpointDelegate.swift */; };
@@ -233,8 +235,6 @@
 		22B4E0A71EB4D29A004B39C7 /* NetDeviceObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B4E0A51EB4D293004B39C7 /* NetDeviceObserver.swift */; };
 		22B4E1821EB68956004B39C7 /* ServiceTypeSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B4E1811EB68956004B39C7 /* ServiceTypeSchema.swift */; };
 		22B4E1831EB6899D004B39C7 /* ServiceTypeSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B4E1811EB68956004B39C7 /* ServiceTypeSchema.swift */; };
-		22BD2ECC2025EDDC009F6A9F /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22BD2ECB2025EDDC009F6A9F /* Data.swift */; };
-		22BD2ECD2025EDDC009F6A9F /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22BD2ECB2025EDDC009F6A9F /* Data.swift */; };
 		22C711CF1FE6E1F70064B5F4 /* DeviceIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C711CE1FE6E1F70064B5F4 /* DeviceIdentity.swift */; };
 		22C711D01FE6E1F70064B5F4 /* DeviceIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C711CE1FE6E1F70064B5F4 /* DeviceIdentity.swift */; };
 		22C711D41FE6EC560064B5F4 /* PortMonitorObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C711D31FE6EC560064B5F4 /* PortMonitorObserver.swift */; };
@@ -420,14 +420,17 @@
 		225A46731EB37851004EE389 /* Release Notes.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; name = "Release Notes.rtf"; path = "Documentation/Release Notes.rtf"; sourceTree = SOURCE_ROOT; };
 		2262EFCA1FF527A300EEC84E /* AnyCodableCodingKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyCodableCodingKeys.swift; sourceTree = "<group>"; };
 		226A5974202E599C00DF8EE9 /* DeviceTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTypeTests.swift; sourceTree = "<group>"; };
-		226A597C202F0A0200DF8EE9 /* MISTVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MISTVersion.swift; sourceTree = "<group>"; };
-		226A5980202F166000DF8EE9 /* MISTV1Info.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MISTV1Info.swift; sourceTree = "<group>"; };
 		226A5983202F1C0700DF8EE9 /* TXTEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXTEncoder.swift; sourceTree = "<group>"; };
 		226A5986202F1C1A00DF8EE9 /* TXTEncodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXTEncodable.swift; sourceTree = "<group>"; };
 		226A5989202F1CE700DF8EE9 /* TXTEncodingContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXTEncodingContainer.swift; sourceTree = "<group>"; };
 		226A598C202F1D9E00DF8EE9 /* TXTCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXTCodable.swift; sourceTree = "<group>"; };
 		226A598F202F1E6700DF8EE9 /* TXTDecodingStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXTDecodingStorage.swift; sourceTree = "<group>"; };
 		226B8A1A1FF674510023C54E /* DeviceInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceInfo.swift; path = Source/DeviceInfo.swift; sourceTree = "<group>"; };
+		2275899C20307E28007AECBE /* MISTVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MISTVersion.swift; path = Source/MISTVersion.swift; sourceTree = "<group>"; };
+		2275899E20307E28007AECBE /* MISTV1Info.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MISTV1Info.swift; path = Source/MISTV1Info.swift; sourceTree = "<group>"; };
+		227589CA20307FB0007AECBE /* NetService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetService.swift; path = Source/NetService.swift; sourceTree = "<group>"; };
+		227589CB20307FB0007AECBE /* Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Data.swift; path = Source/Data.swift; sourceTree = "<group>"; };
+		227589F220308084007AECBE /* NetServiceInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetServiceInfo.swift; path = Source/NetServiceInfo.swift; sourceTree = "<group>"; };
 		228B1B9D1EB21E89002F78F1 /* ProtocolStackDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProtocolStackDelegate.swift; path = Source/ProtocolStackDelegate.swift; sourceTree = SOURCE_ROOT; };
 		228B1BA01EB21EFB002F78F1 /* ResourceObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResourceObserver.swift; path = Source/ResourceObserver.swift; sourceTree = SOURCE_ROOT; };
 		228B1BA31EB21F2D002F78F1 /* ResourceBackend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResourceBackend.swift; path = Source/ResourceBackend.swift; sourceTree = SOURCE_ROOT; };
@@ -440,13 +443,10 @@
 		228B1BB81EB22136002F78F1 /* PortDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PortDelegate.swift; path = Source/PortDelegate.swift; sourceTree = SOURCE_ROOT; };
 		228B1BBB1EB22199002F78F1 /* ServiceBrowserDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceBrowserDelegate.swift; path = Source/ServiceBrowserDelegate.swift; sourceTree = SOURCE_ROOT; };
 		228B1BBE1EB222D9002F78F1 /* ConnectionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConnectionDelegate.swift; path = Source/ConnectionDelegate.swift; sourceTree = SOURCE_ROOT; };
-		228F3FEA202F3C4D00FB96B3 /* NetService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetService.swift; sourceTree = "<group>"; };
-		228F3FED202F3DB700FB96B3 /* NetServiceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetServiceInfo.swift; sourceTree = "<group>"; };
 		228F3FF0202F416900FB96B3 /* TXTEncodingStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TXTEncodingStorage.swift; sourceTree = "<group>"; };
 		22B4E0A21EB4C0DA004B39C7 /* EndpointDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EndpointDelegate.swift; path = Source/EndpointDelegate.swift; sourceTree = SOURCE_ROOT; };
 		22B4E0A51EB4D293004B39C7 /* NetDeviceObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetDeviceObserver.swift; path = Source/NetDeviceObserver.swift; sourceTree = SOURCE_ROOT; };
 		22B4E1811EB68956004B39C7 /* ServiceTypeSchema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceTypeSchema.swift; path = Source/ServiceTypeSchema.swift; sourceTree = SOURCE_ROOT; };
-		22BD2ECB2025EDDC009F6A9F /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		22BD2F1220274C60009F6A9F /* TimeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeTests.swift; sourceTree = "<group>"; };
 		22BD2F1520274C60009F6A9F /* Bundle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
 		22C711CE1FE6E1F70064B5F4 /* DeviceIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DeviceIdentity.swift; path = Source/DeviceIdentity.swift; sourceTree = "<group>"; };
@@ -760,7 +760,7 @@
 				22B4E0A51EB4D293004B39C7 /* NetDeviceObserver.swift */,
 				2243DCD01E87F18A00A188FD /* NetPortFactory.swift */,
 				2243DDB51E87F52800A188FD /* NetServiceExt.swift */,
-				228F3FED202F3DB700FB96B3 /* NetServiceInfo.swift */,
+				227589F220308084007AECBE /* NetServiceInfo.swift */,
 				2243DCF41E87F18A00A188FD /* ServiceBrowser.swift */,
 				228B1BBB1EB22199002F78F1 /* ServiceBrowserDelegate.swift */,
 				22B4E1811EB68956004B39C7 /* ServiceTypeSchema.swift */,
@@ -783,10 +783,10 @@
 			isa = PBXGroup;
 			children = (
 				2243DDA91E87F52800A188FD /* Array.swift */,
-				22BD2ECB2025EDDC009F6A9F /* Data.swift */,
+				227589CB20307FB0007AECBE /* Data.swift */,
 				2243DDC51E87F52800A188FD /* Date.swift */,
 				22E8E8D51FDC0DA700FB937F /* DateFormatter.swift */,
-				228F3FEA202F3C4D00FB96B3 /* NetService.swift */,
+				227589CA20307FB0007AECBE /* NetService.swift */,
 				2243DCD21E87F18A00A188FD /* NSError.swift */,
 				2243DCFC1E87F18A00A188FD /* UUID.swift */,
 				2202109A1F1639E8007329A7 /* sockaddr_storage.swift */,
@@ -907,8 +907,8 @@
 		226A597F202F102600DF8EE9 /* MIST */ = {
 			isa = PBXGroup;
 			children = (
-				226A597C202F0A0200DF8EE9 /* MISTVersion.swift */,
-				226A5980202F166000DF8EE9 /* MISTV1Info.swift */,
+				2275899C20307E28007AECBE /* MISTVersion.swift */,
+				2275899E20307E28007AECBE /* MISTV1Info.swift */,
 			);
 			name = MIST;
 			path = ..;
@@ -1191,6 +1191,7 @@
 				2243DDF81E87F52800A188FD /* NetServiceExt.swift in Sources */,
 				228B1BAF1EB2206A002F78F1 /* ServiceBackend.swift in Sources */,
 				2243DD261E87F18A00A188FD /* PortMonitorNetServer.swift in Sources */,
+				227589A320307E28007AECBE /* MISTV1Info.swift in Sources */,
 				226A5987202F1C1A00DF8EE9 /* TXTEncodable.swift in Sources */,
 				2202109B1F1639E8007329A7 /* sockaddr_storage.swift in Sources */,
 				2243DE061E87F52800A188FD /* DataQueue.swift in Sources */,
@@ -1205,6 +1206,7 @@
 				22FF4DA11ED9942E00C3FB78 /* ProtocolStackBase.swift in Sources */,
 				226B8A1B1FF674510023C54E /* DeviceInfo.swift in Sources */,
 				228B1BB51EB220CE002F78F1 /* ServiceBase.swift in Sources */,
+				227589F320308084007AECBE /* NetServiceInfo.swift in Sources */,
 				220B63891FD5760C009A6BD7 /* ProtocolType.swift in Sources */,
 				2243DDEC1E87F52800A188FD /* Array.swift in Sources */,
 				226A598A202F1CE700DF8EE9 /* TXTEncodingContainer.swift in Sources */,
@@ -1232,9 +1234,7 @@
 				228B1BB31EB220A0002F78F1 /* ServiceBackendDelegate.swift in Sources */,
 				22092F751EAF761200F0B503 /* DeviceBrowserMain.swift in Sources */,
 				220BEDD41E956E8D00AFF2CA /* InetProto.swift in Sources */,
-				228F3FEB202F3C4D00FB96B3 /* NetService.swift in Sources */,
 				2243DE251E87F52800A188FD /* Logger.swift in Sources */,
-				226A5981202F166000DF8EE9 /* MISTV1Info.swift in Sources */,
 				2243DD381E87F18A00A188FD /* Service.swift in Sources */,
 				221904661EC87F630043BE70 /* ServiceType.swift in Sources */,
 				2243DD411E87F18A00A188FD /* UUID.swift in Sources */,
@@ -1262,13 +1262,13 @@
 				223834AF202DFE5200F334FA /* TXTDecodable.swift in Sources */,
 				226A598D202F1D9E00DF8EE9 /* TXTCodable.swift in Sources */,
 				2243DDFE1E87F52800A188FD /* Connection.swift in Sources */,
-				226A597D202F0A0200DF8EE9 /* MISTVersion.swift in Sources */,
-				228F3FEE202F3DB700FB96B3 /* NetServiceInfo.swift in Sources */,
+				227589CC20307FB0007AECBE /* NetService.swift in Sources */,
 				22B4E0A31EB4C0DA004B39C7 /* EndpointDelegate.swift in Sources */,
 				22FF4D951ED71B6F00C3FB78 /* ConnectionBase.swift in Sources */,
 				228B1BAD1EB22042002F78F1 /* ServiceObserver.swift in Sources */,
 				2243DE081E87F52800A188FD /* Date.swift in Sources */,
 				2243DE0F1E87F52800A188FD /* DeviceProxy.swift in Sources */,
+				227589A120307E28007AECBE /* MISTVersion.swift in Sources */,
 				2244CCD41FB8E3FF00216EB6 /* ResourceProfile.swift in Sources */,
 				2243DE041E87F52800A188FD /* DataLog.swift in Sources */,
 				2243DD2B1E87F18A00A188FD /* ProtocolStack.swift in Sources */,
@@ -1281,7 +1281,6 @@
 				2243DDFF1E87F52800A188FD /* ServerConnectionFactory.swift in Sources */,
 				2243DD2E1E87F18A00A188FD /* Resource.swift in Sources */,
 				2243DD441E87F18A00A188FD /* Weak.swift in Sources */,
-				22BD2ECC2025EDDC009F6A9F /* Data.swift in Sources */,
 				22FF4D9E1ED84EFF00C3FB78 /* PortMonitorDelegate.swift in Sources */,
 				2243DD221E87F18A00A188FD /* PortFactory.swift in Sources */,
 				22092E601EAD163A00F0B503 /* DeviceBase.swift in Sources */,
@@ -1289,6 +1288,7 @@
 				226A5990202F1E6700DF8EE9 /* TXTDecodingStorage.swift in Sources */,
 				2243DE0A1E87F52800A188FD /* Device.swift in Sources */,
 				2243DD111E87F18A00A188FD /* ProtocolMode.swift in Sources */,
+				227589CD20307FB0007AECBE /* Data.swift in Sources */,
 				2243DD171E87F18A00A188FD /* NSError.swift in Sources */,
 				2243DD281E87F18A00A188FD /* PortNetStream.swift in Sources */,
 				2243DD361E87F18A00A188FD /* ServerConnectionBase.swift in Sources */,
@@ -1326,6 +1326,7 @@
 				2243DD6B1E87F19100A188FD /* PortMonitorNetServer.swift in Sources */,
 				22C711D01FE6E1F70064B5F4 /* DeviceIdentity.swift in Sources */,
 				22343A9020024D220075B62A /* AnyContainer.swift in Sources */,
+				227229B62030810F00CF26DD /* MISTVersion.swift in Sources */,
 				22FF4D931ED7165E00C3FB78 /* ClientConnectionFactory.swift in Sources */,
 				2243DE611E87F73000A188FD /* DeviceProxy.swift in Sources */,
 				2219046B1EC880200043BE70 /* ResourceSubject.swift in Sources */,
@@ -1352,6 +1353,7 @@
 				2243DD691E87F19100A188FD /* PortMonitor.swift in Sources */,
 				2243DE511E87F73000A188FD /* NetServiceExt.swift in Sources */,
 				22C711D51FE6EC560064B5F4 /* PortMonitorObserver.swift in Sources */,
+				227229BB2030811C00CF26DD /* Data.swift in Sources */,
 				2243DD5A1E87F19100A188FD /* NetPortFactory.swift in Sources */,
 				2243DE5D1E87F73000A188FD /* DeviceBrowser.swift in Sources */,
 				2243DD581E87F19100A188FD /* NetBackend.swift in Sources */,
@@ -1370,9 +1372,7 @@
 				2243DE4C1E87F73000A188FD /* Array.swift in Sources */,
 				220BEDD71E956F5800AFF2CA /* InetAddress.swift in Sources */,
 				2243DD6C1E87F19100A188FD /* PortNet.swift in Sources */,
-				228F3FEC202F3C4D00FB96B3 /* NetService.swift in Sources */,
 				2243DE371E87F6ED00A188FD /* ClientConnection.swift in Sources */,
-				226A5982202F166000DF8EE9 /* MISTV1Info.swift in Sources */,
 				2243DD681E87F19100A188FD /* PortTap.swift in Sources */,
 				22092E7C1EAD201700F0B503 /* DeviceProxyNet.swift in Sources */,
 				2243DE5A1E87F73000A188FD /* DataTap.swift in Sources */,
@@ -1383,6 +1383,7 @@
 				228B1BB71EB220F6002F78F1 /* ServiceBackendDelegate.swift in Sources */,
 				2243DD831E87F19100A188FD /* SockAddr.swift in Sources */,
 				2243DE351E87F6ED00A188FD /* Connection.swift in Sources */,
+				227229BA2030811800CF26DD /* NetServiceInfo.swift in Sources */,
 				228B1BBA1EB2216A002F78F1 /* PortDelegate.swift in Sources */,
 				22092E5E1EAD15FB00F0B503 /* DeviceBackendDelegate.swift in Sources */,
 				2243DE361E87F6ED00A188FD /* ServerConnectionFactory.swift in Sources */,
@@ -1396,12 +1397,11 @@
 				2243DD6A1E87F19100A188FD /* PortMonitorNetListener.swift in Sources */,
 				2243DD701E87F19100A188FD /* ProtocolStack.swift in Sources */,
 				220BEDD81E956FD000AFF2CA /* InetProto.swift in Sources */,
+				227229B92030811200CF26DD /* MISTV1Info.swift in Sources */,
 				22092F8A1EAF7A5000F0B503 /* DeviceBrowserMain.swift in Sources */,
 				223834B0202DFE5200F334FA /* TXTDecodable.swift in Sources */,
 				226A598E202F1D9E00DF8EE9 /* TXTCodable.swift in Sources */,
 				22FF4D9C1ED8481A00C3FB78 /* ClientConnectionBase.swift in Sources */,
-				226A597E202F0A0200DF8EE9 /* MISTVersion.swift in Sources */,
-				228F3FEF202F3DB700FB96B3 /* NetServiceInfo.swift in Sources */,
 				22092F891EAF7A4E00F0B503 /* DeviceBrowserObserver.swift in Sources */,
 				228B1BB01EB22070002F78F1 /* ServiceObserver.swift in Sources */,
 				22B4E0A41EB4C0DD004B39C7 /* EndpointDelegate.swift in Sources */,
@@ -1419,7 +1419,6 @@
 				2243DE661E87F73000A188FD /* MedKitError.swift in Sources */,
 				2243DE5C1E87F73000A188FD /* DataDecoder.swift in Sources */,
 				2243DD731E87F19100A188FD /* Resource.swift in Sources */,
-				22BD2ECD2025EDDC009F6A9F /* Data.swift in Sources */,
 				22092E631EAD16DA00F0B503 /* DeviceFrontend.swift in Sources */,
 				22FF4D9F1ED84EFF00C3FB78 /* PortMonitorDelegate.swift in Sources */,
 				2243DD891E87F19100A188FD /* Weak.swift in Sources */,
@@ -1431,6 +1430,7 @@
 				2243DD5C1E87F19100A188FD /* NSError.swift in Sources */,
 				2243DD6D1E87F19100A188FD /* PortNetStream.swift in Sources */,
 				22E8E8D71FDC0DA700FB937F /* DateFormatter.swift in Sources */,
+				227229BC2030813100CF26DD /* NetService.swift in Sources */,
 				2243DD7B1E87F19100A188FD /* ServerConnectionBase.swift in Sources */,
 				2243DE5E1E87F73000A188FD /* DeviceProxyNetCache.swift in Sources */,
 				228B1BBD1EB221B8002F78F1 /* ServiceBrowserDelegate.swift in Sources */,
@@ -1510,7 +1510,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 52;
+				CURRENT_PROJECT_VERSION = 53;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -1572,7 +1572,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 52;
+				CURRENT_PROJECT_VERSION = 53;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1601,11 +1601,11 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
-				CURRENT_PROJECT_VERSION = 52;
+				CURRENT_PROJECT_VERSION = 53;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 52;
+				DYLIB_CURRENT_VERSION = 53;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "MedKitCore iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1625,11 +1625,11 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
-				CURRENT_PROJECT_VERSION = 52;
+				CURRENT_PROJECT_VERSION = 53;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 52;
+				DYLIB_CURRENT_VERSION = 53;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "MedKitCore iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1677,11 +1677,11 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 52;
+				CURRENT_PROJECT_VERSION = 53;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 52;
+				DYLIB_CURRENT_VERSION = 53;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "MedKitCore macOS/Info.plist";
@@ -1704,11 +1704,11 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 52;
+				CURRENT_PROJECT_VERSION = 53;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 52;
+				DYLIB_CURRENT_VERSION = 53;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "MedKitCore macOS/Info.plist";
