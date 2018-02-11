@@ -37,7 +37,7 @@ public protocol Port: class {
      
      A delegate used to process incoming data and other types of events.
      */
-    weak var delegate: PortDelegate? { get set }
+    var delegate: PortDelegate? { get set }
     
     // MARK: - Lifecycle
     

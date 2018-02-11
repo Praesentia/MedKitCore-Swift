@@ -1,15 +1,15 @@
 /*
  -----------------------------------------------------------------------------
  This source file is part of MedKitCore.
- 
- Copyright 2017-2018 Jon Griffeth
- 
+
+ Copyright 2016-2018 Jon Griffeth
+
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
- 
+
  http://www.apache.org/licenses/LICENSE-2.0
- 
+
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,41 +23,43 @@ import Foundation
 
 
 /**
- MIST V1 Schema
+ TXT Decoder
+
+ An Decoder suitable for decoding a TXTDecodable object from the contents of a
+ DNS TXT record consisting of key/value pairs.
+
+ - Requirement: RFC-6763
  */
-class MISTV1Schema: ServiceTypeSchema {
-    
+public class TXTDecoder {
+
     // MARK: - Private
-    private let RequiredTXT   = [ "dn", "dt", "md", "mf", "pr", "sn", "vn" ]
-    private let VersionString = "1"
-    
+    private let storage: TXTDecodingStorage
+
+    // MARK - Initializers
+
     /**
-     Verify TXT fields.
-     
+     Initializer
+
      - Parameters:
-        - txt: Dictionary of key/value pairs derived from an associated TXT
-               record.
+        - data: Data containing the contents of a DNS TXT record.
      */
-    func verifyTXT(_ txt: [String : String]) -> Bool
+    public init(from data: Data) throws
     {
-        if let version = txt["vn"] {
-            switch version {
-            case VersionString :
-                for key in RequiredTXT {
-                    if txt[key] == nil {
-                        return false
-                    }
-                }
-                return true
-                
-            default :
-                return false
-            }
-        }
-        
-        return false
+        storage = TXTDecodingStorage(from: data)
     }
-    
+
+    init(storage: TXTDecodingStorage)
+    {
+        self.storage = storage
+    }
+
+    // MARK: - Containers
+
+    public func container<Key>(keyedBy: Key.Type) -> TXTDecodingContainer<Key>
+    {
+        return TXTDecodingContainer(keyedBy: Key.self, storage: storage)
+    }
+
 }
 
 

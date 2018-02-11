@@ -160,7 +160,7 @@ public class ResourceBase: Resource, ResourceBackend {
      */
     public func notify(_ notification: AnyCodable)
     {
-        observers.forEach { $0.resource(self, didNotifyWith: notification) }
+        observers.forEach { $0.resource(self, didNotify: notification) }
     }
     
 }

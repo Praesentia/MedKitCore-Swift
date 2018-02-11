@@ -39,7 +39,7 @@ public protocol Connection: class {
     /**
      Connection delegate.
      */
-    weak var delegate : ConnectionDelegate? { get set }
+    var delegate : ConnectionDelegate? { get set }
     
     /**
      The port at the base of the protocol stack.

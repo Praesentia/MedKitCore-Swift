@@ -134,7 +134,7 @@ public class AnyCodable: Codable {
             return .array
         }
 
-        throw MedKitError.failed
+        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: [], debugDescription: "Invalid data type."))
     }
 
     private func isArray(_ value: Any) -> Bool

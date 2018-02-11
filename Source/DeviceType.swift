@@ -26,7 +26,7 @@ import SecurityKit
 /**
  Device type.
  */
-public class DeviceType: Codable {
+public class DeviceType: TXTCodable, Codable {
     
     // MARK: - Properties
     
@@ -42,12 +42,10 @@ public class DeviceType: Codable {
      */
     public let name: String
 
-    /**
-     Normalized device type name.
-     
-     Lower-cased version of device name.
-     */
-    public var normalizedName: String { return name.lowercased() }
+    // MARK: - Private
+    private enum TXTCodingKeys: String, CodingKey {
+        case name = "dt"
+    }
     
     // MARK: - Initializers
     
@@ -65,6 +63,20 @@ public class DeviceType: Codable {
     public init(named name: String)
     {
         self.name = name
+    }
+
+    // MARK: - TXTCodable
+
+    public required init(from decoder: TXTDecoder) throws
+    {
+        let container = decoder.container(keyedBy: TXTCodingKeys.self)
+        name = try container.decode(String.self, forKey: .name)
+    }
+
+    public func encode(to encoder: TXTEncoder) throws
+    {
+        let container = encoder.container(keyedBy: TXTCodingKeys.self)
+        try container.encode(name, forKey: .name)
     }
 
     // MARK: - Codable

@@ -23,21 +23,34 @@ This source file is part of MedKitCore.
 import Foundation
 
 
-private let UUID_LENGTH = Int(16)
-
-
 public extension UUID {
-    
+
+    private static let length = Int(16)
+
+    // MARK: - Properties
+
     /**
      Null UUID, consisting entirely of zero bytes.
      */
-    static let null = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!
-    
+    public static let null = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!
+
+    /**
+     String representation.
+
+     A lowercase version of uuidString.
+
+     - Remark:
+         RFC 4122 specifies lowercase.
+     */
+    public var uuidLowercase: String { return uuidString.lowercased() }
+
+    // MARK: - Initializers
+
     /**
      */
-    init(uuidBytes bytes: [UInt8])
+    public init(uuidBytes bytes: [UInt8])
     {
-        self.init(uuidString: NSUUID(uuidBytes: bytes).uuidString)! // TODO: is there a better way?
+        self.init(uuidString: NSUUID(uuidBytes: bytes).uuidString)!
     }
     
     /**
@@ -49,27 +62,14 @@ public extension UUID {
         - digest: The output from the SHA1 hash algorithm.  Only the first 16
             bytes are used.
      */
-    init(fromSHA1 digest: Data)
+    public init(fromSHA1 digest: Data)
     {
-        var data = Array<UInt8>([UInt8](digest)[0..<UUID_LENGTH])
+        var data = Array<UInt8>([UInt8](digest)[0..<UUID.length])
         
         data[6] = data[6] & 0x0f | 0x50
         data[8] = data[8] & 0x3f | 0x80
         
         self.init(uuidBytes: data)
-    }
-    
-    /**
-     String representation.
-     
-     A lowercase version of uuidString.
-     
-     - Remark:
-        RFC 4122 specifies lowercase.
-     */
-    var uuidstring: String
-    {
-        return uuidString.lowercased()
     }
 
 }

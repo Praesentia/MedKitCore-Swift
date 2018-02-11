@@ -32,7 +32,7 @@ public protocol Service: class {
     /**
      The service owner.
      */
-    weak var device: Device? { get }
+    var device: Device? { get }
     
     /**
      Uniquely identifies the service.

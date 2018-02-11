@@ -36,7 +36,7 @@ public protocol ProtocolStack: class {
     /**
      ProtocolStack delegate.
      */
-    weak var delegate: ProtocolStackDelegate? { get set }
+    var delegate: ProtocolStackDelegate? { get set }
     
     // MARK: - Lifecycle
     

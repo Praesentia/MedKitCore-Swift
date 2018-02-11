@@ -44,12 +44,12 @@ class NetServiceExt {
     /**
      Update network device.
      */
-    func updateNetDevice(_ device: NetDevice, type: ProtocolType?)
+    func updateNetDevice(_ device: NetDevice, protocolType: ProtocolType?)
     {
         self.device = device
         
-        if let type = type {
-            self.type = ProtocolPluginManager.shared.findProtocol(forType: type)
+        if let protocolType = protocolType {
+            self.type = ProtocolPluginManager.shared.findProtocol(forType: protocolType)
         }
         else {
             self.type = nil

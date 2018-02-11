@@ -56,7 +56,7 @@ public protocol Device: class {
     /**
      A reference to the bridging device, if any.
      */
-    weak var parent: Device? { get }
+    var parent: Device? { get }
     
     /**
      True if the device is reachable, otherwise false.

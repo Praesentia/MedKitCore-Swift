@@ -27,37 +27,30 @@ import SecurityKit
  Service responder.
  */
 public class ServiceResponder: NSObject, NetServiceDelegate {
-    
-    private let ServiceDomain  = "local."
-    private let ServiceType    = "_mist._tcp"
-    private let ServiceVersion = "1"
-    private let identifier     = SecurityManagerShared.main.randomBytes(count: 8).hexEncodedString
-    private var netService     : NetService
-    
+
+    // MARK: - Properties
+    public let              domain     = "local."
+    public let              identifier : String
+    private(set) public var info       : NetServiceInfo
+    private let             port       : UInt16
+
+    // MARK: - Private
+    private var netService : NetService
+
     /**
      Initialize instance.
      */
-    public init(deviceInfo: DeviceInfo, protocolType: String, port: UInt16)
+    public init(identifier: String, info: NetServiceInfo, port: UInt16)
     {
-        netService = NetService(domain: ServiceDomain, type: ServiceType, name: identifier, port: Int32(port))
-        
+        self.identifier = identifier
+        self.info       = info
+        self.port       = port
+        self.netService = NetService(domain: domain, type: info.type, name: identifier, port: Int32(port))
+
         super.init()
-        
+
         netService.delegate = self
-        netService.setTXTRecord(makeTXTRecord(deviceInfo: deviceInfo, protocolType: protocolType))
-    }
-    
-    /**
-     Initialize instance.
-     */
-    public init(device: Device, protocolType: String, port: UInt16)
-    {
-        netService = NetService(domain: ServiceDomain, type: ServiceType, name: identifier, port: Int32(port))
-        
-        super.init()
-        
-        netService.delegate = self
-        netService.setTXTRecord(makeTXTRecord(device: device, protocolType: protocolType))
+        try! netService.setTXTRecord(from: info)
     }
     
     /**
@@ -66,6 +59,15 @@ public class ServiceResponder: NSObject, NetServiceDelegate {
     deinit
     {
         retract()
+    }
+
+    /**
+     Update service information.
+     */
+    public func updateInfo(_ info: NetServiceInfo)
+    {
+        try! netService.setTXTRecord(from: info)
+        self.info = info
     }
     
     /**
@@ -84,40 +86,45 @@ public class ServiceResponder: NSObject, NetServiceDelegate {
         netService.stop()
     }
     
-    private func makeTXTRecord(device: Device, protocolType: String) -> Data
-    {
-        var txt = [String : Data]()
-        
-        txt["dn"] = device.name.data(using: .utf8)
-        txt["dt"] = device.type.name.data(using: .utf8)
-        txt["mf"] = device.manufacturer.data(using: .utf8)
-        txt["md"] = device.model.data(using: .utf8)
-        txt["sn"] = device.serialNumber.data(using: .utf8)
-        txt["pr"] = protocolType.data(using: .utf8)
-        txt["vn"] = ServiceVersion.data(using: .utf8)
-        
-        return NetService.data(fromTXTRecord: txt)
-    }
-    
-    private func makeTXTRecord(deviceInfo: DeviceInfo, protocolType: String) -> Data
-    {
-        var txt = [String : Data]()
-        
-        txt["dn"] = deviceInfo.name.data(using: .utf8)
-        txt["dt"] = deviceInfo.type.name.data(using: .utf8)
-        txt["mf"] = deviceInfo.identity.manufacturer.data(using: .utf8)
-        txt["md"] = deviceInfo.identity.model.data(using: .utf8)
-        txt["sn"] = deviceInfo.identity.serialNumber.data(using: .utf8)
-        txt["pr"] = protocolType.data(using: .utf8)
-        txt["vn"] = ServiceVersion.data(using: .utf8)
-        
-        return NetService.data(fromTXTRecord: txt)
-    }
-    
     public func netServiceWillPublish(_ netService: NetService)
     {
     }
     
+}
+
+public extension ServiceResponder {
+
+    /**
+     Initialize instance.
+     */
+    public convenience init(deviceInfo: DeviceInfo, protocolType: ProtocolType, port: UInt16)
+    {
+        let identifier = SecurityManagerShared.main.randomBytes(count: 8).hexEncodedString
+        let info       = MISTV1Info(deviceInfo: deviceInfo, protocolType: protocolType)
+
+        self.init(identifier: identifier, info: info, port: port)
+    }
+
+    /**
+     Initialize instance.
+     */
+    public convenience init(device: Device, protocolType: ProtocolType, port: UInt16)
+    {
+        let identifier = SecurityManagerShared.main.randomBytes(count: 8).hexEncodedString
+        let info       = MISTV1Info(deviceInfo: DeviceInfo(from: device), protocolType: protocolType)
+
+        self.init(identifier: identifier, info: info, port: port)
+    }
+
+    /**
+     Initialize instance.
+     */
+    public func update(deviceInfo: DeviceInfo, protocolType: ProtocolType)
+    {
+        let info = MISTV1Info(deviceInfo: deviceInfo, protocolType: protocolType)
+        updateInfo(info)
+    }
+
 }
 
 

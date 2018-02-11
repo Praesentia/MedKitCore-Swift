@@ -26,7 +26,7 @@ import SecurityKit
 /**
  Network server port monitor.
  */
-public class PortMonitorNetServer: PortMonitorNetListener {
+public class PortMonitorNetServer: PortMonitorNetListener, DeviceObserver {
     
     // MARK: - Private Properties
     private let connectionFactory : ServerConnectionFactory
@@ -61,8 +61,18 @@ public class PortMonitorNetServer: PortMonitorNetListener {
         
         serviceResponder = ServiceResponder(device: device, protocolType: connectionFactory.protocolType, port: address.port)
         serviceResponder.publish()
+
+        device.addObserver(self)
         
         return serviceResponder
+    }
+
+    public override func shutdown(for reason: Error?)
+    {
+        guard(state == .open) else { return }
+
+        device.removeObserver(self)
+        super.shutdown(for: reason)
     }
     
     // MARK: - Connection Management
@@ -86,6 +96,15 @@ public class PortMonitorNetServer: PortMonitorNetListener {
         }
         
         return connection
+    }
+
+    // MARK: - DeviceObserver
+
+    public func deviceDidUpdateName(_ device: Device)
+    {
+        if let serviceResponder = self.serviceResponder {
+            serviceResponder.update(deviceInfo: DeviceInfo(from: device), protocolType: connectionFactory.protocolType)
+        }
     }
     
 }

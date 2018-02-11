@@ -37,7 +37,7 @@ public protocol PortMonitor {
     /**
      Monitor delegate.
      */
-    weak var delegate: PortMonitorDelegate? { get set }
+    var delegate: PortMonitorDelegate? { get set }
     
     /**
      True if the monitor is currently active, false otherwise.

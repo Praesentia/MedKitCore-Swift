@@ -28,7 +28,7 @@ import SecurityKit
  */
 public protocol ServerConnectionFactory {
 
-    var protocolType: String { get } //: Identifies the protocol implemented by the factory.
+    var protocolType: ProtocolType { get } //: Identifies the protocol implemented by the factory.
     
     /**
      Create connection.
@@ -47,9 +47,9 @@ public protocol ServerConnectionFactory {
  */
 public class ServerConnectionFactoryTemplate<T: ServerConnectionBase>: ServerConnectionFactory {
 
-    public let protocolType: String
+    public let protocolType: ProtocolType
     
-    public init(protocolType: String)
+    public init(protocolType: ProtocolType)
     {
         self.protocolType = protocolType
     }

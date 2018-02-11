@@ -23,14 +23,10 @@ import Foundation
 import SecurityKit
 
 
-public enum TXTVersion {
-    case v1
-}
-
 /**
  Device metadata.
  */
-public struct DeviceIdentity: Codable {
+public struct DeviceIdentity: TXTCodable, Codable {
 
     // MARK: - Properties
     public var identifier   : UUID { return self.generateIdentifier() }
@@ -39,6 +35,12 @@ public struct DeviceIdentity: Codable {
     public var serialNumber : String
 
     // MARK: - Private
+    private enum TXTCodingKeys: String, CodingKey {
+        case manufacturer = "mf"
+        case model        = "md"
+        case serialNumber = "sn"
+    }
+
     private enum CodingKeys: CodingKey {
         case manufacturer
         case model
@@ -46,10 +48,6 @@ public struct DeviceIdentity: Codable {
         case serialNumber
         case type
     }
-
-    private static let txtKeyManufacturer = "mf"
-    private static let txtKeyModel        = "md"
-    private static let txtKeySerialNumber = "sn"
 
     // MARK: - Initializers
 
@@ -73,18 +71,36 @@ public struct DeviceIdentity: Codable {
         serialNumber = device.serialNumber
     }
 
+    // MARK: - TXTCodable
+
     /**
-     Initialize instance from TXT dictionary.
+     Initialize from TXT.
 
      - Parameters:
-        - txt: Dictionary of key/value pairs derived from an associated TXT
-               record.
+        - decoder: A TXT decoder from which the instance will be initialized.
      */
-    init(fromTXT txt: [String : String], version: TXTVersion)
+    public init(from decoder: TXTDecoder) throws
     {
-        manufacturer = txt[DeviceIdentity.txtKeyManufacturer]!
-        model        = txt[DeviceIdentity.txtKeyModel]!
-        serialNumber = txt[DeviceIdentity.txtKeySerialNumber]!
+        let container = decoder.container(keyedBy: TXTCodingKeys.self)
+
+        manufacturer = try container.decode(String.self, forKey: .manufacturer)
+        model        = try container.decode(String.self, forKey: .model)
+        serialNumber = try container.decode(String.self, forKey: .serialNumber)
+    }
+
+    /**
+     Encode to TXT.
+
+     - Parameters:
+        - encoder: A TXT encoder to which the instance will be encoded.
+     */
+    public func encode(to encoder: TXTEncoder) throws
+    {
+        let container = encoder.container(keyedBy: TXTCodingKeys.self)
+
+        try container.encode(manufacturer, forKey: .manufacturer)
+        try container.encode(model,        forKey: .model)
+        try container.encode(serialNumber, forKey: .serialNumber)
     }
 
     // MARK: - Codable
@@ -122,6 +138,16 @@ public struct DeviceIdentity: Codable {
         digest.update(prefixedString: serialNumber)
 
         return UUID(fromSHA1: digest.final())
+    }
+
+}
+
+extension DeviceIdentity: Equatable
+{
+
+    public static func ==(lhs: DeviceIdentity, rhs: DeviceIdentity) -> Bool
+    {
+        return lhs.manufacturer == rhs.manufacturer && lhs.model == rhs.model && lhs.serialNumber == rhs.serialNumber
     }
 
 }

@@ -25,7 +25,7 @@ import Foundation
 /**
  Protocol type.
  */
-public class ProtocolType: Codable {
+public class ProtocolType: TXTCodable, Codable {
 
     // MARK: - Properties
 
@@ -34,12 +34,10 @@ public class ProtocolType: Codable {
      */
     public let identifier: String
 
-    public var localizedDescription : String? { return ProtocolPluginManager.shared.findProtocol(forType: self)?.localizedDescription }
-
-    /**
-     Protocol text.
-     */
-    public var text: String { return identifier }
+    // MARK: - Private
+    private enum TXTCodingKeys: String, CodingKey {
+        case proto = "pr"
+    }
 
     // MARK: - Initializers
 
@@ -78,6 +76,20 @@ public class ProtocolType: Codable {
         else {
             return nil
         }
+    }
+
+    // MARK: - TXTCodable
+
+    public required init(from decoder: TXTDecoder) throws
+    {
+        let container = decoder.container(keyedBy: TXTCodingKeys.self)
+        identifier = try container.decode(String.self, forKey: .proto)
+    }
+
+    public func encode(to encoder: TXTEncoder) throws
+    {
+        let container = encoder.container(keyedBy: TXTCodingKeys.self)
+        try container.encode(identifier, forKey: .proto)
     }
 
     // MARK: - Codable

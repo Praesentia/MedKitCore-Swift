@@ -63,7 +63,7 @@ public protocol Resource: class {
     /**
      The owning service.
      */
-    weak var service: Service? { get }
+    var service: Service? { get }
     
     /**
      Identifies the subject of the resource.

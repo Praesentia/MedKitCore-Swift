@@ -240,7 +240,7 @@ fileprivate class _KeyedDecodingContainer<K : CodingKey>: _DecoderBase, KeyedDec
     typealias Key = K
 
     // MARK: - Properties
-    var allKeys: [K] { return container.keys.flatMap { Key(stringValue: $0) } }
+    var allKeys: [K] { return container.keys.compactMap { Key(stringValue: $0) } }
 
     // MARK: - Private Properties
     private let container: [String : Any]

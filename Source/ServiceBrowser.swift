@@ -38,7 +38,6 @@ class ServiceBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
     private let ServiceType = "_mist._tcp"
     private var browsers    = [String : NetServiceBrowser]()
     private var services    = [NetService : NetServiceExt]()
-    private let schema      = MISTV1Schema()
  
     /**
      Initialize instance.
@@ -138,13 +137,12 @@ class ServiceBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
     /**
      Intern device.
      */
-    private func internDevice(fromTXT txt: [String : String]) -> NetDevice
+    private func internDevice(_ deviceInfo: DeviceInfo) -> NetDevice
     {
-        let info   = DeviceInfo(fromTXT: txt, version: .v1)
-        var device : NetDevice! = devices.find(where: { $0.info.identifier == info.identifier })
+        var device: NetDevice! = devices.find(where: { $0.info.identifier == deviceInfo.identifier })
 
         if device == nil {
-            device = NetDevice(from: info)
+            device = NetDevice(from: deviceInfo)
             
             devices.append(device)
             delegate?.serviceBrowser(self, didAdd: device)
@@ -164,23 +162,6 @@ class ServiceBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
                 delegate?.serviceBrowser(self, didRemove: device)
             }
         }
-    }
-    
-    /**
-     Parse TXT fields from TXT record.
-     */
-    private func parseTXT(fromTXTRecord record: Data) -> [String : String]?
-    {
-        let pairs = NetService.dictionary(fromTXTRecord: record)
-        var txt   = [String : String]()
-        
-        for (key, data) in pairs {
-            if let value = String(data: data, encoding: .utf8) {
-                txt[key] = value
-            }
-        }
-        
-        return schema.verifyTXT(txt) ? txt : nil
     }
     
     // MARK: - NetServiceBrowserDelegate
@@ -222,23 +203,40 @@ class ServiceBrowser: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
     }
     
     // MARK: - NetServiceDelegate
-    
+
+    /**
+     NetService did update TXT record.
+
+     - Parameters:
+        - netService:
+        - record:
+     */
     func netService(_ netService: NetService, didUpdateTXTRecord record: Data)
     {
-        if let service = services[netService] {
-            if let txt = parseTXT(fromTXTRecord: record) {
-                let device = internDevice(fromTXT: txt)
-                
-                service.updateNetDevice(device, type: ProtocolType(fromText: txt["pr"]))
+        do {
+            if let service = services[netService] {
+                let decoder = try TXTDecoder(from: record)
+                let mist    = try MISTV1Info(from: decoder)
+
+                let device = internDevice(mist.deviceInfo)
+                service.updateNetDevice(device, protocolType: mist.protocolType)
             }
+        }
+        catch {
+            // TODO
         }
     }
     
+    /**
+     NetService did resolve address.
+
+     - Parameters:
+        - netService:
+     */
     func netServiceDidResolveAddress(_ netService: NetService)
     {
         if let service = services[netService] {
             let addresses = netService.addresses ?? []
-            
             service.updateAddresses(addresses.map() { SockAddr(proto: InetProto(inet: service.proto)!, address: $0) }, from: netService.domain)
         }
     }

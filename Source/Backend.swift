@@ -76,7 +76,7 @@ class BackendDefault: Backend {
         DispatchQueue.main.async { completion(nil, MedKitError.notSupported) }
     }
 
-    func resource(_ resource: ResourceBackend, didNotifyWith notification: AnyCodable)
+    func resource(_ resource: ResourceBackend, didNotify notification: AnyCodable)
     {
     }
     

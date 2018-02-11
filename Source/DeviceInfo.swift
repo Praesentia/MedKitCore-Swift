@@ -26,25 +26,30 @@ import SecurityKit
 /**
  Device metadata.
  */
-public struct DeviceInfo: Codable {
+public struct DeviceInfo: TXTCodable, Codable {
 
+    // MARK: - Properties
     public var identifier   : UUID { return identity.identifier }
     public var identity     : DeviceIdentity
     public var name         : String
     public var type         : DeviceType
     
     // MARK: - Private
+    private enum TXTCodingKeys: String, CodingKey {
+        case name = "dn"
+    }
+
     private enum CodingKeys: CodingKey {
         case identity
         case name
         case type
     }
 
-    private static let txtKeyName = "dn"
-    private static let txtKeyType = "dt"
-
     // MARK: - Initializers
 
+    /**
+     Initialize instance.
+     */
     public init()
     {
         identity = DeviceIdentity()
@@ -53,10 +58,10 @@ public struct DeviceInfo: Codable {
     }
 
     /**
-     Initialize instance from profile.
+     Initialize instance from device.
 
      - Parameters:
-        - profile:
+        - device:
      */
     public init(from device: Device)
     {
@@ -78,18 +83,36 @@ public struct DeviceInfo: Codable {
         type     = profile.type
     }
 
+    // MARK: - TXTCodable
+
     /**
-     Initialize instance from TXT dictionary.
+     Initialize from TXT.
 
      - Parameters:
-        - txt: Dictionary of key/value pairs derived from an associated TXT
-               record.
+        - decoder: A TXT decoder from which the instance will be initialized.
      */
-    init(fromTXT txt: [String : String], version: TXTVersion)
+    public init(from decoder: TXTDecoder) throws
     {
-        identity = DeviceIdentity(fromTXT: txt, version: version)
-        name     = txt[DeviceInfo.txtKeyName]!
-        type     = DeviceType(named: txt[DeviceInfo.txtKeyType]!)
+        let container = decoder.container(keyedBy: TXTCodingKeys.self)
+
+        identity = try container.decode(DeviceIdentity.self)
+        name     = try container.decode(String.self, forKey: .name)
+        type     = try container.decode(DeviceType.self)
+    }
+
+    /**
+     Encode to TXT.
+
+     - Parameters:
+        - encoder: A TXT encoder to which the instance will be encoded.
+     */
+    public func encode(to encoder: TXTEncoder) throws
+    {
+        let container = encoder.container(keyedBy: TXTCodingKeys.self)
+
+        try container.encode(identity)
+        try container.encode(name, forKey: .name)
+        try container.encode(type)
     }
 
     // MARK: - Codable
@@ -110,6 +133,16 @@ public struct DeviceInfo: Codable {
         try container.encode(identity, forKey: .identity)
         try container.encode(name,     forKey: .name)
         try container.encode(type,     forKey: .type)
+    }
+
+}
+
+extension DeviceInfo: Equatable
+{
+
+    public static func ==(lhs: DeviceInfo, rhs: DeviceInfo) -> Bool
+    {
+        return lhs.identity == rhs.identity && lhs.name == rhs.name && lhs.type == rhs.type
     }
 
 }
